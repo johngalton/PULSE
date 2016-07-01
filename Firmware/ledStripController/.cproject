@@ -18,17 +18,17 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.69449924." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.debug.1963649179" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.debug">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.688821373" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.2122391749" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="C:\Program Files (x86)\GNU Tools ARM Embedded\4.9 2014q4\bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.2122391749" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="C:\Program Files (x86)\GNU Tools ARM Embedded\5.4 2016q2\bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.157927871" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder arguments="" buildPath="${workspace_loc:/ledStripController}/Debug" command="D:\GnuWin32\bin\make.exe" id="cdt.managedbuild.builder.gnu.cross.58071761" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder arguments="Files (x86)\GNU ARM Eclipse\Build Tools\2.6-201507152002\bin\make.exe" buildPath="${workspace_loc:/ledStripController}/Debug" command="C:\Program" id="cdt.managedbuild.builder.gnu.cross.58071761" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.159737216" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1629119076" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.more" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.1143289068" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.88832527" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;C:\Users\John\Documents\Arm Cortex Dev\Drivers\CMSIS\Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc}\Drivers\CMSIS\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Users\John\Documents\Arm Cortex Dev\Drivers\CMSIS\Device\ST\STM32L0xx\Include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Users\John\Documents\Arm Cortex Dev\Drivers\STM32L0xx_HAL_Driver\Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc}\Drivers\CMSIS\Device\ST\STM32L0xx\Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc}\Drivers\STM32L0xx_HAL_Driver\Inc&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.522859369" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32L052xx"/>
@@ -45,7 +45,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.311956399" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker">
 								<option id="gnu.c.link.option.ldflags.932761373" name="Linker flags" superClass="gnu.c.link.option.ldflags" value=" -mthumb -mcpu=cortex-m0plus -lc  -specs=nosys.specs -Wl,-Map=a.map -Wl,--cref -T ../linker.ld" valueType="string"/>
-								<option id="gnu.c.link.option.userobjs.1692803619" name="Other objects" superClass="gnu.c.link.option.userobjs" valueType="userObjs"/>
+								<option id="gnu.c.link.option.userobjs.1692803619" name="Other objects" superClass="gnu.c.link.option.userobjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.947881812" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
