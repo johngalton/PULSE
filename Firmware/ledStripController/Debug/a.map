@@ -1,0 +1,1664 @@
+Archive member included because of file (symbol)
+
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (exit)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o) (_global_impure_ptr)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (__libc_init_array)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (memset)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o) (__call_exitprocs)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o) (atexit)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o) (__libc_fini_array)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o) (__register_exitproc)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+                              ./src/main.o (__aeabi_uidiv)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o) (_exit)
+
+Allocating common symbols
+Common symbol       size              file
+
+ledStrip            0x258             ./src/led_driver.o
+ProcFlash           0x18              ./HAL_Library/stm32l0xx_hal_flash.o
+DMA_RX_Handle       0x3c              ./src/debug.o
+colour_lookup       0x10              ./src/led_driver.o
+DMA_TX_Handle       0x3c              ./src/debug.o
+USART_Handle        0x48              ./src/debug.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00010000         xr
+RAM              0x20000000         0x00002000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a
+LOAD ./src/debug.o
+LOAD ./src/led_driver.o
+LOAD ./src/main.o
+LOAD ./src/stm32l0xx_it.o
+LOAD ./src/system_stm32l0xx.o
+LOAD ./HAL_Library/stm32l0xx_hal.o
+LOAD ./HAL_Library/stm32l0xx_hal_adc.o
+LOAD ./HAL_Library/stm32l0xx_hal_adc_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_comp.o
+LOAD ./HAL_Library/stm32l0xx_hal_comp_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_cortex.o
+LOAD ./HAL_Library/stm32l0xx_hal_crc.o
+LOAD ./HAL_Library/stm32l0xx_hal_crc_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_cryp.o
+LOAD ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_dac.o
+LOAD ./HAL_Library/stm32l0xx_hal_dac_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_dma.o
+LOAD ./HAL_Library/stm32l0xx_hal_firewall.o
+LOAD ./HAL_Library/stm32l0xx_hal_flash.o
+LOAD ./HAL_Library/stm32l0xx_hal_flash_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+LOAD ./HAL_Library/stm32l0xx_hal_gpio.o
+LOAD ./HAL_Library/stm32l0xx_hal_i2c.o
+LOAD ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_i2s.o
+LOAD ./HAL_Library/stm32l0xx_hal_irda.o
+LOAD ./HAL_Library/stm32l0xx_hal_iwdg.o
+LOAD ./HAL_Library/stm32l0xx_hal_lcd.o
+LOAD ./HAL_Library/stm32l0xx_hal_lptim.o
+LOAD ./HAL_Library/stm32l0xx_hal_pcd.o
+LOAD ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_pwr.o
+LOAD ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_rcc.o
+LOAD ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_rng.o
+LOAD ./HAL_Library/stm32l0xx_hal_rtc.o
+LOAD ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_smartcard.o
+LOAD ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_smbus.o
+LOAD ./HAL_Library/stm32l0xx_hal_spi.o
+LOAD ./HAL_Library/stm32l0xx_hal_tim.o
+LOAD ./HAL_Library/stm32l0xx_hal_tim_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_tsc.o
+LOAD ./HAL_Library/stm32l0xx_hal_uart.o
+LOAD ./HAL_Library/stm32l0xx_hal_uart_ex.o
+LOAD ./HAL_Library/stm32l0xx_hal_usart.o
+LOAD ./HAL_Library/stm32l0xx_hal_wwdg.o
+LOAD ./startup_stm32l052xx.o
+START GROUP
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a
+END GROUP
+START GROUP
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a
+END GROUP
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+                0x20002000                _estack = 0x20002000
+                0x00000200                _Min_Heap_Size = 0x200
+                0x00000200                _Min_Stack_Size = 0x200
+
+.isr_vector     0x08000000       0xc0
+                0x08000000                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x08000000       0xc0 ./startup_stm32l052xx.o
+                0x08000000                g_pfnVectors
+                0x080000c0                . = ALIGN (0x4)
+
+.text           0x080000c0     0x434c
+                0x080000c0                . = ALIGN (0x4)
+ *(.text)
+ .text          0x080000c0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+ .text          0x080000c0       0x60 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .text          0x08000120       0x78 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+                0x08000120                _start
+                0x08000120                _mainCRTStartup
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+ .text          0x08000198        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+ .text          0x08000198       0xf0 ./src/debug.o
+                0x08000198                debug_init
+ .text          0x08000288      0x298 ./src/led_driver.o
+                0x08000288                led_init
+                0x080002e8                led_push_buffer
+                0x08000304                led_propagate
+                0x08000384                send_high
+                0x080003cc                send_low
+                0x0800041c                led_update
+                0x08000490                led_send_colour
+                0x080004bc                send_res
+                0x080004dc                read_buffer
+                0x08000508                get_colour
+ .text          0x08000520       0xd0 ./src/main.o
+                0x08000520                clock_init
+                0x080005c4                SysTick_Handler
+                0x080005d4                delay_ms
+ .text          0x080005f0        0x4 ./src/stm32l0xx_it.o
+                0x080005f0                HardFault_Handler
+ .text          0x080005f4       0xf0 ./src/system_stm32l0xx.o
+                0x080005f4                SystemInit
+                0x08000650                SystemCoreClockUpdate
+ .text          0x080006e4      0x1cc ./HAL_Library/stm32l0xx_hal.o
+                0x080006e4                HAL_MspInit
+                0x080006e8                HAL_MspDeInit
+                0x080006ec                HAL_DeInit
+                0x08000714                HAL_InitTick
+                0x08000738                HAL_Init
+                0x08000748                HAL_IncTick
+                0x08000758                HAL_GetTick
+                0x08000764                HAL_Delay
+                0x08000780                HAL_SuspendTick
+                0x08000790                HAL_ResumeTick
+                0x080007a0                HAL_GetHalVersion
+                0x080007a8                HAL_GetREVID
+                0x080007b4                HAL_GetDEVID
+                0x080007c4                HAL_DBGMCU_EnableDBGSleepMode
+                0x080007d4                HAL_DBGMCU_DisableDBGSleepMode
+                0x080007e4                HAL_DBGMCU_EnableDBGStopMode
+                0x080007f4                HAL_DBGMCU_DisableDBGStopMode
+                0x08000804                HAL_DBGMCU_EnableDBGStandbyMode
+                0x08000814                HAL_DBGMCU_DisableDBGStandbyMode
+                0x08000824                HAL_DBGMCU_DBG_EnableLowPowerConfig
+                0x08000834                HAL_DBGMCU_DBG_DisableLowPowerConfig
+                0x08000844                HAL_SYSCFG_GetBootMode
+                0x08000854                HAL_SYSCFG_EnableVREFINT
+                0x08000864                HAL_SYSCFG_DisableVREFINT
+                0x08000874                HAL_SYSCFG_VREFINT_OutputSelect
+                0x0800088c                HAL_SYSCFG_Enable_Lock_VREFINT
+                0x080008a0                HAL_SYSCFG_Disable_Lock_VREFINT
+ .text          0x080008b0        0x0 ./HAL_Library/stm32l0xx_hal_adc.o
+ .text          0x080008b0        0x0 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .text          0x080008b0        0x0 ./HAL_Library/stm32l0xx_hal_comp.o
+ .text          0x080008b0        0x0 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .text          0x080008b0      0x1ec ./HAL_Library/stm32l0xx_hal_cortex.o
+                0x080008b0                HAL_NVIC_SetPriority
+                0x08000918                HAL_NVIC_EnableIRQ
+                0x0800092c                HAL_NVIC_DisableIRQ
+                0x08000944                HAL_NVIC_SystemReset
+                0x08000960                HAL_SYSTICK_Config
+                0x08000998                HAL_NVIC_GetPriority
+                0x080009d4                HAL_NVIC_SetPendingIRQ
+                0x080009ec                HAL_NVIC_GetPendingIRQ
+                0x08000a08                HAL_NVIC_ClearPendingIRQ
+                0x08000a20                HAL_SYSTICK_CLKSourceConfig
+                0x08000a40                HAL_SYSTICK_Callback
+                0x08000a44                HAL_SYSTICK_IRQHandler
+                0x08000a4c                HAL_MPU_ConfigRegion
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_crc.o
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_dac.o
+ .text          0x08000a9c        0x0 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .text          0x08000a9c      0x9b0 ./HAL_Library/stm32l0xx_hal_dma.o
+                0x08000a9c                HAL_DMA_Init
+                0x08000be8                HAL_DMA_DeInit
+                0x08000da8                HAL_DMA_Start
+                0x08000de4                HAL_DMA_Start_IT
+                0x08000e38                HAL_DMA_Abort
+                0x08000e8c                HAL_DMA_PollForTransfer
+                0x08001138                HAL_DMA_IRQHandler
+                0x08001440                HAL_DMA_GetState
+                0x08001448                HAL_DMA_GetError
+ .text          0x0800144c        0x0 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .text          0x0800144c      0x394 ./HAL_Library/stm32l0xx_hal_flash.o
+                0x080014e0                HAL_FLASH_EndOfOperationCallback
+                0x080014e4                HAL_FLASH_OperationErrorCallback
+                0x080014e8                HAL_FLASH_IRQHandler
+                0x080015dc                HAL_FLASH_Unlock
+                0x08001618                HAL_FLASH_Lock
+                0x0800162c                HAL_FLASH_OB_Unlock
+                0x08001668                HAL_FLASH_OB_Lock
+                0x0800167c                HAL_FLASH_GetError
+                0x08001688                FLASH_WaitForLastOperation
+                0x08001700                HAL_FLASH_Program
+                0x0800173c                HAL_FLASH_Program_IT
+                0x08001790                HAL_FLASH_OB_Launch
+                0x080017b8                FLASH_ErasePage
+ .text          0x080017e0      0x40c ./HAL_Library/stm32l0xx_hal_flash_ex.o
+                0x08001870                HAL_FLASHEx_Erase
+                0x08001914                HAL_FLASHEx_Erase_IT
+                0x08001968                HAL_FLASHEx_OBProgram
+                0x08001a9c                HAL_FLASHEx_OBGetConfig
+                0x08001acc                HAL_FLASHEx_AdvOBProgram
+                0x08001ae4                HAL_FLASHEx_AdvOBGetConfig
+                0x08001afc                HAL_FLASHEx_OB_SelectPCROP
+                0x08001b08                HAL_FLASHEx_OB_DeSelectPCROP
+                0x08001b14                HAL_FLASHEx_DATAEEPROM_Unlock
+                0x08001b38                HAL_FLASHEx_DATAEEPROM_Lock
+                0x08001b4c                HAL_FLASHEx_DATAEEPROM_Erase
+                0x08001b70                HAL_FLASHEx_DATAEEPROM_Program
+                0x08001bc4                HAL_FLASHEx_DATAEEPROM_EnableFixedTimeProgram
+                0x08001bd8                HAL_FLASHEx_DATAEEPROM_DisableFixedTimeProgram
+ .text          0x08001bec        0x0 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .text          0x08001bec      0x37c ./HAL_Library/stm32l0xx_hal_gpio.o
+                0x08001bec                HAL_GPIO_Init
+                0x08001dc0                HAL_GPIO_DeInit
+                0x08001f04                HAL_GPIO_ReadPin
+                0x08001f10                HAL_GPIO_WritePin
+                0x08001f1c                HAL_GPIO_TogglePin
+                0x08001f24                HAL_GPIO_LockPin
+                0x08001f4c                HAL_GPIO_EXTI_Callback
+                0x08001f50                HAL_GPIO_EXTI_IRQHandler
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_irda.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .text          0x08001f68        0x0 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .text          0x08001f68      0x1ec ./HAL_Library/stm32l0xx_hal_pwr.o
+                0x08001f68                HAL_PWR_DeInit
+                0x08001f88                HAL_PWR_EnableBkUpAccess
+                0x08001f9c                HAL_PWR_DisableBkUpAccess
+                0x08001fb0                HAL_PWR_ConfigPVD
+                0x08002028                HAL_PWR_EnablePVD
+                0x08002038                HAL_PWR_DisablePVD
+                0x08002048                HAL_PWR_EnableWakeUpPin
+                0x08002058                HAL_PWR_DisableWakeUpPin
+                0x08002068                HAL_PWR_EnterSLEEPMode
+                0x08002098                HAL_PWR_EnterSTOPMode
+                0x080020d4                HAL_PWR_EnterSTANDBYMode
+                0x080020f4                HAL_PWR_EnableSleepOnExit
+                0x08002104                HAL_PWR_DisableSleepOnExit
+                0x08002114                HAL_PWR_EnableSEVOnPend
+                0x08002124                HAL_PWR_DisableSEVOnPend
+                0x08002134                HAL_PWR_PVDCallback
+                0x08002138                HAL_PWR_PVD_IRQHandler
+ .text          0x08002154       0xc8 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+                0x08002154                HAL_PWREx_EnableFastWakeUp
+                0x08002168                HAL_PWREx_DisableFastWakeUp
+                0x0800217c                HAL_PWREx_EnableUltraLowPower
+                0x08002190                HAL_PWREx_DisableUltraLowPower
+                0x080021a4                HAL_PWREx_EnableLowPowerRunMode
+                0x080021c0                HAL_PWREx_DisableLowPowerRunMode
+ .text          0x0800221c      0x9a8 ./HAL_Library/stm32l0xx_hal_rcc.o
+                0x08002220                HAL_RCC_OscConfig
+                0x08002780                HAL_RCC_ClockConfig
+                0x080028f4                HAL_RCC_MCOConfig
+                0x08002974                HAL_RCC_EnableCSS
+                0x08002988                HAL_RCC_GetSysClockFreq
+                0x08002a14                HAL_RCC_GetHCLKFreq
+                0x08002a3c                HAL_RCC_GetPCLK1Freq
+                0x08002a5c                HAL_RCC_GetPCLK2Freq
+                0x08002a7c                HAL_RCC_GetOscConfig
+                0x08002b60                HAL_RCC_GetClockConfig
+                0x08002ba4                HAL_RCC_CSSCallback
+                0x08002ba8                HAL_RCC_NMI_IRQHandler
+ .text          0x08002bc4      0x5d4 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                0x08002bc4                HAL_RCC_DeInit
+                0x08002c04                HAL_RCCEx_PeriphCLKConfig
+                0x08002d94                HAL_RCCEx_GetPeriphCLKConfig
+                0x08002de4                HAL_RCCEx_GetPeriphCLKFreq
+                0x08002f9c                HAL_RCCEx_EnableLSECSS
+                0x08002fb0                HAL_RCCEx_DisableLSECSS
+                0x08002fcc                HAL_RCCEx_EnableLSECSS_IT
+                0x08002ffc                HAL_RCCEx_LSECSS_Callback
+                0x08003000                HAL_RCCEx_LSECSS_IRQHandler
+                0x08003018                HAL_RCCEx_CRSConfig
+                0x080030a0                HAL_RCCEx_CRSSoftwareSynchronizationGenerate
+                0x080030b0                HAL_RCCEx_CRSGetSynchronizationInfo
+                0x080030d8                HAL_RCCEx_CRSWaitSynchronization
+                0x08003170                HAL_RCCEx_EnableHSI48_VREFINT
+                0x08003184                HAL_RCCEx_DisableHSI48_VREFINT
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_rng.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_spi.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_tim.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_uart.o
+ .text          0x08003198        0x0 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .text          0x08003198      0xcf0 ./HAL_Library/stm32l0xx_hal_usart.o
+                0x080031fc                HAL_USART_MspInit
+                0x08003200                HAL_USART_Init
+                0x08003384                HAL_USART_MspDeInit
+                0x08003388                HAL_USART_DeInit
+                0x080033b4                HAL_USART_Transmit
+                0x08003468                HAL_USART_Receive
+                0x08003580                HAL_USART_TransmitReceive
+                0x080036b8                HAL_USART_Transmit_IT
+                0x08003700                HAL_USART_Receive_IT
+                0x080037dc                HAL_USART_TransmitReceive_IT
+                0x08003890                HAL_USART_Transmit_DMA
+                0x08003900                HAL_USART_Receive_DMA
+                0x0800399c                HAL_USART_TransmitReceive_DMA
+                0x08003a60                HAL_USART_DMAPause
+                0x08003a80                HAL_USART_DMAResume
+                0x08003aa0                HAL_USART_DMAStop
+                0x08003ad4                HAL_USART_TxCpltCallback
+                0x08003b18                HAL_USART_TxHalfCpltCallback
+                0x08003b28                HAL_USART_RxCpltCallback
+                0x08003b2c                HAL_USART_RxHalfCpltCallback
+                0x08003b3c                HAL_USART_TxRxCpltCallback
+                0x08003c80                HAL_USART_ErrorCallback
+                0x08003ca4                HAL_USART_IRQHandler
+                0x08003e7c                HAL_USART_GetState
+                0x08003e84                HAL_USART_GetError
+ .text          0x08003e88        0x0 ./HAL_Library/stm32l0xx_hal_wwdg.o
+ .text          0x08003e88       0x14 ./startup_stm32l052xx.o
+ .text          0x08003e9c      0x120 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+                0x08003e9c                __aeabi_uidiv
+                0x08003e9c                __udivsi3
+                0x08003fa8                __aeabi_uidivmod
+ .text          0x08003fbc        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x08003fbc                __aeabi_idiv0
+                0x08003fbc                __aeabi_ldiv0
+ .text          0x08003fc0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+ .text          0x08003fc0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ .text          0x08003fc0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ *(.text*)
+ .text.exit     0x08003fc0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+                0x08003fc0                exit
+ .text.__libc_init_array
+                0x08003fe0       0x48 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+                0x08003fe0                __libc_init_array
+ .text.memset   0x08004028       0x8c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+                0x08004028                memset
+ .text.startup.register_fini
+                0x080040b4       0x18 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .text.__call_exitprocs
+                0x080040cc      0x108 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                0x080040cc                __call_exitprocs
+ .text.atexit   0x080041d4       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+                0x080041d4                atexit
+ .text.__libc_fini_array
+                0x080041e4       0x34 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+                0x080041e4                __libc_fini_array
+ .text.__register_exitproc
+                0x08004218       0xd4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+                0x08004218                __register_exitproc
+ .text.startup  0x080042ec       0xac ./src/main.o
+                0x080042ec                main
+ .text.Reset_Handler
+                0x08004398       0x50 ./startup_stm32l052xx.o
+                0x08004398                Reset_Handler
+ .text.Default_Handler
+                0x080043e8        0x2 ./startup_stm32l052xx.o
+                0x080043e8                TSC_IRQHandler
+                0x080043e8                ADC1_COMP_IRQHandler
+                0x080043e8                PVD_IRQHandler
+                0x080043e8                PendSV_Handler
+                0x080043e8                NMI_Handler
+                0x080043e8                I2C1_IRQHandler
+                0x080043e8                RCC_CRS_IRQHandler
+                0x080043e8                SPI1_IRQHandler
+                0x080043e8                TIM6_DAC_IRQHandler
+                0x080043e8                EXTI2_3_IRQHandler
+                0x080043e8                I2C2_IRQHandler
+                0x080043e8                RTC_IRQHandler
+                0x080043e8                DMA1_Channel4_5_6_7_IRQHandler
+                0x080043e8                EXTI4_15_IRQHandler
+                0x080043e8                DMA1_Channel1_IRQHandler
+                0x080043e8                Default_Handler
+                0x080043e8                TIM22_IRQHandler
+                0x080043e8                EXTI0_1_IRQHandler
+                0x080043e8                USB_IRQHandler
+                0x080043e8                SPI2_IRQHandler
+                0x080043e8                SVC_Handler
+                0x080043e8                TIM21_IRQHandler
+                0x080043e8                WWDG_IRQHandler
+                0x080043e8                TIM2_IRQHandler
+                0x080043e8                DMA1_Channel2_3_IRQHandler
+                0x080043e8                USART2_IRQHandler
+                0x080043e8                FLASH_IRQHandler
+                0x080043e8                USART1_IRQHandler
+                0x080043e8                RNG_LPUART1_IRQHandler
+                0x080043e8                LPTIM1_IRQHandler
+ *fill*         0x080043ea        0x2 
+ .text._exit    0x080043ec        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+                0x080043ec                _exit
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.eh_frame)
+ .eh_frame      0x080043f0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .eh_frame      0x080043f0        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ *(.init)
+ .init          0x080043f4        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                0x080043f4                _init
+ .init          0x080043f8        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ *(.fini)
+ .fini          0x08004400        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                0x08004400                _fini
+ .fini          0x08004404        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+                0x0800440c                . = ALIGN (0x4)
+                0x0800440c                _etext = .
+
+.vfp11_veneer   0x0800440c        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0800440c        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x0800440c        0x0
+ .iplt          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+
+.RamFunc        0x0800440c      0x198
+ .RamFunc       0x0800440c      0x198 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+                0x080044f8                HAL_FLASHEx_EnableRunPowerDown
+                0x0800451c                HAL_FLASHEx_DisableRunPowerDown
+                0x08004540                HAL_FLASHEx_HalfPageProgram
+                0x08004594                HAL_FLASHRAM_GetError
+
+.rodata         0x080045a4      0x190
+                0x080045a4                . = ALIGN (0x4)
+ *(.rodata)
+ .rodata        0x080045a4       0x1c ./src/system_stm32l0xx.o
+                0x080045a4                PLLMulTable
+                0x080045b0                AHBPrescTable
+ .rodata        0x080045c0       0x10 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .rodata        0x080045d0      0x104 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .rodata        0x080046d4       0x58 ./HAL_Library/stm32l0xx_hal_usart.o
+ *(.rodata*)
+ .rodata.str1.4
+                0x0800472c        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .rodata._global_impure_ptr
+                0x08004730        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+                0x08004730                _global_impure_ptr
+                0x08004734                . = ALIGN (0x4)
+
+.ARM.extab      0x08004734        0x0
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ .ARM.extab     0x08004734        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+
+.ARM            0x08004734        0x8
+                0x08004734                __exidx_start = .
+ *(.ARM.exidx*)
+ .ARM.exidx     0x08004734        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+                0x0800473c                __exidx_end = .
+
+.rel.dyn        0x0800473c        0x0
+ .rel.iplt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+
+.preinit_array  0x0800473c        0x0
+                0x0800473c                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                0x0800473c                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x0800473c        0x8
+                0x0800473c                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ .init_array.00000
+                0x0800473c        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ *(.init_array*)
+ .init_array    0x08004740        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+                0x08004744                PROVIDE (__init_array_end, .)
+
+.fini_array     0x08004744        0x4
+                0x08004744                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array*)
+ .fini_array    0x08004744        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+                0x08004748                PROVIDE (__fini_array_end, .)
+                0x08004748                _sidata = LOADADDR (.data)
+
+.data           0x20000000      0x434 load address 0x08004748
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+ .data          0x20000000        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+                0x20000000                __dso_handle
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+ .data          0x20000004        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+ .data          0x20000004        0x0 ./src/debug.o
+ .data          0x20000004        0x0 ./src/led_driver.o
+ .data          0x20000004        0x0 ./src/main.o
+ .data          0x20000004        0x0 ./src/stm32l0xx_it.o
+ .data          0x20000004        0x4 ./src/system_stm32l0xx.o
+                0x20000004                SystemCoreClock
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_adc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_comp.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_crc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_dac.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_dma.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_flash.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_irda.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_rng.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_spi.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_tim.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_uart.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_usart.o
+ .data          0x20000008        0x0 ./HAL_Library/stm32l0xx_hal_wwdg.o
+ .data          0x20000008        0x0 ./startup_stm32l052xx.o
+ .data          0x20000008        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+ .data          0x20000008        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .data          0x20000008        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+ .data          0x20000008        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ .data          0x20000008        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ *(.data*)
+ .data.impure_data
+                0x20000008      0x428 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .data._impure_ptr
+                0x20000430        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+                0x20000430                _impure_ptr
+                0x20000434                . = ALIGN (0x4)
+                0x20000434                _edata = .
+
+.jcr            0x20000434        0x4 load address 0x08004b7c
+ .jcr           0x20000434        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .jcr           0x20000434        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+
+.igot.plt       0x20000438        0x0 load address 0x08004b80
+ .igot.plt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+                0x20000438                . = ALIGN (0x4)
+
+.bss            0x20000438      0x498 load address 0x08004b80
+                0x20000438                _sbss = .
+                0x20000438                __bss_start__ = _sbss
+ *(.bss)
+ .bss           0x20000438        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+ .bss           0x20000438       0x1c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+ .bss           0x20000454        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+ .bss           0x20000454       0xc8 ./src/debug.o
+                0x20000454                tx_buffer
+                0x200004b8                rx_buffer
+ .bss           0x2000051c       0x68 ./src/led_driver.o
+                0x2000051c                bufferCount
+                0x20000520                buffer
+ .bss           0x20000584        0x8 ./src/main.o
+                0x20000584                sysTime
+                0x20000588                id
+ .bss           0x2000058c        0x0 ./src/stm32l0xx_it.o
+ .bss           0x2000058c        0x0 ./src/system_stm32l0xx.o
+ .bss           0x2000058c        0x4 ./HAL_Library/stm32l0xx_hal.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_adc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_comp.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_crc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_dac.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_dma.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_flash.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_irda.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_rng.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_spi.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_tim.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_uart.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_usart.o
+ .bss           0x20000590        0x0 ./HAL_Library/stm32l0xx_hal_wwdg.o
+ .bss           0x20000590        0x0 ./startup_stm32l052xx.o
+ .bss           0x20000590        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+ .bss           0x20000590        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .bss           0x20000590        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+ .bss           0x20000590        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ .bss           0x20000590        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x20000590       0xc0 ./src/debug.o
+                0x20000590                DMA_RX_Handle
+                0x200005cc                DMA_TX_Handle
+                0x20000608                USART_Handle
+ COMMON         0x20000650      0x268 ./src/led_driver.o
+                0x20000650                ledStrip
+                0x200008a8                colour_lookup
+ COMMON         0x200008b8       0x18 ./HAL_Library/stm32l0xx_hal_flash.o
+                0x200008b8                ProcFlash
+                0x200008d0                . = ALIGN (0x4)
+                0x200008d0                _ebss = .
+                0x200008d0                __bss_end__ = _ebss
+
+._user_heap_stack
+                0x200008d0      0x400 load address 0x08004b80
+                0x200008d0                . = ALIGN (0x4)
+                0x200008d0                PROVIDE (end, .)
+                0x200008d0                PROVIDE (_end, .)
+                0x20000ad0                . = (. + _Min_Heap_Size)
+ *fill*         0x200008d0      0x200 
+                0x20000cd0                . = (. + _Min_Stack_Size)
+ *fill*         0x20000ad0      0x200 
+                0x20000cd0                . = ALIGN (0x4)
+
+/DISCARD/
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+
+.ARM.attributes
+                0x00000000       0x28
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+ .ARM.attributes
+                0x0000001e       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .ARM.attributes
+                0x0000004a       0x1b c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.attributes
+                0x00000065       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+ .ARM.attributes
+                0x00000091       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+ .ARM.attributes
+                0x000000bd       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+ .ARM.attributes
+                0x000000e9       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000115       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .ARM.attributes
+                0x00000141       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+ .ARM.attributes
+                0x0000016d       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+ .ARM.attributes
+                0x00000199       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+ .ARM.attributes
+                0x000001c5       0x32 ./src/debug.o
+ .ARM.attributes
+                0x000001f7       0x32 ./src/led_driver.o
+ .ARM.attributes
+                0x00000229       0x32 ./src/main.o
+ .ARM.attributes
+                0x0000025b       0x32 ./src/stm32l0xx_it.o
+ .ARM.attributes
+                0x0000028d       0x32 ./src/system_stm32l0xx.o
+ .ARM.attributes
+                0x000002bf       0x32 ./HAL_Library/stm32l0xx_hal.o
+ .ARM.attributes
+                0x000002f1       0x32 ./HAL_Library/stm32l0xx_hal_adc.o
+ .ARM.attributes
+                0x00000323       0x32 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .ARM.attributes
+                0x00000355       0x32 ./HAL_Library/stm32l0xx_hal_comp.o
+ .ARM.attributes
+                0x00000387       0x32 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .ARM.attributes
+                0x000003b9       0x32 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .ARM.attributes
+                0x000003eb       0x32 ./HAL_Library/stm32l0xx_hal_crc.o
+ .ARM.attributes
+                0x0000041d       0x32 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .ARM.attributes
+                0x0000044f       0x32 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .ARM.attributes
+                0x00000481       0x32 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .ARM.attributes
+                0x000004b3       0x32 ./HAL_Library/stm32l0xx_hal_dac.o
+ .ARM.attributes
+                0x000004e5       0x32 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .ARM.attributes
+                0x00000517       0x32 ./HAL_Library/stm32l0xx_hal_dma.o
+ .ARM.attributes
+                0x00000549       0x32 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .ARM.attributes
+                0x0000057b       0x32 ./HAL_Library/stm32l0xx_hal_flash.o
+ .ARM.attributes
+                0x000005ad       0x32 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .ARM.attributes
+                0x000005df       0x32 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .ARM.attributes
+                0x00000611       0x32 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .ARM.attributes
+                0x00000643       0x32 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .ARM.attributes
+                0x00000675       0x32 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .ARM.attributes
+                0x000006a7       0x32 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .ARM.attributes
+                0x000006d9       0x32 ./HAL_Library/stm32l0xx_hal_irda.o
+ .ARM.attributes
+                0x0000070b       0x32 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .ARM.attributes
+                0x0000073d       0x32 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .ARM.attributes
+                0x0000076f       0x32 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .ARM.attributes
+                0x000007a1       0x32 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .ARM.attributes
+                0x000007d3       0x32 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .ARM.attributes
+                0x00000805       0x32 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .ARM.attributes
+                0x00000837       0x32 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .ARM.attributes
+                0x00000869       0x32 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .ARM.attributes
+                0x0000089b       0x32 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .ARM.attributes
+                0x000008cd       0x32 ./HAL_Library/stm32l0xx_hal_rng.o
+ .ARM.attributes
+                0x000008ff       0x32 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .ARM.attributes
+                0x00000931       0x32 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .ARM.attributes
+                0x00000963       0x32 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .ARM.attributes
+                0x00000995       0x32 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .ARM.attributes
+                0x000009c7       0x32 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .ARM.attributes
+                0x000009f9       0x32 ./HAL_Library/stm32l0xx_hal_spi.o
+ .ARM.attributes
+                0x00000a2b       0x32 ./HAL_Library/stm32l0xx_hal_tim.o
+ .ARM.attributes
+                0x00000a5d       0x32 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .ARM.attributes
+                0x00000a8f       0x32 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .ARM.attributes
+                0x00000ac1       0x32 ./HAL_Library/stm32l0xx_hal_uart.o
+ .ARM.attributes
+                0x00000af3       0x32 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .ARM.attributes
+                0x00000b25       0x32 ./HAL_Library/stm32l0xx_hal_usart.o
+ .ARM.attributes
+                0x00000b57       0x32 ./HAL_Library/stm32l0xx_hal_wwdg.o
+ .ARM.attributes
+                0x00000b89       0x22 ./startup_stm32l052xx.o
+ .ARM.attributes
+                0x00000bab       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x00000bc9       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x00000be7       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+ .ARM.attributes
+                0x00000c13       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ .ARM.attributes
+                0x00000c3f       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+OUTPUT(ledStripController.elf elf32-littlearm)
+
+.debug_frame    0x00000000     0x12e8
+ .debug_frame   0x00000000       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+ .debug_frame   0x00000028       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+ .debug_frame   0x00000054       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+ .debug_frame   0x00000080       0x54 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+ .debug_frame   0x000000d4       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+ .debug_frame   0x000000fc       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+ .debug_frame   0x00000128       0x3c c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+ .debug_frame   0x00000164       0x3c ./src/debug.o
+ .debug_frame   0x000001a0       0xf8 ./src/led_driver.o
+ .debug_frame   0x00000298       0x68 ./src/main.o
+ .debug_frame   0x00000300       0x20 ./src/stm32l0xx_it.o
+ .debug_frame   0x00000320       0x38 ./src/system_stm32l0xx.o
+ .debug_frame   0x00000358      0x1e4 ./HAL_Library/stm32l0xx_hal.o
+ .debug_frame   0x0000053c       0xf4 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_frame   0x00000630       0xf8 ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_frame   0x00000728      0x138 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_frame   0x00000860      0x194 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_frame   0x000009f4       0x6c ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_frame   0x00000a60       0xd4 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_frame   0x00000b34      0x13c ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_frame   0x00000c70       0x78 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_frame   0x00000ce8      0x158 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_frame   0x00000e40      0x13c ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_frame   0x00000f7c      0x32c ./HAL_Library/stm32l0xx_hal_usart.o
+ .debug_frame   0x000012a8       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x000012c8       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+
+.debug_info     0x00000000     0x8794
+ .debug_info    0x00000000      0x85f ./src/debug.o
+ .debug_info    0x0000085f      0x781 ./src/led_driver.o
+ .debug_info    0x00000fe0      0x88a ./src/main.o
+ .debug_info    0x0000186a       0x8b ./src/stm32l0xx_it.o
+ .debug_info    0x000018f5      0x33e ./src/system_stm32l0xx.o
+ .debug_info    0x00001c33      0x6f3 ./HAL_Library/stm32l0xx_hal.o
+ .debug_info    0x00002326       0x72 ./HAL_Library/stm32l0xx_hal_adc.o
+ .debug_info    0x00002398       0x72 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .debug_info    0x0000240a       0x72 ./HAL_Library/stm32l0xx_hal_comp.o
+ .debug_info    0x0000247c       0x72 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .debug_info    0x000024ee      0x8c2 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_info    0x00002db0       0x72 ./HAL_Library/stm32l0xx_hal_crc.o
+ .debug_info    0x00002e22       0x72 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .debug_info    0x00002e94       0x72 ./HAL_Library/stm32l0xx_hal_dac.o
+ .debug_info    0x00002f06       0x72 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .debug_info    0x00002f78      0x637 ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_info    0x000035af       0x72 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .debug_info    0x00003621      0x580 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_info    0x00003ba1      0xb9a ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_info    0x0000473b      0x371 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_info    0x00004aac      0x626 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_info    0x000050d2       0x72 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .debug_info    0x00005144       0x72 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .debug_info    0x000051b6       0x72 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .debug_info    0x00005228       0x72 ./HAL_Library/stm32l0xx_hal_irda.o
+ .debug_info    0x0000529a       0x72 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .debug_info    0x0000530c       0x72 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .debug_info    0x0000537e       0x72 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .debug_info    0x000053f0       0x72 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .debug_info    0x00005462       0x72 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .debug_info    0x000054d4      0x5df ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_info    0x00005ab3      0x18e ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_info    0x00005c41      0xaea ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_info    0x0000672b      0x778 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_info    0x00006ea3       0x72 ./HAL_Library/stm32l0xx_hal_rng.o
+ .debug_info    0x00006f15       0x72 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .debug_info    0x00006f87       0x72 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .debug_info    0x00006ff9       0x72 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .debug_info    0x0000706b       0x72 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .debug_info    0x000070dd       0x72 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .debug_info    0x0000714f       0x72 ./HAL_Library/stm32l0xx_hal_spi.o
+ .debug_info    0x000071c1       0x72 ./HAL_Library/stm32l0xx_hal_tim.o
+ .debug_info    0x00007233       0x72 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .debug_info    0x000072a5       0x72 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .debug_info    0x00007317       0x72 ./HAL_Library/stm32l0xx_hal_uart.o
+ .debug_info    0x00007389       0x72 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .debug_info    0x000073fb     0x1327 ./HAL_Library/stm32l0xx_hal_usart.o
+ .debug_info    0x00008722       0x72 ./HAL_Library/stm32l0xx_hal_wwdg.o
+
+.debug_abbrev   0x00000000     0x2584
+ .debug_abbrev  0x00000000      0x19a ./src/debug.o
+ .debug_abbrev  0x0000019a      0x2de ./src/led_driver.o
+ .debug_abbrev  0x00000478      0x24a ./src/main.o
+ .debug_abbrev  0x000006c2       0x42 ./src/stm32l0xx_it.o
+ .debug_abbrev  0x00000704       0xf0 ./src/system_stm32l0xx.o
+ .debug_abbrev  0x000007f4      0x226 ./HAL_Library/stm32l0xx_hal.o
+ .debug_abbrev  0x00000a1a       0x26 ./HAL_Library/stm32l0xx_hal_adc.o
+ .debug_abbrev  0x00000a40       0x26 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .debug_abbrev  0x00000a66       0x26 ./HAL_Library/stm32l0xx_hal_comp.o
+ .debug_abbrev  0x00000a8c       0x26 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .debug_abbrev  0x00000ab2      0x255 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_abbrev  0x00000d07       0x26 ./HAL_Library/stm32l0xx_hal_crc.o
+ .debug_abbrev  0x00000d2d       0x26 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .debug_abbrev  0x00000d53       0x26 ./HAL_Library/stm32l0xx_hal_dac.o
+ .debug_abbrev  0x00000d79       0x26 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .debug_abbrev  0x00000d9f      0x1ff ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_abbrev  0x00000f9e       0x26 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .debug_abbrev  0x00000fc4      0x259 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_abbrev  0x0000121d      0x2b2 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_abbrev  0x000014cf      0x1aa ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_abbrev  0x00001679      0x1c6 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_abbrev  0x0000183f       0x26 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .debug_abbrev  0x00001865       0x26 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .debug_abbrev  0x0000188b       0x26 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .debug_abbrev  0x000018b1       0x26 ./HAL_Library/stm32l0xx_hal_irda.o
+ .debug_abbrev  0x000018d7       0x26 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .debug_abbrev  0x000018fd       0x26 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .debug_abbrev  0x00001923       0x26 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .debug_abbrev  0x00001949       0x26 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .debug_abbrev  0x0000196f       0x26 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .debug_abbrev  0x00001995      0x18b ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_abbrev  0x00001b20       0xda ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_abbrev  0x00001bfa      0x2ac ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_abbrev  0x00001ea6      0x20b ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_abbrev  0x000020b1       0x26 ./HAL_Library/stm32l0xx_hal_rng.o
+ .debug_abbrev  0x000020d7       0x26 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .debug_abbrev  0x000020fd       0x26 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .debug_abbrev  0x00002123       0x26 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .debug_abbrev  0x00002149       0x26 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .debug_abbrev  0x0000216f       0x26 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .debug_abbrev  0x00002195       0x26 ./HAL_Library/stm32l0xx_hal_spi.o
+ .debug_abbrev  0x000021bb       0x26 ./HAL_Library/stm32l0xx_hal_tim.o
+ .debug_abbrev  0x000021e1       0x26 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .debug_abbrev  0x00002207       0x26 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .debug_abbrev  0x0000222d       0x26 ./HAL_Library/stm32l0xx_hal_uart.o
+ .debug_abbrev  0x00002253       0x26 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .debug_abbrev  0x00002279      0x2e5 ./HAL_Library/stm32l0xx_hal_usart.o
+ .debug_abbrev  0x0000255e       0x26 ./HAL_Library/stm32l0xx_hal_wwdg.o
+
+.debug_aranges  0x00000000      0x530
+ .debug_aranges
+                0x00000000       0x20 ./src/debug.o
+ .debug_aranges
+                0x00000020       0x20 ./src/led_driver.o
+ .debug_aranges
+                0x00000040       0x28 ./src/main.o
+ .debug_aranges
+                0x00000068       0x20 ./src/stm32l0xx_it.o
+ .debug_aranges
+                0x00000088       0x20 ./src/system_stm32l0xx.o
+ .debug_aranges
+                0x000000a8       0x20 ./HAL_Library/stm32l0xx_hal.o
+ .debug_aranges
+                0x000000c8       0x18 ./HAL_Library/stm32l0xx_hal_adc.o
+ .debug_aranges
+                0x000000e0       0x18 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .debug_aranges
+                0x000000f8       0x18 ./HAL_Library/stm32l0xx_hal_comp.o
+ .debug_aranges
+                0x00000110       0x18 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .debug_aranges
+                0x00000128       0x20 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_aranges
+                0x00000148       0x18 ./HAL_Library/stm32l0xx_hal_crc.o
+ .debug_aranges
+                0x00000160       0x18 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .debug_aranges
+                0x00000178       0x18 ./HAL_Library/stm32l0xx_hal_dac.o
+ .debug_aranges
+                0x00000190       0x18 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .debug_aranges
+                0x000001a8       0x20 ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_aranges
+                0x000001c8       0x18 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .debug_aranges
+                0x000001e0       0x20 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_aranges
+                0x00000200       0x20 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_aranges
+                0x00000220       0x40 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_aranges
+                0x00000260       0x20 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_aranges
+                0x00000280       0x18 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .debug_aranges
+                0x00000298       0x18 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .debug_aranges
+                0x000002b0       0x18 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .debug_aranges
+                0x000002c8       0x18 ./HAL_Library/stm32l0xx_hal_irda.o
+ .debug_aranges
+                0x000002e0       0x18 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .debug_aranges
+                0x000002f8       0x18 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .debug_aranges
+                0x00000310       0x18 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .debug_aranges
+                0x00000328       0x18 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .debug_aranges
+                0x00000340       0x18 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .debug_aranges
+                0x00000358       0x20 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_aranges
+                0x00000378       0x20 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_aranges
+                0x00000398       0x20 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_aranges
+                0x000003b8       0x20 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_aranges
+                0x000003d8       0x18 ./HAL_Library/stm32l0xx_hal_rng.o
+ .debug_aranges
+                0x000003f0       0x18 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .debug_aranges
+                0x00000408       0x18 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .debug_aranges
+                0x00000420       0x18 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .debug_aranges
+                0x00000438       0x18 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .debug_aranges
+                0x00000450       0x18 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .debug_aranges
+                0x00000468       0x18 ./HAL_Library/stm32l0xx_hal_spi.o
+ .debug_aranges
+                0x00000480       0x18 ./HAL_Library/stm32l0xx_hal_tim.o
+ .debug_aranges
+                0x00000498       0x18 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .debug_aranges
+                0x000004b0       0x18 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .debug_aranges
+                0x000004c8       0x18 ./HAL_Library/stm32l0xx_hal_uart.o
+ .debug_aranges
+                0x000004e0       0x18 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .debug_aranges
+                0x000004f8       0x20 ./HAL_Library/stm32l0xx_hal_usart.o
+ .debug_aranges
+                0x00000518       0x18 ./HAL_Library/stm32l0xx_hal_wwdg.o
+
+.debug_ranges   0x00000000      0x380
+ .debug_ranges  0x00000000       0x28 ./src/debug.o
+ .debug_ranges  0x00000028       0x60 ./src/led_driver.o
+ .debug_ranges  0x00000088       0x18 ./src/main.o
+ .debug_ranges  0x000000a0       0x98 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_ranges  0x00000138       0x30 ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_ranges  0x00000168       0x30 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_ranges  0x00000198       0x80 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_ranges  0x00000218       0x68 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_ranges  0x00000280       0x88 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_ranges  0x00000308       0x78 ./HAL_Library/stm32l0xx_hal_usart.o
+
+.debug_line     0x00000000     0x449e
+ .debug_line    0x00000000      0x252 ./src/debug.o
+ .debug_line    0x00000252      0x30d ./src/led_driver.o
+ .debug_line    0x0000055f      0x2d6 ./src/main.o
+ .debug_line    0x00000835       0x48 ./src/stm32l0xx_it.o
+ .debug_line    0x0000087d      0x200 ./src/system_stm32l0xx.o
+ .debug_line    0x00000a7d      0x336 ./HAL_Library/stm32l0xx_hal.o
+ .debug_line    0x00000db3       0x1d ./HAL_Library/stm32l0xx_hal_adc.o
+ .debug_line    0x00000dd0       0x1d ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .debug_line    0x00000ded       0x1d ./HAL_Library/stm32l0xx_hal_comp.o
+ .debug_line    0x00000e0a       0x1d ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .debug_line    0x00000e27      0x38f ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_line    0x000011b6       0x1d ./HAL_Library/stm32l0xx_hal_crc.o
+ .debug_line    0x000011d3       0x1d ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .debug_line    0x000011f0        0x0 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .debug_line    0x000011f0        0x0 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .debug_line    0x000011f0       0x1d ./HAL_Library/stm32l0xx_hal_dac.o
+ .debug_line    0x0000120d       0x1d ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .debug_line    0x0000122a      0x6a7 ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_line    0x000018d1       0x1d ./HAL_Library/stm32l0xx_hal_firewall.o
+ .debug_line    0x000018ee      0x3f0 ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_line    0x00001cde      0x47e ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_line    0x0000215c      0x306 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_line    0x00002462      0x374 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_line    0x000027d6       0x1d ./HAL_Library/stm32l0xx_hal_i2c.o
+ .debug_line    0x000027f3       0x1d ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .debug_line    0x00002810       0x1d ./HAL_Library/stm32l0xx_hal_i2s.o
+ .debug_line    0x0000282d       0x1d ./HAL_Library/stm32l0xx_hal_irda.o
+ .debug_line    0x0000284a       0x1d ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .debug_line    0x00002867       0x1d ./HAL_Library/stm32l0xx_hal_lcd.o
+ .debug_line    0x00002884       0x1d ./HAL_Library/stm32l0xx_hal_lptim.o
+ .debug_line    0x000028a1       0x1d ./HAL_Library/stm32l0xx_hal_pcd.o
+ .debug_line    0x000028be       0x1d ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .debug_line    0x000028db      0x343 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_line    0x00002c1e      0x274 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_line    0x00002e92      0x583 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_line    0x00003415      0x485 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_line    0x0000389a       0x1d ./HAL_Library/stm32l0xx_hal_rng.o
+ .debug_line    0x000038b7       0x1d ./HAL_Library/stm32l0xx_hal_rtc.o
+ .debug_line    0x000038d4       0x1d ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .debug_line    0x000038f1       0x1d ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .debug_line    0x0000390e       0x1d ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .debug_line    0x0000392b       0x1d ./HAL_Library/stm32l0xx_hal_smbus.o
+ .debug_line    0x00003948       0x1d ./HAL_Library/stm32l0xx_hal_spi.o
+ .debug_line    0x00003965       0x1d ./HAL_Library/stm32l0xx_hal_tim.o
+ .debug_line    0x00003982       0x1d ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .debug_line    0x0000399f       0x1d ./HAL_Library/stm32l0xx_hal_tsc.o
+ .debug_line    0x000039bc       0x1d ./HAL_Library/stm32l0xx_hal_uart.o
+ .debug_line    0x000039d9       0x1d ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .debug_line    0x000039f6      0xa8b ./HAL_Library/stm32l0xx_hal_usart.o
+ .debug_line    0x00004481       0x1d ./HAL_Library/stm32l0xx_hal_wwdg.o
+
+.debug_str      0x00000000     0x3509
+ .debug_str     0x00000000      0x62f ./src/debug.o
+                                0x6cb (size before relaxing)
+ .debug_str     0x0000062f      0x153 ./src/led_driver.o
+                                0x40f (size before relaxing)
+ .debug_str     0x00000782      0x3e8 ./src/main.o
+                                0x675 (size before relaxing)
+ .debug_str     0x00000b6a       0x28 ./src/stm32l0xx_it.o
+                                0x182 (size before relaxing)
+ .debug_str     0x00000b92       0xa7 ./src/system_stm32l0xx.o
+                                0x2c8 (size before relaxing)
+ .debug_str     0x00000c39      0x33b ./HAL_Library/stm32l0xx_hal.o
+                                0x770 (size before relaxing)
+ .debug_str     0x00000f74       0x5c ./HAL_Library/stm32l0xx_hal_adc.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00000fd0       0x5f ./HAL_Library/stm32l0xx_hal_adc_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x0000102f       0x5d ./HAL_Library/stm32l0xx_hal_comp.o
+                                0x1b7 (size before relaxing)
+ .debug_str     0x0000108c       0x60 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+                                0x1ba (size before relaxing)
+ .debug_str     0x000010ec      0x293 ./HAL_Library/stm32l0xx_hal_cortex.o
+                                0x6e4 (size before relaxing)
+ .debug_str     0x0000137f       0x5c ./HAL_Library/stm32l0xx_hal_crc.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x000013db       0x5f ./HAL_Library/stm32l0xx_hal_crc_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x0000143a       0x5d ./HAL_Library/stm32l0xx_hal_cryp.o
+                                 0xe5 (size before relaxing)
+ .debug_str     0x00001497       0x60 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+                                 0xe8 (size before relaxing)
+ .debug_str     0x000014f7       0x5c ./HAL_Library/stm32l0xx_hal_dac.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00001553       0x5f ./HAL_Library/stm32l0xx_hal_dac_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x000015b2      0x17e ./HAL_Library/stm32l0xx_hal_dma.o
+                                0x527 (size before relaxing)
+ .debug_str     0x00001730       0x61 ./HAL_Library/stm32l0xx_hal_firewall.o
+                                0x1bb (size before relaxing)
+ .debug_str     0x00001791      0x24d ./HAL_Library/stm32l0xx_hal_flash.o
+                                0x4a7 (size before relaxing)
+ .debug_str     0x000019de      0x43a ./HAL_Library/stm32l0xx_hal_flash_ex.o
+                                0x778 (size before relaxing)
+ .debug_str     0x00001e18      0x134 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+                                0x402 (size before relaxing)
+ .debug_str     0x00001f4c      0x11b ./HAL_Library/stm32l0xx_hal_gpio.o
+                                0x463 (size before relaxing)
+ .debug_str     0x00002067       0x5c ./HAL_Library/stm32l0xx_hal_i2c.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x000020c3       0x5f ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x00002122       0x5c ./HAL_Library/stm32l0xx_hal_i2s.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x0000217e       0x5d ./HAL_Library/stm32l0xx_hal_irda.o
+                                0x1b7 (size before relaxing)
+ .debug_str     0x000021db       0x5d ./HAL_Library/stm32l0xx_hal_iwdg.o
+                                0x1b7 (size before relaxing)
+ .debug_str     0x00002238       0x5c ./HAL_Library/stm32l0xx_hal_lcd.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002294       0x5e ./HAL_Library/stm32l0xx_hal_lptim.o
+                                0x1b8 (size before relaxing)
+ .debug_str     0x000022f2       0x5c ./HAL_Library/stm32l0xx_hal_pcd.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x0000234e       0x5f ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x000023ad      0x23c ./HAL_Library/stm32l0xx_hal_pwr.o
+                                0x4be (size before relaxing)
+ .debug_str     0x000025e9      0x124 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+                                0x2ec (size before relaxing)
+ .debug_str     0x0000270d      0x199 ./HAL_Library/stm32l0xx_hal_rcc.o
+                                0x6de (size before relaxing)
+ .debug_str     0x000028a6      0x396 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                                0x6ec (size before relaxing)
+ .debug_str     0x00002c3c       0x5c ./HAL_Library/stm32l0xx_hal_rng.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002c98       0x5c ./HAL_Library/stm32l0xx_hal_rtc.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002cf4       0x5f ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x00002d53       0x62 ./HAL_Library/stm32l0xx_hal_smartcard.o
+                                0x1bc (size before relaxing)
+ .debug_str     0x00002db5       0x65 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+                                0x1bf (size before relaxing)
+ .debug_str     0x00002e1a       0x5e ./HAL_Library/stm32l0xx_hal_smbus.o
+                                0x1b8 (size before relaxing)
+ .debug_str     0x00002e78       0x5c ./HAL_Library/stm32l0xx_hal_spi.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002ed4       0x5c ./HAL_Library/stm32l0xx_hal_tim.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002f30       0x5f ./HAL_Library/stm32l0xx_hal_tim_ex.o
+                                0x1b9 (size before relaxing)
+ .debug_str     0x00002f8f       0x5c ./HAL_Library/stm32l0xx_hal_tsc.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x00002feb       0x5d ./HAL_Library/stm32l0xx_hal_uart.o
+                                0x1b7 (size before relaxing)
+ .debug_str     0x00003048       0x60 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+                                0x1ba (size before relaxing)
+ .debug_str     0x000030a8      0x404 ./HAL_Library/stm32l0xx_hal_usart.o
+                                0xad2 (size before relaxing)
+ .debug_str     0x000034ac       0x5d ./HAL_Library/stm32l0xx_hal_wwdg.o
+                                0x1b7 (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 ./src/debug.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/led_driver.o
+ .comment       0x00000000       0x71 ./src/main.o
+ .comment       0x00000000       0x71 ./src/stm32l0xx_it.o
+ .comment       0x00000000       0x71 ./src/system_stm32l0xx.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_adc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_adc_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_comp.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_comp_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_crc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_crc_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_cryp.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_cryp_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_dac.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_dac_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_dma.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_firewall.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_flash.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_i2c.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_i2c_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_i2s.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_irda.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_iwdg.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_lcd.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_lptim.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_pcd.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_pcd_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_pwr.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_rng.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_rtc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_rtc_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_smartcard.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_smartcard_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_smbus.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_spi.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_tim.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_tim_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_tsc.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_uart.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_uart_ex.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_usart.o
+ .comment       0x00000000       0x71 ./HAL_Library/stm32l0xx_hal_wwdg.o
+
+.debug_loc      0x00000000     0x3e32
+ .debug_loc     0x00000000      0x2ad ./src/led_driver.o
+ .debug_loc     0x000002ad       0x21 ./src/main.o
+ .debug_loc     0x000002ce      0x199 ./src/system_stm32l0xx.o
+ .debug_loc     0x00000467       0xac ./HAL_Library/stm32l0xx_hal.o
+ .debug_loc     0x00000513      0x262 ./HAL_Library/stm32l0xx_hal_cortex.o
+ .debug_loc     0x00000775      0x78e ./HAL_Library/stm32l0xx_hal_dma.o
+ .debug_loc     0x00000f03      0x28d ./HAL_Library/stm32l0xx_hal_flash.o
+ .debug_loc     0x00001190      0xa7c ./HAL_Library/stm32l0xx_hal_flash_ex.o
+ .debug_loc     0x00001c0c      0x105 ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+ .debug_loc     0x00001d11      0x3d2 ./HAL_Library/stm32l0xx_hal_gpio.o
+ .debug_loc     0x000020e3      0x12e ./HAL_Library/stm32l0xx_hal_pwr.o
+ .debug_loc     0x00002211       0x1f ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+ .debug_loc     0x00002230      0x687 ./HAL_Library/stm32l0xx_hal_rcc.o
+ .debug_loc     0x000028b7      0x473 ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+ .debug_loc     0x00002d2a     0x1108 ./HAL_Library/stm32l0xx_hal_usart.o
+
+Cross Reference Table
+
+Symbol                                            File
+ADC1_COMP_IRQHandler                              ./startup_stm32l052xx.o
+AHBPrescTable                                     ./src/system_stm32l0xx.o
+DMA1_Channel1_IRQHandler                          ./startup_stm32l052xx.o
+DMA1_Channel2_3_IRQHandler                        ./startup_stm32l052xx.o
+DMA1_Channel4_5_6_7_IRQHandler                    ./startup_stm32l052xx.o
+DMA_RX_Handle                                     ./src/debug.o
+DMA_TX_Handle                                     ./src/debug.o
+Default_Handler                                   ./startup_stm32l052xx.o
+EXTI0_1_IRQHandler                                ./startup_stm32l052xx.o
+EXTI2_3_IRQHandler                                ./startup_stm32l052xx.o
+EXTI4_15_IRQHandler                               ./startup_stm32l052xx.o
+FLASH_ErasePage                                   ./HAL_Library/stm32l0xx_hal_flash.o
+                                                  ./HAL_Library/stm32l0xx_hal_flash_ex.o
+FLASH_IRQHandler                                  ./startup_stm32l052xx.o
+FLASH_WaitForLastOperation                        ./HAL_Library/stm32l0xx_hal_flash.o
+                                                  ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_DBGMCU_DBG_DisableLowPowerConfig              ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_DBG_EnableLowPowerConfig               ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_DisableDBGSleepMode                    ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_DisableDBGStandbyMode                  ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_DisableDBGStopMode                     ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_EnableDBGSleepMode                     ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_EnableDBGStandbyMode                   ./HAL_Library/stm32l0xx_hal.o
+HAL_DBGMCU_EnableDBGStopMode                      ./HAL_Library/stm32l0xx_hal.o
+HAL_DMA_Abort                                     ./HAL_Library/stm32l0xx_hal_dma.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_DMA_DeInit                                    ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_GetError                                  ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_GetState                                  ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_IRQHandler                                ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_Init                                      ./HAL_Library/stm32l0xx_hal_dma.o
+                                                  ./src/debug.o
+HAL_DMA_PollForTransfer                           ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_Start                                     ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_DMA_Start_IT                                  ./HAL_Library/stm32l0xx_hal_dma.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_DeInit                                        ./HAL_Library/stm32l0xx_hal.o
+HAL_Delay                                         ./HAL_Library/stm32l0xx_hal.o
+HAL_FLASHEx_AdvOBGetConfig                        ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_AdvOBProgram                          ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_DisableFixedTimeProgram    ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_EnableFixedTimeProgram     ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_Erase                      ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_Lock                       ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_Program                    ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DATAEEPROM_Unlock                     ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_DisableRunPowerDown                   ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+HAL_FLASHEx_EnableRunPowerDown                    ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+HAL_FLASHEx_Erase                                 ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_Erase_IT                              ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_HalfPageProgram                       ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+HAL_FLASHEx_OBGetConfig                           ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_OBProgram                             ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_OB_DeSelectPCROP                      ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHEx_OB_SelectPCROP                        ./HAL_Library/stm32l0xx_hal_flash_ex.o
+HAL_FLASHRAM_GetError                             ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+HAL_FLASH_EndOfOperationCallback                  ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_GetError                                ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_IRQHandler                              ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_Lock                                    ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_OB_Launch                               ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_OB_Lock                                 ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_OB_Unlock                               ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_OperationErrorCallback                  ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_Program                                 ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_Program_IT                              ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_FLASH_Unlock                                  ./HAL_Library/stm32l0xx_hal_flash.o
+HAL_GPIO_DeInit                                   ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_EXTI_Callback                            ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_EXTI_IRQHandler                          ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_Init                                     ./HAL_Library/stm32l0xx_hal_gpio.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./src/led_driver.o
+                                                  ./src/debug.o
+HAL_GPIO_LockPin                                  ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_ReadPin                                  ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_TogglePin                                ./HAL_Library/stm32l0xx_hal_gpio.o
+HAL_GPIO_WritePin                                 ./HAL_Library/stm32l0xx_hal_gpio.o
+                                                  ./src/led_driver.o
+HAL_GetDEVID                                      ./HAL_Library/stm32l0xx_hal.o
+HAL_GetHalVersion                                 ./HAL_Library/stm32l0xx_hal.o
+HAL_GetREVID                                      ./HAL_Library/stm32l0xx_hal.o
+HAL_GetTick                                       ./HAL_Library/stm32l0xx_hal.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_flash.o
+                                                  ./HAL_Library/stm32l0xx_hal_dma.o
+HAL_IncTick                                       ./HAL_Library/stm32l0xx_hal.o
+HAL_Init                                          ./HAL_Library/stm32l0xx_hal.o
+HAL_InitTick                                      ./HAL_Library/stm32l0xx_hal.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_MPU_ConfigRegion                              ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_MspDeInit                                     ./HAL_Library/stm32l0xx_hal.o
+HAL_MspInit                                       ./HAL_Library/stm32l0xx_hal.o
+HAL_NVIC_ClearPendingIRQ                          ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_DisableIRQ                               ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_EnableIRQ                                ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_GetPendingIRQ                            ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_GetPriority                              ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_SetPendingIRQ                            ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_NVIC_SetPriority                              ./HAL_Library/stm32l0xx_hal_cortex.o
+                                                  ./HAL_Library/stm32l0xx_hal.o
+                                                  ./src/main.o
+HAL_NVIC_SystemReset                              ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_PWREx_DisableFastWakeUp                       ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWREx_DisableLowPowerRunMode                  ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWREx_DisableUltraLowPower                    ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWREx_EnableFastWakeUp                        ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWREx_EnableLowPowerRunMode                   ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWREx_EnableUltraLowPower                     ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+HAL_PWR_ConfigPVD                                 ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DeInit                                    ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DisableBkUpAccess                         ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DisablePVD                                ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DisableSEVOnPend                          ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DisableSleepOnExit                        ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_DisableWakeUpPin                          ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnableBkUpAccess                          ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnablePVD                                 ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnableSEVOnPend                           ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnableSleepOnExit                         ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnableWakeUpPin                           ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnterSLEEPMode                            ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnterSTANDBYMode                          ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_EnterSTOPMode                             ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_PVDCallback                               ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_PWR_PVD_IRQHandler                            ./HAL_Library/stm32l0xx_hal_pwr.o
+HAL_RCCEx_CRSConfig                               ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_CRSGetSynchronizationInfo               ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_CRSSoftwareSynchronizationGenerate      ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_CRSWaitSynchronization                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_DisableHSI48_VREFINT                    ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_DisableLSECSS                           ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_EnableHSI48_VREFINT                     ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_EnableLSECSS                            ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_EnableLSECSS_IT                         ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_GetPeriphCLKConfig                      ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_GetPeriphCLKFreq                        ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_LSECSS_Callback                         ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_LSECSS_IRQHandler                       ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCCEx_PeriphCLKConfig                         ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCC_CSSCallback                               ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_ClockConfig                               ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./src/main.o
+HAL_RCC_DeInit                                    ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_EnableCSS                                 ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_GetClockConfig                            ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_GetHCLKFreq                               ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal.o
+                                                  ./src/main.o
+HAL_RCC_GetOscConfig                              ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_GetPCLK1Freq                              ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCC_GetPCLK2Freq                              ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCC_GetSysClockFreq                           ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+HAL_RCC_MCOConfig                                 ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_NMI_IRQHandler                            ./HAL_Library/stm32l0xx_hal_rcc.o
+HAL_RCC_OscConfig                                 ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./src/main.o
+HAL_ResumeTick                                    ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_DisableVREFINT                         ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_Disable_Lock_VREFINT                   ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_EnableVREFINT                          ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_Enable_Lock_VREFINT                    ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_GetBootMode                            ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSCFG_VREFINT_OutputSelect                   ./HAL_Library/stm32l0xx_hal.o
+HAL_SYSTICK_CLKSourceConfig                       ./HAL_Library/stm32l0xx_hal_cortex.o
+                                                  ./src/main.o
+HAL_SYSTICK_Callback                              ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_SYSTICK_Config                                ./HAL_Library/stm32l0xx_hal_cortex.o
+                                                  ./HAL_Library/stm32l0xx_hal.o
+                                                  ./src/main.o
+HAL_SYSTICK_IRQHandler                            ./HAL_Library/stm32l0xx_hal_cortex.o
+HAL_SuspendTick                                   ./HAL_Library/stm32l0xx_hal.o
+HAL_USART_DMAPause                                ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_DMAResume                               ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_DMAStop                                 ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_DeInit                                  ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_ErrorCallback                           ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_GetError                                ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_GetState                                ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_IRQHandler                              ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Init                                    ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./src/debug.o
+HAL_USART_MspDeInit                               ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_MspInit                                 ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Receive                                 ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Receive_DMA                             ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Receive_IT                              ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_RxCpltCallback                          ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_RxHalfCpltCallback                      ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Transmit                                ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TransmitReceive                         ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TransmitReceive_DMA                     ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TransmitReceive_IT                      ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Transmit_DMA                            ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_Transmit_IT                             ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TxCpltCallback                          ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TxHalfCpltCallback                      ./HAL_Library/stm32l0xx_hal_usart.o
+HAL_USART_TxRxCpltCallback                        ./HAL_Library/stm32l0xx_hal_usart.o
+HardFault_Handler                                 ./src/stm32l0xx_it.o
+I2C1_IRQHandler                                   ./startup_stm32l052xx.o
+I2C2_IRQHandler                                   ./startup_stm32l052xx.o
+LPTIM1_IRQHandler                                 ./startup_stm32l052xx.o
+NMI_Handler                                       ./startup_stm32l052xx.o
+PLLMulTable                                       ./src/system_stm32l0xx.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+PVD_IRQHandler                                    ./startup_stm32l052xx.o
+PendSV_Handler                                    ./startup_stm32l052xx.o
+ProcFlash                                         ./HAL_Library/stm32l0xx_hal_flash.o
+                                                  ./HAL_Library/stm32l0xx_hal_flash_ramfunc.o
+                                                  ./HAL_Library/stm32l0xx_hal_flash_ex.o
+RCC_CRS_IRQHandler                                ./startup_stm32l052xx.o
+RNG_LPUART1_IRQHandler                            ./startup_stm32l052xx.o
+RTC_IRQHandler                                    ./startup_stm32l052xx.o
+Reset_Handler                                     ./startup_stm32l052xx.o
+SPI1_IRQHandler                                   ./startup_stm32l052xx.o
+SPI2_IRQHandler                                   ./startup_stm32l052xx.o
+SVC_Handler                                       ./startup_stm32l052xx.o
+SysTick_Handler                                   ./src/main.o
+SystemCoreClock                                   ./src/system_stm32l0xx.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+SystemCoreClockUpdate                             ./src/system_stm32l0xx.o
+SystemInit                                        ./src/system_stm32l0xx.o
+                                                  ./startup_stm32l052xx.o
+TIM21_IRQHandler                                  ./startup_stm32l052xx.o
+TIM22_IRQHandler                                  ./startup_stm32l052xx.o
+TIM2_IRQHandler                                   ./startup_stm32l052xx.o
+TIM6_DAC_IRQHandler                               ./startup_stm32l052xx.o
+TSC_IRQHandler                                    ./startup_stm32l052xx.o
+USART1_IRQHandler                                 ./startup_stm32l052xx.o
+USART2_IRQHandler                                 ./startup_stm32l052xx.o
+USART_Handle                                      ./src/debug.o
+USB_IRQHandler                                    ./startup_stm32l052xx.o
+WWDG_IRQHandler                                   ./startup_stm32l052xx.o
+_Jv_RegisterClasses                               c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+__aeabi_idiv0                                     c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+__aeabi_ldiv0                                     c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+__aeabi_uidiv                                     c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+                                                  ./HAL_Library/stm32l0xx_hal_usart.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc_ex.o
+                                                  ./HAL_Library/stm32l0xx_hal_rcc.o
+                                                  ./HAL_Library/stm32l0xx_hal_pwr_ex.o
+                                                  ./HAL_Library/stm32l0xx_hal.o
+                                                  ./src/system_stm32l0xx.o
+                                                  ./src/main.o
+__aeabi_uidivmod                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+__bss_end__                                       c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+__bss_start__                                     c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+__call_exitprocs                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+__deregister_frame_info                           c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+__dso_handle                                      c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+__fini_array_end                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+__fini_array_start                                c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+__init_array_end                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+__init_array_start                                c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+__libc_fini                                       c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+__libc_fini_array                                 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+__libc_init_array                                 c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+                                                  ./startup_stm32l052xx.o
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+__preinit_array_end                               c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+__preinit_array_start                             c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+__register_exitproc                               c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+__register_frame_info                             c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+__stack                                           c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+__udivsi3                                         c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+_ebss                                             ./startup_stm32l052xx.o
+_edata                                            ./startup_stm32l052xx.o
+_estack                                           ./startup_stm32l052xx.o
+_exit                                             c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+_fini                                             c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-fini.o)
+_global_impure_ptr                                c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+_impure_ptr                                       c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-impure.o)
+_init                                             c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-init.o)
+_mainCRTStartup                                   c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+_sbss                                             ./startup_stm32l052xx.o
+_sdata                                            ./startup_stm32l052xx.o
+_sidata                                           ./startup_stm32l052xx.o
+_start                                            c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+atexit                                            c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+buffer                                            ./src/led_driver.o
+bufferCount                                       ./src/led_driver.o
+clock_init                                        ./src/main.o
+colour_lookup                                     ./src/led_driver.o
+debug_init                                        ./src/debug.o
+                                                  ./src/main.o
+delay_ms                                          ./src/main.o
+exit                                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-exit.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+free                                              c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__call_atexit.o)
+g_pfnVectors                                      ./startup_stm32l052xx.o
+get_colour                                        ./src/led_driver.o
+hardware_init_hook                                c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+id                                                ./src/main.o
+ledStrip                                          ./src/led_driver.o
+led_init                                          ./src/led_driver.o
+                                                  ./src/main.o
+led_propagate                                     ./src/led_driver.o
+                                                  ./src/main.o
+led_push_buffer                                   ./src/led_driver.o
+                                                  ./src/main.o
+led_send_colour                                   ./src/led_driver.o
+led_update                                        ./src/led_driver.o
+                                                  ./src/main.o
+main                                              ./src/main.o
+                                                  ./startup_stm32l052xx.o
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+malloc                                            c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-__atexit.o)
+memset                                            c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc.a(lib_a-memset.o)
+                                                  c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+read_buffer                                       ./src/led_driver.o
+rx_buffer                                         ./src/debug.o
+send_high                                         ./src/led_driver.o
+send_low                                          ./src/led_driver.o
+send_res                                          ./src/led_driver.o
+software_init_hook                                c:/program files (x86)/gnu tools arm embedded/4.9 2014q4/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+sysTime                                           ./src/main.o
+tx_buffer                                         ./src/debug.o
