@@ -33,30 +33,32 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
 #include "stm32l0xx_it.h"
+
 #include "debug.h"
 #include "led_driver.h"
+#include "timer.h"
 
-void SysTick_Handler(void);
-void clock_init(void);
-void check_clock(void);
-void delay_ms(uint32_t delay);
+void initialise(void);
 
-volatile uint32_t sysTime = 0;
 uint8_t id = 0;
 
 int main(void)
 {
-	clock_init();
-
-	debug_init();
-	led_init();
+	initialise();
 
 	while (1)
 	{
 		led_update();
 		led_propagate();
-		delay_ms(100);
+		timer_delay_ms(100);
 	}
+}
+
+void initialise(void)
+{
+	timer_init();
+	debug_init();
+	led_init();
 }
 
 void clock_init(void)
@@ -99,13 +101,3 @@ void clock_init(void)
 	HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
 }
 
-void SysTick_Handler(void)
-{
-	sysTime++;
-}
-
-void delay_ms(uint32_t delay)
-{
-	volatile uint32_t endTime = sysTime + delay;
-	while (sysTime < endTime) ;
-}
