@@ -48,9 +48,11 @@ int main(void)
 
 	while (1)
 	{
-		led_update();
-		led_propagate();
-		timer_delay_ms(100);
+		if (update_led)
+		{
+			led_propagate();
+			update_led = 0;
+		}
 	}
 }
 
