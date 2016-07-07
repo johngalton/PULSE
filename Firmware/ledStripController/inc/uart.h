@@ -11,5 +11,6 @@
 #include "stm32l0xx_hal.h"
 
 void uart_init(void);
+void uart_handle(void);
 
 #endif /* INC_UART_H_ */
