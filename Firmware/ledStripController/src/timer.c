@@ -23,7 +23,7 @@ void timer_init(void)
 
 	//Try and set this up with direct register access.. The new drivers are just too horible.
 	//We ideally want to divide the clock down to 1Hz however this will not be possible from 32MHz
-	//THis is because the maximum divide is 65536
+	//This is because the maximum divide is 65536
 	//Instead lets divide the clock down to 1000Hz (1ms)
 
 	//Enable CC interrupt 1
