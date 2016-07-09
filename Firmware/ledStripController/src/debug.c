@@ -21,12 +21,12 @@ void debug_init(void)
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
 	//Initialise B0 and B1
-	GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
+/*
 	//Debug TX
 	GPIO_InitStruct.Pin = GPIO_PIN_2;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -67,6 +67,7 @@ void debug_init(void)
 	HAL_USART_Init(&USART_Handle);
 	HAL_DMA_Init(&DMA_TX_Handle);
 	HAL_DMA_Init(&DMA_RX_Handle);
+*/
 
 	/*Set it to on by default */
 	DEBUG_G_LED_ON;

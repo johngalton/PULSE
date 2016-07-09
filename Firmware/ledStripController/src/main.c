@@ -37,8 +37,11 @@
 #include "debug.h"
 #include "led_driver.h"
 #include "timer.h"
+#include "uart.h"
 
 void initialise(void);
+void shortHandler(uint8_t *data);
+void longHandler(uint8_t *data);
 
 uint8_t id = 0;
 
@@ -46,18 +49,30 @@ int main(void)
 {
 	initialise();
 
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+	led_push_buffer(1);
+
 	while (1)
 	{
-		if (update_led)
-		{
-			led_propagate();
-			update_led = 0;
-		}
+		uart_handle();
+		led_update();
+		led_propagate();
+		timer_delay_ms(50);
 	}
 }
 
 void initialise(void)
 {
+	uart_init(shortHandler, longHandler);
 	timer_init();
 	debug_init();
 	led_init();
@@ -103,3 +118,32 @@ void clock_init(void)
 	HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
 }
 
+void shortHandler(uint8_t *data)
+{
+	switch (data[0])
+	{
+		case 0:
+		{
+			uint8_t colour = data[1];
+			uint8_t length = data[2];
+			for (uint8_t count = 0; count < length; count++)
+			{
+				led_push_buffer(colour);
+			}
+		}
+		break;
+		case 1:
+		{
+			uint8_t colour = data[1];
+			led_set_beacon(colour);
+		}
+		break;
+		default:
+		return;
+	}
+}
+
+void longHandler(uint8_t *data)
+{
+
+}
