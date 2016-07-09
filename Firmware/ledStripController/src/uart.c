@@ -7,12 +7,20 @@
 
 #include "uart.h"
 
-#define writePosition = (128 - (uint8_t)USART1->CNDTR)
+#define writePosition (128 - (uint8_t)DMA1_Channel3->CNDTR)
+#define bytesToRead ((128 + (writePosition - readPosition)) % 128)
+#define bytesToEcho ((128 + (writePosition - echoPosition)) % 128)
+#define TXE_Set 	USART1->CR1 |= (1<<3)
+#define TXE_Clear	USART1->CR1 &= ~(1<<3)
+#define TXE			((USART1->CR1 >> 3) & 1)
+#define RXE_Set 	USART1->CR1 |= (1<<2)
+#define RXE			((USART1->CR1 >> 2) & 1)
 
 //129 is only a precaution for now as I'm not 100% sure if DMA count is ever at 0
 uint8_t rxBuffer[129];
 
 uint8_t readPosition = 0;
+uint8_t echoPosition = 0;
 
 void uart_init(void)
 {
@@ -31,7 +39,8 @@ void uart_init(void)
 
 	//Now we can start setting up the UART itself
 	//Tx enable Rx Enable
-	USART1->CR1 |= (1<<3) | (1<<2);
+	TXE_Set;
+	RXE_Set;
 
 	//Set the baud rate
 	//Clock speed should be HCLK (32MHz)
@@ -57,4 +66,37 @@ void uart_init(void)
 	USART1->CR3 |= (1 << 6);
 	//Enable the USART
 	USART1->CR1 |= (1 << 0);
+}
+
+void uart_send(uint8_t *data, uint16_t len)
+{
+	for (uint16_t count = 0; count <= len; count++)
+	{
+		//Load data in to the send register
+		USART1->TDR = data[count];
+		//Wait for the TXE to be set
+		while (TXE == 0) ;
+	}
+
+	//Wait for Transfer Complete
+	while (((USART1->ISR >> 6) & 1) == 0) ;
+}
+
+void uart_handle(void)
+{
+	//Echo any necessary bytes
+	while (bytesToEcho > 0)
+	{
+		uart_send(&rxBuffer[echoPosition], 1);
+		echoPosition = (echoPosition + 1) % 128;
+	}
+
+	//Process necessary data
+	while (bytesToRead > 0)
+	{
+		if (rxBuffer[readPosition] == 0xFE)
+		{
+
+		}
+	}
 }

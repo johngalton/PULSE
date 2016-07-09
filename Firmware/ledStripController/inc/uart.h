@@ -31,6 +31,7 @@ typedef struct
 } uart_std_function;
 
 void uart_init(void);
+void uart_send(uint8_t *data, uint16_t len);
 void uart_handle(void);
 
 #endif /* INC_UART_H_ */
