@@ -10,18 +10,7 @@
 
 #include "stm32l0xx_hal.h"
 #include "debug.h"
-
-typedef struct
-{
-	uint8_t type;
-	uint8_t led1;
-	uint8_t count1;
-	uint8_t led2;
-	uint8_t count2;
-	uint8_t led3;
-	uint8_t count3;
-	uint8_t checksum;
-} uart_quick_function;
+#include <stdlib.h>
 
 typedef struct
 {
@@ -29,9 +18,10 @@ typedef struct
 	uint8_t command;
 	uint8_t length;
 	uint8_t *data;
-} uart_std_function;
+	uint8_t end;
+} uart_long_function;
 
-void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uint8_t *));
+void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uart_long_function));
 void uart_send(uint8_t *data, uint16_t len);
 void uart_handle(void);
 

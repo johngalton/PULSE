@@ -14,41 +14,50 @@ void sysClock_init(void);
 volatile uint32_t sysTime = 0;
 
 TIM_HandleTypeDef timHandle;
-uint8_t update_led = 0;
+volatile uint8_t update_led = 0;
 timerState current_state = timer_disabled;
+void (*timerHandler)(void);
 
-void timer_init(void)
+void timer_init(void (*handler)(void))
 {
 	//First initialise the system clock
 	sysClock_init();
 
+	timerHandler = handler;
 	//Try and set this up with direct register access.. The new drivers are just too horible.
 	//We ideally want to divide the clock down to 1Hz however this will not be possible from 32MHz
 	//This is because the maximum divide is 65536
 	//Instead lets divide the clock down to 1000Hz (1ms)
-/*
-	//Enable CC interrupt 1
-	TIM2->DIER = (1<<1);
+
+	RCC->APB1ENR |= 1;
+
+	//Enable Update interrupt
+	TIM2->DIER |= (1<<0);
 	//Divide the clock down to 1ms
 	TIM2->PSC = 32000;
 	//Up counter so reset to 0
-	TIM2->ARR = 0;
-	//200ms timer
-	TIM2->CCR1 = 200;
+	TIM2->ARR = 50;
 	//			ARR		URS			EN
-	TIM2->CR1 = (1<<7) | (1<<2) | (1<<0);
+	TIM2->CR1 |= (1<<7) | (1<<2);// | (1<<0);
 
 	current_state = timer_enabled;
 
 	//Enable the interrupts
 	NVIC_EnableIRQ(TIM2_IRQn);
 	NVIC_SetPriority(TIM2_IRQn, 0);
-*/
+
+	TIM2->CR1 |= 1;
 }
 
 void timer_set_interval(uint16_t interval)
 {
-	TIM2->CCMR1 = interval;
+	TIM2->ARR = interval;
+}
+
+uint16_t timer_get_interval(void)
+{
+	uint16_t value = TIM2->ARR;
+	return value;
 }
 
 void timer_set_state(timerState newState)
@@ -107,7 +116,7 @@ void sysClock_init(void)
 
 	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
-	HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
+	HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
 void timer_delay_ms(uint32_t delay)
@@ -124,6 +133,10 @@ void SysTick_Handler(void)
 
 void TIM2_IRQHandler(void)
 {
-	led_update();
-	update_led = 1;
+	DEBUG_G_LED_OFF;
+	if (TIM2->SR & 1)
+	{
+		TIM2->SR &= ~(1);
+		timerHandler();
+	}
 }

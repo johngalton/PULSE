@@ -18,8 +18,8 @@
 typedef struct
 {
 	uint8_t blue;
-	uint8_t red;
 	uint8_t green;
+	uint8_t red;
 	uint8_t dontCare;
 } rgb;
 
@@ -51,15 +51,25 @@ void led_init(void)
 	//Initialize colour variables
 	beaconColour = colour_lookup[0];
 	//                     0x00BBGGRR
+	/*
 	colour_lookup[0].val = 0x00000000;//Nothing
-	colour_lookup[1].val = 0x000000FF;//Red
-	colour_lookup[2].val = 0x0000FFFF;//Yellow
-	colour_lookup[3].val = 0x0000FF00;//Green
-	colour_lookup[4].val = 0x00FFFF00;//Cyan
-	colour_lookup[5].val = 0x00FF0000;//Blue
-	colour_lookup[6].val = 0x00FF00FF;//Magenta
+	colour_lookup[1].val = 0x000000FF;//Red (Blue)
+	colour_lookup[2].val = 0x0000FFFF;//Yellow (Magenta)
+	colour_lookup[3].val = 0x0000FF00;//Green (Red)
+	colour_lookup[4].val = 0x00FFFF00;//Cyan (Yellow)
+	colour_lookup[5].val = 0x00FF0000;//Blue (Green)
+	colour_lookup[6].val = 0x00FF00FF;//Magenta (Cyan)
 	colour_lookup[7].val = 0x00FFFFFF;//White
-
+	*/
+	//					   0x00GGRRBB
+	colour_lookup[0].val = 0x00000000;//Nothing
+	colour_lookup[1].val = 0x0000FF00;//Red (Blue)
+	colour_lookup[2].val = 0x00FFFF00;//Yellow (Magenta)
+	colour_lookup[3].val = 0x00FF0000;//Green (Red)
+	colour_lookup[4].val = 0x00FF00FF;//Cyan (Yellow)
+	colour_lookup[5].val = 0x000000FF;//Blue (Green)
+	colour_lookup[6].val = 0x0000FFFF;//Magenta (Cyan)
+	colour_lookup[7].val = 0x00FFFFFF;//White
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
@@ -313,3 +323,11 @@ colour get_colour(uint8_t code)
 		return colour_lookup[0];
 }
 
+void led_set_all(uint8_t code)
+{
+	colour selected = get_colour(code);
+	for (uint8_t count = 0; count < STRIP_SIZE; count++)
+	{
+		ledStrip[count] = selected;
+	}
+}

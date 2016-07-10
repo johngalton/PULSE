@@ -15,7 +15,7 @@
 #define RXE_Set 	USART1->CR1 |= (1<<2)
 #define RXE			((USART1->CR1 >> 2) & 1)
 
-typedef enum {idle, shortCmd, longCmd} state;
+typedef enum {idle, shortCmd, longCmd1, longCmd2} state;
 
 state currentState = idle;
 
@@ -26,9 +26,12 @@ uint8_t readPosition = 0;
 uint8_t readBuffer(void);
 
 void (*shortCmdHandler)(uint8_t *);
-void (*longCmdHandler)(uint8_t *);
+void (*longCmdHandler)(uart_long_function);
 
-void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uint8_t *))
+
+uart_long_function currentFunc;
+
+void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uart_long_function))
 {
 	shortCmdHandler = shortHandler;
 	longCmdHandler = longHandler;
@@ -126,9 +129,9 @@ void uart_handle(void)
 					currentState = shortCmd;
 					break;
 				}
-				else if (readBuffer() == 0xFF)
+				else if (readBuffer() == 0xFC)
 				{
-					currentState = longCmd;
+					currentState = longCmd1;
 					break;
 				}
 			}
@@ -137,7 +140,7 @@ void uart_handle(void)
 		case shortCmd:
 			if (bytesToRead >= 7)
 			{
-				uart_send((uint8_t *)"OK",2);
+				//uart_send((uint8_t *)"OK",2);
 				uint8_t data[7] = {0};
 				for (uint8_t count = 0; count < 7; count++)
 				{
@@ -147,8 +150,34 @@ void uart_handle(void)
 				currentState = idle;
 			}
 		break;
-		case longCmd:
-			currentState = idle;
+		case longCmd1:
+			if (bytesToRead >= 3)
+			{
+				currentFunc.address = readBuffer();
+				currentFunc.command = readBuffer();
+				currentFunc.length = readBuffer();
+
+				currentFunc.data = malloc(currentFunc.length);
+				currentState = longCmd2;
+			}
+		break;
+		case longCmd2:
+		{
+			if (bytesToRead >= currentFunc.length + 1)
+			{
+				for (uint8_t count = 0; count < currentFunc.length; count++)
+				{
+					currentFunc.data[count] = readBuffer();
+				}
+
+				currentFunc.end = readBuffer();
+
+				longCmdHandler(currentFunc);
+
+				free(currentFunc.data);
+				currentState = idle;
+			}
+		}
 		break;
 		default: break;
 	}
