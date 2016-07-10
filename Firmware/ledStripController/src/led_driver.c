@@ -10,7 +10,7 @@
 #define nop __asm__("nop")
 
 #define COL_COUNT	8
-#define BUF_SIZE	100
+#define BUF_SIZE	1000
 
 #define SYSTICK_ENABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk
 #define SYSTICK_DISABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk
@@ -48,7 +48,7 @@ int8_t beaconBlueStep;
 colour ledStrip[STRIP_SIZE];
 colour colour_lookup[COL_COUNT];
 uint8_t buffer[BUF_SIZE] = {0};
-uint8_t bufferCount = 0;
+uint16_t bufferCount = 0;
 colour targetColour;
 
 colour targetColourDefault;
