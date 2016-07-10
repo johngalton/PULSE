@@ -17,9 +17,9 @@
 
 typedef struct
 {
-	uint8_t blue;
 	uint8_t green;
 	uint8_t red;
+	uint8_t blue;
 	uint8_t dontCare;
 } rgb;
 
@@ -39,6 +39,12 @@ colour get_colour(uint8_t code);
 //B R G X
 //8 8 8 8
 colour beaconColour;
+colour beaconBackground;
+uint8_t beaconMask = 0;
+uint8_t beaconFadeDiv = 5;
+int8_t beaconRedStep;
+int8_t beaconGreenStep;
+int8_t beaconBlueStep;
 colour ledStrip[STRIP_SIZE];
 colour colour_lookup[COL_COUNT];
 uint8_t buffer[BUF_SIZE] = {0};
@@ -50,25 +56,16 @@ void led_init(void)
 
 	//Initialize colour variables
 	beaconColour = colour_lookup[0];
-	//                     0x00BBGGRR
-	/*
-	colour_lookup[0].val = 0x00000000;//Nothing
-	colour_lookup[1].val = 0x000000FF;//Red (Blue)
-	colour_lookup[2].val = 0x0000FFFF;//Yellow (Magenta)
-	colour_lookup[3].val = 0x0000FF00;//Green (Red)
-	colour_lookup[4].val = 0x00FFFF00;//Cyan (Yellow)
-	colour_lookup[5].val = 0x00FF0000;//Blue (Green)
-	colour_lookup[6].val = 0x00FF00FF;//Magenta (Cyan)
-	colour_lookup[7].val = 0x00FFFFFF;//White
-	*/
+	beaconBackground = colour_lookup[0];
+
 	//					   0x00GGRRBB
 	colour_lookup[0].val = 0x00000000;//Nothing
-	colour_lookup[1].val = 0x0000FF00;//Red (Blue)
-	colour_lookup[2].val = 0x00FFFF00;//Yellow (Magenta)
-	colour_lookup[3].val = 0x00FF0000;//Green (Red)
-	colour_lookup[4].val = 0x00FF00FF;//Cyan (Yellow)
-	colour_lookup[5].val = 0x000000FF;//Blue (Green)
-	colour_lookup[6].val = 0x0000FFC0;//Magenta (Cyan)
+	colour_lookup[1].val = 0x0000FF00;//Red
+	colour_lookup[2].val = 0x00FFFF00;//Yellow
+	colour_lookup[3].val = 0x00FF0000;//Green
+	colour_lookup[4].val = 0x00FF00FF;//Cyan
+	colour_lookup[5].val = 0x000000FF;//Blue
+	colour_lookup[6].val = 0x0000FFC0;//Magenta
 	colour_lookup[7].val = 0x00FFFFFF;//White
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
@@ -180,13 +177,55 @@ uint8_t led_push_buffer(uint8_t value)
 void led_set_beacon(uint8_t value)
 {
 	beaconColour = get_colour(value);
+
+	beaconBlueStep = ((beaconBackground.col.blue - beaconColour.col.blue) / beaconFadeDiv) + 1;
+	beaconGreenStep = ((beaconBackground.col.green - beaconColour.col.green) / beaconFadeDiv) + 1;
+	beaconRedStep = ((beaconBackground.col.red - beaconColour.col.red) / beaconFadeDiv) + 1;
+}
+
+void led_set_beacon_background(uint8_t value)
+{
+	beaconBackground = get_colour(value);
+	beaconBackground.col.red >>= 3;
+	beaconBackground.col.green >>= 3;
+	beaconBackground.col.blue >>= 3;
+
+	beaconBlueStep = ((beaconBackground.col.blue - beaconColour.col.blue) / beaconFadeDiv) + 1;
+	beaconGreenStep = ((beaconBackground.col.green - beaconColour.col.green) / beaconFadeDiv) + 1;
+	beaconRedStep = ((beaconBackground.col.red - beaconColour.col.red) / beaconFadeDiv) + 1;
+}
+
+void led_set_beacon_fade_div(uint8_t value)
+{
+	beaconFadeDiv = value;
 }
 
 void led_propagate(void)
 {
-	beaconColour.col.red >>= 1;
-	beaconColour.col.green >>= 1;
-	beaconColour.col.blue >>= 1;
+	if (beaconBackground.val != beaconColour.val)
+	{
+		int16_t tmp = beaconColour.col.red + beaconRedStep;
+
+		if (((tmp > beaconBackground.col.red) && beaconRedStep > 0) || ((tmp < beaconBackground.col.red) && beaconRedStep < 0))
+			beaconColour.col.red = beaconBackground.col.red;
+		else
+			beaconColour.col.red = tmp;
+
+
+		tmp = beaconColour.col.green + beaconGreenStep;
+
+		if (((tmp > beaconBackground.col.green) && beaconGreenStep > 0) || ((tmp < beaconBackground.col.green) && beaconGreenStep < 0))
+			beaconColour.col.green = beaconBackground.col.green;
+		else
+			beaconColour.col.green = tmp;
+
+		tmp = beaconColour.col.blue + beaconBlueStep;
+
+		if (((tmp > beaconBackground.col.blue) && beaconBlueStep > 0) || ((tmp < beaconBackground.col.blue) && beaconBlueStep < 0))
+			beaconColour.col.blue = beaconBackground.col.blue;
+		else
+			beaconColour.col.blue = tmp;
+	}
 
 	ledStrip[10].val = 0;
  	ledStrip[9].val = 0;

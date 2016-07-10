@@ -136,6 +136,12 @@ void shortHandler(uint8_t *data)
 			led_set_all(colour);
 		}
 		break;
+		case 3:
+		{
+			uint8_t colour = data[1 + (2 * (id - 1))];
+			led_set_beacon_background(colour);
+		}
+		break;
 		default:
 		return;
 	}
@@ -164,6 +170,15 @@ void longHandler(uart_long_function data)
 
 			uint16_t value = timer_get_interval();
 			uart_send((uint8_t *)&value,2);
+		}
+		break;
+		case 3:
+		{
+			if (data.length != 1)
+				return;
+
+			uint8_t value = data.data[0];
+			led_set_beacon_fade_div(value);
 		}
 		break;
 	}
