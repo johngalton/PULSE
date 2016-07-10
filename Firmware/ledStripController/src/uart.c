@@ -124,13 +124,16 @@ void uart_handle(void)
 		{
 			while (bytesToRead > 0)
 			{
-				if (readBuffer() == 0xFE)
+				uint8_t byte = readBuffer();
+				if (byte == 0xFE)
 				{
+					uart_send((uint8_t *)"OK",2);
 					currentState = shortCmd;
 					break;
 				}
-				else if (readBuffer() == 0xFC)
+				else if (byte == 0xFC)
 				{
+					uart_send((uint8_t *)"OK",2);
 					currentState = longCmd1;
 					break;
 				}
@@ -153,6 +156,7 @@ void uart_handle(void)
 		case longCmd1:
 			if (bytesToRead >= 3)
 			{
+				//uart_send((uint8_t *)"OK",2);
 				currentFunc.address = readBuffer();
 				currentFunc.command = readBuffer();
 				currentFunc.length = readBuffer();

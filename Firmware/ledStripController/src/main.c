@@ -143,7 +143,7 @@ void shortHandler(uint8_t *data)
 
 void longHandler(uart_long_function data)
 {
-	if (data.address != id && data.address != 0)
+	if (data.address != id)
 		return;
 
 	switch (data.command)
