@@ -10,6 +10,7 @@
 
 #include "stm32l0xx_hal.h"
 #include "debug.h"
+#include "timer.h"
 #include <stdlib.h>
 
 typedef struct

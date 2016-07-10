@@ -142,6 +142,14 @@ void shortHandler(uint8_t *data)
 			led_set_beacon_background(colour);
 		}
 		break;
+		case 4:
+		{
+			uint8_t value = data[2 + (2 * (id - 1))];
+
+			if (value > 0)
+				led_pulse_target();
+		}
+		break;
 		default:
 		return;
 	}

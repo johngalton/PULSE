@@ -49,6 +49,11 @@ void timer_init(void (*handler)(void))
 	TIM2->CR1 |= 1;
 }
 
+uint32_t timer_get_now(void)
+{
+	return sysTime;
+}
+
 void timer_set_interval(uint16_t interval)
 {
 	TIM2->ARR = interval;

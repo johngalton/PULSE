@@ -41,7 +41,7 @@ colour get_colour(uint8_t code);
 colour beaconColour;
 colour beaconBackground;
 uint8_t beaconMask = 0;
-uint8_t beaconFadeDiv = 5;
+uint8_t beaconFadeDiv = 0x10;
 int8_t beaconRedStep;
 int8_t beaconGreenStep;
 int8_t beaconBlueStep;
@@ -49,7 +49,9 @@ colour ledStrip[STRIP_SIZE];
 colour colour_lookup[COL_COUNT];
 uint8_t buffer[BUF_SIZE] = {0};
 uint8_t bufferCount = 0;
+colour targetColour;
 
+colour targetColourDefault;
 void led_init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -57,6 +59,7 @@ void led_init(void)
 	//Initialize colour variables
 	beaconColour = colour_lookup[0];
 	beaconBackground = colour_lookup[0];
+	targetColour.val = targetColourDefault.val = 0x00101010;
 
 	//					   0x00GGRRBB
 	colour_lookup[0].val = 0x00000000;//Nothing
@@ -186,13 +189,18 @@ void led_set_beacon(uint8_t value)
 void led_set_beacon_background(uint8_t value)
 {
 	beaconBackground = get_colour(value);
-	beaconBackground.col.red >>= 3;
-	beaconBackground.col.green >>= 3;
-	beaconBackground.col.blue >>= 3;
+	beaconBackground.col.red >>= 5;
+	beaconBackground.col.green >>= 5;
+	beaconBackground.col.blue >>= 5;
 
 	beaconBlueStep = ((beaconBackground.col.blue - beaconColour.col.blue) / beaconFadeDiv) + 1;
 	beaconGreenStep = ((beaconBackground.col.green - beaconColour.col.green) / beaconFadeDiv) + 1;
 	beaconRedStep = ((beaconBackground.col.red - beaconColour.col.red) / beaconFadeDiv) + 1;
+}
+
+void led_pulse_target(void)
+{
+	targetColour.val = 0x00FFFFFF;
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -202,6 +210,18 @@ void led_set_beacon_fade_div(uint8_t value)
 
 void led_propagate(void)
 {
+	if (targetColour.val != 0x00101010)
+	{
+		targetColour.col.red >>= 1;
+		targetColour.col.green >>= 1;
+		targetColour.col.blue >>= 1;
+
+		if (targetColour.col.red < 0x10)
+		{
+			targetColour.val = 0x00101010;
+		}
+	}
+
 	if (beaconBackground.val != beaconColour.val)
 	{
 		int16_t tmp = beaconColour.col.red + beaconRedStep;
@@ -249,8 +269,8 @@ void led_propagate(void)
 	ledStrip[STRIP_SIZE-1] = get_colour(read_buffer());
 
 	ledStrip[8] = ledStrip[10];
-	ledStrip[10].val = 0x00101010;
-	ledStrip[9].val = 0x00101010;
+	ledStrip[10] = targetColour;//0x00101010;
+	ledStrip[9] = targetColour;//0x00101010;
 }
 
 void send_high(uint8_t run)

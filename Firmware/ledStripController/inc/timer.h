@@ -21,6 +21,7 @@ void timer_init(void (*handler)(void));
 void timer_delay_ms(uint32_t delay);
 void timer_set_interval(uint16_t interval);
 uint16_t timer_get_interval(void);
+uint32_t timer_get_now(void);
 void timer_set_state(timerState newState);
 timerState timer_get_state(void);
 void SysTick_Handler(void);

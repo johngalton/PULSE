@@ -22,6 +22,7 @@ state currentState = idle;
 //129 is only a precaution for now as I'm not 100% sure if DMA count is ever at 0
 uint8_t rxBuffer[128];
 uint8_t readPosition = 0;
+uint32_t lastDataTime = 0;
 
 uint8_t readBuffer(void);
 
@@ -118,6 +119,17 @@ void uart_send(uint8_t *data, uint16_t len)
 
 void uart_handle(void)
 {
+	if (bytesToRead > 0)
+	{
+		DEBUG_Y_LED_ON;
+		lastDataTime = timer_get_now();
+	}
+	else if (timer_get_now() > (lastDataTime + 200))
+	{
+		DEBUG_Y_LED_OFF;
+	}
+
+
 	switch (currentState)
 	{
 		case idle:
