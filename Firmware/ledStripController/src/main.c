@@ -44,7 +44,7 @@ void shortHandler(uint8_t *data);
 void longHandler(uart_long_function data);
 void timHandler(void);
 
-uint8_t id = 2;
+uint8_t id = 3;
 volatile uint8_t led_updated = 0;
 
 int main(void)

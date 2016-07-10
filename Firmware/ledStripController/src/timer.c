@@ -133,7 +133,6 @@ void SysTick_Handler(void)
 
 void TIM2_IRQHandler(void)
 {
-	DEBUG_G_LED_OFF;
 	if (TIM2->SR & 1)
 	{
 		TIM2->SR &= ~(1);
