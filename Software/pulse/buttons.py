@@ -31,7 +31,7 @@ class Buttons:
             logger.error("Serial library not initialised")
         else:
             try:
-                self.ser = serial.Serial("/dev/tty.wchusbserial1420", 9600, timeout=0.5)
+                self.ser = serial.Serial("/dev/tty.wchusbserial1410", 9600, timeout=0.5)
             except SerialException:
                 logger.error("Error initialising serial link")
                 self.ser = None
@@ -51,13 +51,13 @@ class Buttons:
 
         try:
             self.ser.write(output)
-        except OSError:
+        except SerialException:
             logger.error("Error writing to serial port.")
             self.ser = None
 
         try:
             rcvd = self.ser.read(size=6)
-        except OSError:
+        except SerialException:
             logger.error("Error reading from serial port.")
             self.ser = None
 
@@ -67,7 +67,7 @@ class Buttons:
             logger.error("Error: buttons not returning proper data. Check connections and restart.")
             self.ser = None
         else:
-            for i,byte in enumerate(rcvd[1:5]):
+            for i,byte in enumerate(rcvd[1:6]):
                 self.state[i] = ord(byte)
 
             #logger.info("States: %s", str(self.state))
