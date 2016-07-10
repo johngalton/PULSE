@@ -44,7 +44,7 @@ void shortHandler(uint8_t *data);
 void longHandler(uart_long_function data);
 void timHandler(void);
 
-uint8_t id = 1;
+uint8_t id = 2;
 volatile uint8_t led_updated = 0;
 
 int main(void)
@@ -143,7 +143,7 @@ void shortHandler(uint8_t *data)
 
 void longHandler(uart_long_function data)
 {
-	if (data.address != id)
+	if (data.address != id && data.address != 0)
 		return;
 
 	switch (data.command)

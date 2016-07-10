@@ -36,7 +36,7 @@ void timer_init(void (*handler)(void))
 	//Divide the clock down to 1ms
 	TIM2->PSC = 32000;
 	//Up counter so reset to 0
-	TIM2->ARR = 50;
+	TIM2->ARR = 0x16;
 	//			ARR		URS			EN
 	TIM2->CR1 |= (1<<7) | (1<<2);// | (1<<0);
 

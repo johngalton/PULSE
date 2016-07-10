@@ -68,7 +68,7 @@ void led_init(void)
 	colour_lookup[3].val = 0x00FF0000;//Green (Red)
 	colour_lookup[4].val = 0x00FF00FF;//Cyan (Yellow)
 	colour_lookup[5].val = 0x000000FF;//Blue (Green)
-	colour_lookup[6].val = 0x0000FFFF;//Magenta (Cyan)
+	colour_lookup[6].val = 0x0000FFC0;//Magenta (Cyan)
 	colour_lookup[7].val = 0x00FFFFFF;//White
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
@@ -188,6 +188,9 @@ void led_propagate(void)
 	beaconColour.col.green >>= 1;
 	beaconColour.col.blue >>= 1;
 
+	ledStrip[10].val = 0;
+ 	ledStrip[9].val = 0;
+
 	//Move existing LED's down
 	for (uint16_t currentLED = 0; currentLED < (STRIP_SIZE - 1); currentLED++)
 	{
@@ -205,6 +208,10 @@ void led_propagate(void)
 	}
 
 	ledStrip[STRIP_SIZE-1] = get_colour(read_buffer());
+
+	ledStrip[8] = ledStrip[10];
+	ledStrip[10].val = 0x00101010;
+	ledStrip[9].val = 0x00101010;
 }
 
 void send_high(uint8_t run)
