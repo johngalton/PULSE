@@ -9,23 +9,36 @@
 
 #define writePosition (128 - (uint8_t)DMA1_Channel3->CNDTR)
 #define bytesToRead ((128 + (writePosition - readPosition)) % 128)
-#define bytesToEcho ((128 + (writePosition - echoPosition)) % 128)
 #define TXE_Set 	USART1->CR1 |= (1<<3)
 #define TXE_Clear	USART1->CR1 &= ~(1<<3)
-#define TXE			((USART1->CR1 >> 3) & 1)
+#define TXE			(USART1->ISR & (1 << 7))
 #define RXE_Set 	USART1->CR1 |= (1<<2)
 #define RXE			((USART1->CR1 >> 2) & 1)
 
+typedef enum {idle, shortCmd, longCmd} state;
+
+state currentState = idle;
+
 //129 is only a precaution for now as I'm not 100% sure if DMA count is ever at 0
-uint8_t rxBuffer[129];
-
+uint8_t rxBuffer[128];
 uint8_t readPosition = 0;
-uint8_t echoPosition = 0;
 
-void uart_init(void)
+uint8_t readBuffer(void);
+
+void (*shortCmdHandler)(uint8_t *);
+void (*longCmdHandler)(uint8_t *);
+
+void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uint8_t *))
 {
+	shortCmdHandler = shortHandler;
+	longCmdHandler = longHandler;
+
+	//Enable clock for GPIOA
+	RCC->IOPENR |= (1 << 0);
 	//Enable clock for USART1
 	RCC->APB2ENR |= (1 << 14);
+	//DMA CLK
+	RCC->AHBENR |= (1 << 0);
 
 	//We are using PA9 (USART1 TX) and PA10 (USART1 RX)
 	//First we should initialise the GPIO
@@ -39,64 +52,116 @@ void uart_init(void)
 
 	//Now we can start setting up the UART itself
 	//Tx enable Rx Enable
-	TXE_Set;
-	RXE_Set;
+	//TXE_Set;
+	//RXE_Set;
 
 	//Set the baud rate
 	//Clock speed should be HCLK (32MHz)
-	//Assuming oversample of 8
-	//div = 2 * 32M / 9600
-	//div = 6667 approx
-	USART1->BRR = 6667 & 0x0000FFFF;
+	//Assuming oversample of 16
+	//div = 32M / 9600
+	//div = 3333 (0xD05) approx
+	USART1->BRR = 0xD05;//6667 & 0x0000FFFF;
 
+	//Ensure 8 data bits
+	USART1->CR1 &= ~((1 << 28) | (1 << 12));
+	USART1->CR1 |= (1 << 15);
+
+	//0000 0000 0000 0000 0000 0000 0000 0000
+	//00000000
+	USART1->CR2 = 0x00000000;
+
+	//0000 0000 0000 0000 0000 0000 0100 0000
+	//000000C0
+	USART1->CR3 = 0x00000040;
+
+	//0000 0000 0000 0000 0000 0000 0000 1100
+	//00000008
+	USART1->CR1 = 0x0000000A;
+
+	RXE_Set;
+
+	USART1->CR1 |= 1;
+
+	//Select USART1_RX as the input for DMA3
+	DMA1_CSELR->CSELR = 0x00000300;
 	//0010 0000 1010 0000
 	DMA1_Channel3->CCR = 0x20A0;
-	//Buffer size
-	DMA1_Channel3->CNDTR = 128;
 	//Peripheral address is the usart1 read data register
 	DMA1_Channel3->CPAR = (uint32_t)&USART1->RDR;
 	//Memory address is the receive buffer
-	DMA1_Channel3->CMAR = (uint32_t)&rxBuffer;
+	DMA1_Channel3->CMAR = (uint32_t)rxBuffer;
+	//Buffer size
+	DMA1_Channel3->CNDTR = 128;
 
-	//Select USART1 as the input for DMA3
-	DMA1_CSELR->CSELR |= (0x3 << ((3 - 1) * 4));
-	DMA1_CSELR->CSELR &= ~(0x0C << ((3 - 1) * 4));
+	DMA1_Channel3->CCR |= 1;
 
-	//Enable DMA on RX
-	USART1->CR3 |= (1 << 6);
-	//Enable the USART
-	USART1->CR1 |= (1 << 0);
 }
 
 void uart_send(uint8_t *data, uint16_t len)
 {
-	for (uint16_t count = 0; count <= len; count++)
+	//DEBUG_Y_LED_ON;
+	for (uint16_t count = 0; count < len; count++)
 	{
-		//Load data in to the send register
 		USART1->TDR = data[count];
-		//Wait for the TXE to be set
+
 		while (TXE == 0) ;
 	}
 
 	//Wait for Transfer Complete
 	while (((USART1->ISR >> 6) & 1) == 0) ;
+
+	//DEBUG_Y_LED_OFF;
 }
 
 void uart_handle(void)
 {
-	//Echo any necessary bytes
-	while (bytesToEcho > 0)
+	switch (currentState)
 	{
-		uart_send(&rxBuffer[echoPosition], 1);
-		echoPosition = (echoPosition + 1) % 128;
-	}
-
-	//Process necessary data
-	while (bytesToRead > 0)
-	{
-		if (rxBuffer[readPosition] == 0xFE)
+		case idle:
 		{
-
+			while (bytesToRead > 0)
+			{
+				if (readBuffer() == 0xFE)
+				{
+					currentState = shortCmd;
+					break;
+				}
+				else if (readBuffer() == 0xFF)
+				{
+					currentState = longCmd;
+					break;
+				}
+			}
 		}
+		break;
+		case shortCmd:
+			if (bytesToRead >= 7)
+			{
+				uart_send((uint8_t *)"OK",2);
+				uint8_t data[7] = {0};
+				for (uint8_t count = 0; count < 7; count++)
+				{
+					data[count] = readBuffer();
+				}
+				shortCmdHandler(data);
+				currentState = idle;
+			}
+		break;
+		case longCmd:
+			currentState = idle;
+		break;
+		default: break;
 	}
+}
+
+uint8_t readBuffer(void)
+{
+	if (readPosition == writePosition)
+		return 0x00;
+
+	uint8_t value = rxBuffer[readPosition];
+
+	readPosition = (readPosition + 1) % 128;
+
+	return value;
 }

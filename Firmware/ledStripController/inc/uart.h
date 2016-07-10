@@ -9,6 +9,7 @@
 #define INC_UART_H_
 
 #include "stm32l0xx_hal.h"
+#include "debug.h"
 
 typedef struct
 {
@@ -30,7 +31,7 @@ typedef struct
 	uint8_t *data;
 } uart_std_function;
 
-void uart_init(void);
+void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uint8_t *));
 void uart_send(uint8_t *data, uint16_t len);
 void uart_handle(void);
 

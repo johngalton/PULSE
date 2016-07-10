@@ -12,6 +12,7 @@
 void sysClock_init(void);
 
 volatile uint32_t sysTime = 0;
+
 TIM_HandleTypeDef timHandle;
 uint8_t update_led = 0;
 timerState current_state = timer_disabled;
@@ -25,7 +26,7 @@ void timer_init(void)
 	//We ideally want to divide the clock down to 1Hz however this will not be possible from 32MHz
 	//This is because the maximum divide is 65536
 	//Instead lets divide the clock down to 1000Hz (1ms)
-
+/*
 	//Enable CC interrupt 1
 	TIM2->DIER = (1<<1);
 	//Divide the clock down to 1ms
@@ -42,6 +43,7 @@ void timer_init(void)
 	//Enable the interrupts
 	NVIC_EnableIRQ(TIM2_IRQn);
 	NVIC_SetPriority(TIM2_IRQn, 0);
+*/
 }
 
 void timer_set_interval(uint16_t interval)

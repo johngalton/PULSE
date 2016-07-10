@@ -16,6 +16,7 @@ void led_init(void);
 void led_update(void);
 void led_send_colour(uint32_t col);
 uint8_t led_push_buffer(uint8_t value);
+void led_set_beacon(uint8_t value);
 void led_propagate(void);
 
 #endif /* INC_LED_DRIVER_H_ */

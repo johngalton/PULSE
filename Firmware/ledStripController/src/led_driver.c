@@ -9,7 +9,7 @@
 
 #define nop __asm__("nop")
 
-#define COL_COUNT	4
+#define COL_COUNT	8
 #define BUF_SIZE	100
 
 #define SYSTICK_ENABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk
@@ -38,6 +38,7 @@ colour get_colour(uint8_t code);
 //Buffer for the LED strip we have 150 LED's with 24 bit colour
 //B R G X
 //8 8 8 8
+colour beaconColour;
 colour ledStrip[STRIP_SIZE];
 colour colour_lookup[COL_COUNT];
 uint8_t buffer[BUF_SIZE] = {0};
@@ -48,10 +49,16 @@ void led_init(void)
 	GPIO_InitTypeDef GPIO_InitStruct;
 
 	//Initialize colour variables
+	beaconColour = colour_lookup[0];
+	//                     0x00BBGGRR
 	colour_lookup[0].val = 0x00000000;//Nothing
-	colour_lookup[1].val = 0x000000FF;//Blue
-	colour_lookup[2].val = 0x0000FF00;//Red
-	colour_lookup[3].val = 0x00FF0000;//Green
+	colour_lookup[1].val = 0x000000FF;//Red
+	colour_lookup[2].val = 0x0000FFFF;//Yellow
+	colour_lookup[3].val = 0x0000FF00;//Green
+	colour_lookup[4].val = 0x00FFFF00;//Cyan
+	colour_lookup[5].val = 0x00FF0000;//Blue
+	colour_lookup[6].val = 0x00FF00FF;//Magenta
+	colour_lookup[7].val = 0x00FFFFFF;//White
 
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
@@ -78,6 +85,8 @@ void led_update(void)
 	uint8_t isLast = 0;
 	uint32_t maxCount = STRIP_SIZE * 24;
 	uint32_t bitCount = 0;
+//beacon 48
+	uint16_t beaconCount = 48*24;
 
 	do
 	{
@@ -102,6 +111,34 @@ void led_update(void)
 		bitCount++;
 
 	} while (bitCount < maxCount);
+
+
+	bitCount = 0;
+	isLast = 0;
+	mask = 0x00800000;
+
+	do
+	{
+		isLast = mask & 1;
+
+		if (beaconColour.val & mask)
+			send_high(isLast);
+		else
+			send_low(isLast);
+
+		if (isLast)
+		{
+			mask = 0x00800000;
+		}
+		else
+		{
+			mask >>= 1;
+			nop;
+			nop;
+		}
+
+		bitCount++;
+	} while (bitCount < beaconCount);
 
 	SYSTICK_ENABLE;
 }
@@ -130,8 +167,17 @@ uint8_t led_push_buffer(uint8_t value)
 	return 1;
 }
 
+void led_set_beacon(uint8_t value)
+{
+	beaconColour = get_colour(value);
+}
+
 void led_propagate(void)
 {
+	beaconColour.col.red >>= 1;
+	beaconColour.col.green >>= 1;
+	beaconColour.col.blue >>= 1;
+
 	//Move existing LED's down
 	for (uint16_t currentLED = 0; currentLED < (STRIP_SIZE - 1); currentLED++)
 	{
@@ -192,9 +238,6 @@ void send_low(uint8_t run)
 {
 	//Use scope to calculate number of nops
 	GPIOB->BSRR = GPIO_PIN_7;
-	nop;
-	nop;
-	nop;
 	nop;
 	nop;
 	nop;

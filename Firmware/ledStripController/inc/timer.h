@@ -11,6 +11,7 @@
 
 #include "stm32l0xx_hal.h"
 #include "led_driver.h"
+#include "uart.h"
 
 uint8_t update_led;
 
