@@ -42,7 +42,6 @@ class Pulse:
         while True:
             for i in range(1,8):
                 self.poles.beacon([i,0,0])
-                time.sleep(0.5)
                 poles[0] = [i,10]
                 self.poles.pulse(poles)
                 time.sleep(1)
@@ -53,17 +52,13 @@ class Pulse:
         beacons = [0,0,0]
         while(True):
             btnstate = self.btns.update(colour)
-            print btnstate
             for i,state in enumerate(btnstate):
                 if state == 1:
                     logger.info("Press")
                     self.poles.beacon([colour[i],0,0])
-                    time.sleep(0.5)
-
-                    poles[0] = [colour[i],5]
-                    print poles
+                    poles[0] = [colour[i],10]
                     self.poles.pulse(poles)
-                    time.sleep(1)
+                    time.sleep(0.5)
 
 
     def stop(self):

@@ -47,7 +47,6 @@ class Buttons:
         colours = colours[:5]
         colours.extend([0] * (5 - len(colours)))
         output = bytearray([127]+colours)
-        #logger.info("Colours: %s", str(output))
 
         try:
             self.ser.write(output)
@@ -70,6 +69,5 @@ class Buttons:
             for i,byte in enumerate(rcvd[1:6]):
                 self.state[i] = ord(byte)
 
-            #logger.info("States: %s", str(self.state))
 
         return self.state
