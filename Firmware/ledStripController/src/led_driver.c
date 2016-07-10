@@ -172,6 +172,8 @@ uint8_t led_push_buffer(uint8_t value)
 {
 	if (bufferCount == BUF_SIZE)
 		return 0;
+	if (value == 0)
+		return 1;
 
 	buffer[bufferCount++] = value;
 	return 1;
