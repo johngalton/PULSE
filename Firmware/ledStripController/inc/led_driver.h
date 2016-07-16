@@ -10,7 +10,7 @@
 #ifndef INC_LED_DRIVER_H_
 #define INC_LED_DRIVER_H_
 
-#define STRIP_SIZE	150
+#define STRIP_SIZE	200
 
 void led_init(void);
 void led_update(void);

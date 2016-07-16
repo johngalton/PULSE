@@ -7,13 +7,14 @@
 
 #include "uart.h"
 
-#define writePosition (128 - (uint8_t)DMA1_Channel3->CNDTR)
-#define bytesToRead ((128 + (writePosition - readPosition)) % 128)
-#define TXE_Set 	USART1->CR1 |= (1<<3)
-#define TXE_Clear	USART1->CR1 &= ~(1<<3)
-#define TXE			(USART1->ISR & (1 << 7))
-#define RXE_Set 	USART1->CR1 |= (1<<2)
-#define RXE			((USART1->CR1 >> 2) & 1)
+#define writePosition 	(128 - (uint8_t)DMA1_Channel3->CNDTR)
+#define bytesToRead 	((128 + (writePosition - readPosition)) % 128)
+#define TXE_Set 		USART1->CR1 |= (1<<3)
+#define TXE_Clear		USART1->CR1 &= ~(1<<3)
+#define TXE				(USART1->ISR & (1 << 7))
+#define RXE_Set 		USART1->CR1 |= (1<<2)
+#define RXE				((USART1->CR1 >> 2) & 1)
+#define MAX_READ_BYTES	20
 
 typedef enum {idle, shortCmd, longCmd1, longCmd2} state;
 
@@ -129,12 +130,13 @@ void uart_handle(void)
 		DEBUG_Y_LED_OFF;
 	}
 
-
 	switch (currentState)
 	{
 		case idle:
 		{
-			while (bytesToRead > 0)
+			uint8_t byteCount = 0;
+
+			while (bytesToRead > 0 && byteCount++ < MAX_READ_BYTES)
 			{
 				uint8_t byte = readBuffer();
 				if (byte == 0xFE)

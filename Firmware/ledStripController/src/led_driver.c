@@ -264,8 +264,6 @@ void led_propagate(void)
 			ledStrip[currentLED].col.green >>= 1;
 			ledStrip[currentLED].col.blue >>= 1;
 		}
-		else
-			ledStrip[currentLED].val = 0;
 	}
 
 	ledStrip[STRIP_SIZE-1] = get_colour(read_buffer());

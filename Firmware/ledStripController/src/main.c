@@ -58,7 +58,10 @@ int main(void)
 			led_propagate();
 			led_updated = 0;
 		}
-		uart_handle();
+		else
+		{
+			uart_handle();
+		}
 	}
 }
 
