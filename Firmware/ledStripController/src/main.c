@@ -41,40 +41,35 @@
 
 void initialise(void);
 void shortHandler(uint8_t *data);
-void longHandler(uint8_t *data);
+void longHandler(uart_long_function data);
+void timHandler(void);
 
-uint8_t id = 0;
+uint8_t id = 3;
+volatile uint8_t led_updated = 0;
 
 int main(void)
 {
 	initialise();
 
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-	led_push_buffer(1);
-
 	while (1)
 	{
-		uart_handle();
-		led_update();
-		led_propagate();
-		timer_delay_ms(50);
+		if (led_updated == 1)
+		{
+			led_propagate();
+			led_updated = 0;
+		}
+		else
+		{
+			uart_handle();
+		}
 	}
 }
 
 void initialise(void)
 {
 	uart_init(shortHandler, longHandler);
-	timer_init();
 	debug_init();
+	timer_init(timHandler);
 	led_init();
 }
 
@@ -124,8 +119,8 @@ void shortHandler(uint8_t *data)
 	{
 		case 0:
 		{
-			uint8_t colour = data[1];
-			uint8_t length = data[2];
+			uint8_t colour = data[1 + (2 * (id - 1))];
+			uint8_t length = data[2 + (2 * (id - 1))];
 			for (uint8_t count = 0; count < length; count++)
 			{
 				led_push_buffer(colour);
@@ -134,8 +129,28 @@ void shortHandler(uint8_t *data)
 		break;
 		case 1:
 		{
-			uint8_t colour = data[1];
+			uint8_t colour = data[1 + (2 * (id - 1))];
 			led_set_beacon(colour);
+		}
+		break;
+		case 2:
+		{
+			uint8_t colour = data[1 + (2 * (id - 1))];
+			led_set_all(colour);
+		}
+		break;
+		case 3:
+		{
+			uint8_t colour = data[1 + (2 * (id - 1))];
+			led_set_beacon_background(colour);
+		}
+		break;
+		case 4:
+		{
+			uint8_t value = data[2 + (2 * (id - 1))];
+
+			if (value > 0)
+				led_pulse_target();
 		}
 		break;
 		default:
@@ -143,7 +158,45 @@ void shortHandler(uint8_t *data)
 	}
 }
 
-void longHandler(uint8_t *data)
+void longHandler(uart_long_function data)
 {
+	if (data.address != id && data.address != 0)
+		return;
 
+	switch (data.command)
+	{
+		case 1:
+		{
+			if (data.length != 2)
+				return;
+
+			uint16_t value = data.data[0] << 8 | data.data[1];
+			timer_set_interval(value);
+		}
+		break;
+		case 2:
+		{
+			if (data.address == 0)
+				return;
+
+			uint16_t value = timer_get_interval();
+			uart_send((uint8_t *)&value,2);
+		}
+		break;
+		case 3:
+		{
+			if (data.length != 1)
+				return;
+
+			uint8_t value = data.data[0];
+			led_set_beacon_fade_div(value);
+		}
+		break;
+	}
+}
+
+void timHandler(void)
+{
+	led_update();
+	led_updated = 1;
 }

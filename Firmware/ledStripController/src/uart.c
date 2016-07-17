@@ -7,28 +7,33 @@
 
 #include "uart.h"
 
-#define writePosition (128 - (uint8_t)DMA1_Channel3->CNDTR)
-#define bytesToRead ((128 + (writePosition - readPosition)) % 128)
-#define TXE_Set 	USART1->CR1 |= (1<<3)
-#define TXE_Clear	USART1->CR1 &= ~(1<<3)
-#define TXE			(USART1->ISR & (1 << 7))
-#define RXE_Set 	USART1->CR1 |= (1<<2)
-#define RXE			((USART1->CR1 >> 2) & 1)
+#define writePosition 	(128 - (uint8_t)DMA1_Channel3->CNDTR)
+#define bytesToRead 	((128 + (writePosition - readPosition)) % 128)
+#define TXE_Set 		USART1->CR1 |= (1<<3)
+#define TXE_Clear		USART1->CR1 &= ~(1<<3)
+#define TXE				(USART1->ISR & (1 << 7))
+#define RXE_Set 		USART1->CR1 |= (1<<2)
+#define RXE				((USART1->CR1 >> 2) & 1)
+#define MAX_READ_BYTES	20
 
-typedef enum {idle, shortCmd, longCmd} state;
+typedef enum {idle, shortCmd, longCmd1, longCmd2} state;
 
 state currentState = idle;
 
 //129 is only a precaution for now as I'm not 100% sure if DMA count is ever at 0
 uint8_t rxBuffer[128];
 uint8_t readPosition = 0;
+uint32_t lastDataTime = 0;
 
 uint8_t readBuffer(void);
 
 void (*shortCmdHandler)(uint8_t *);
-void (*longCmdHandler)(uint8_t *);
+void (*longCmdHandler)(uart_long_function);
 
-void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uint8_t *))
+
+uart_long_function currentFunc;
+
+void uart_init(void (*shortHandler)(uint8_t *), void (*longHandler)(uart_long_function))
 {
 	shortCmdHandler = shortHandler;
 	longCmdHandler = longHandler;
@@ -115,20 +120,35 @@ void uart_send(uint8_t *data, uint16_t len)
 
 void uart_handle(void)
 {
+	if (bytesToRead > 0)
+	{
+		DEBUG_Y_LED_ON;
+		lastDataTime = timer_get_now();
+	}
+	else if (timer_get_now() > (lastDataTime + 200))
+	{
+		DEBUG_Y_LED_OFF;
+	}
+
 	switch (currentState)
 	{
 		case idle:
 		{
-			while (bytesToRead > 0)
+			uint8_t byteCount = 0;
+
+			while (bytesToRead > 0 && byteCount++ < MAX_READ_BYTES)
 			{
-				if (readBuffer() == 0xFE)
+				uint8_t byte = readBuffer();
+				if (byte == 0xFE)
 				{
+					uart_send((uint8_t *)"OK",2);
 					currentState = shortCmd;
 					break;
 				}
-				else if (readBuffer() == 0xFF)
+				else if (byte == 0xFC)
 				{
-					currentState = longCmd;
+					uart_send((uint8_t *)"OK",2);
+					currentState = longCmd1;
 					break;
 				}
 			}
@@ -137,7 +157,7 @@ void uart_handle(void)
 		case shortCmd:
 			if (bytesToRead >= 7)
 			{
-				uart_send((uint8_t *)"OK",2);
+				//uart_send((uint8_t *)"OK",2);
 				uint8_t data[7] = {0};
 				for (uint8_t count = 0; count < 7; count++)
 				{
@@ -147,8 +167,35 @@ void uart_handle(void)
 				currentState = idle;
 			}
 		break;
-		case longCmd:
-			currentState = idle;
+		case longCmd1:
+			if (bytesToRead >= 3)
+			{
+				//uart_send((uint8_t *)"OK",2);
+				currentFunc.address = readBuffer();
+				currentFunc.command = readBuffer();
+				currentFunc.length = readBuffer();
+
+				currentFunc.data = malloc(currentFunc.length);
+				currentState = longCmd2;
+			}
+		break;
+		case longCmd2:
+		{
+			if (bytesToRead >= currentFunc.length + 1)
+			{
+				for (uint8_t count = 0; count < currentFunc.length; count++)
+				{
+					currentFunc.data[count] = readBuffer();
+				}
+
+				currentFunc.end = readBuffer();
+
+				longCmdHandler(currentFunc);
+
+				free(currentFunc.data);
+				currentState = idle;
+			}
+		}
 		break;
 		default: break;
 	}
