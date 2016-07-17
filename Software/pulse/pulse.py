@@ -35,30 +35,35 @@ class Pulse:
             btnstate = self.btns.update(colour)
             if 1 in btnstate:
                 colour = [colour[5]]+colour[:5]
-            time.sleep(0.2)
+            time.sleep(0.25)
 
     def pole_test(self):
         poles = [[0,0],[0,0],[0,0]]
+        self.poles.set_update_speed(0x00, 12)
         while True:
             for i in range(1,8):
                 self.poles.beacon([i,0,0])
-                poles[0] = [i,10]
+                poles[0] = [1,20]
+                poles[1] = [5,20]
                 self.poles.pulse(poles)
-                time.sleep(1)
+                time.sleep(0.3)
+
 
     def pole_btn_test(self):
         colour = [1,2,3,5,6]
         poles = [[0,0],[0,0],[0,0]]
         beacons = [0,0,0]
+        self.poles.set_update_speed(0x00, 12)
         while(True):
             btnstate = self.btns.update(colour)
             for i,state in enumerate(btnstate):
                 if state == 1:
                     logger.info("Press")
                     self.poles.beacon([colour[i],0,0])
-                    poles[0] = [colour[i],10]
+                    poles[0] = [colour[i],6]
+                    poles[1] = [colour[i],6]
                     self.poles.pulse(poles)
-                    time.sleep(0.5)
+                    #time.sleep(0.2)
 
 
     def stop(self):
