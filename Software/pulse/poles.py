@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 import serial
 from serial.serialutil import SerialException
 
+import struct
+
 class Poles:
 
     def __init__(self):
@@ -35,6 +37,10 @@ class Poles:
             poles.append([col, 0])
         self.update_cmd(0x01, poles)
 
+    def set_update_speed(self, addr, period):
+        period_bytes = list(struct.pack("!H",period))
+        self.cmd(addr, 0x01, period_bytes)
+
     def update_cmd(self, cmdtype, poles):
         # poles: [[Colour1, Length1], ...]
 
@@ -47,6 +53,20 @@ class Poles:
         for pole in poles:
             output.extend(pole)
         output.append(0x00) # Fake Checksum
+        bytesout = bytearray(output)
+
+        try:
+            self.ser.write(bytesout)
+        except SerialException:
+            logger.error("Error writing to serial port.")
+            self.ser = None
+
+    def cmd(self, addr, cmd, data):
+
+        if self.ser is None:
+            return
+
+        output = [0xFC, addr, cmd, len(data)] + data + [0xFD]
         bytesout = bytearray(output)
 
         try:
