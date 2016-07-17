@@ -37,6 +37,7 @@ class Buttons:
                 self.ser = None
 
         self.state = [0] * 5
+        self.rcvd = [0] * 6
         self.rcverr = 0
 
     def update(self, colours):
