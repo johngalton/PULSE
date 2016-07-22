@@ -12,7 +12,11 @@ import ConfigParser
 import logging
 import midi
 import collections
+import threading
+import pygame
+
 logger = logging.getLogger(__name__)
+import time
 
 class Song:
 
@@ -20,27 +24,40 @@ class Song:
         self.location = location
         if not os.path.isdir(location):
             logger.error("Song directory does not exist")
-        if not os.path.exists(location+'/song.ini') or os.path.exists(location+'/guitar.ogg') or os.path.exists(location+'/notes.mid'):
+            return
+        if not os.path.exists(location+'/song.ini') or not os.path.exists(location+'/guitar.ogg') or not os.path.exists(location+'/notes.mid'):
             logger.error("One or more files missing from directory")
+            return
+
 
         self.read_ini()
         self.read_midi()
 
-    def calc_note_length(self, rate):
+    def start(self):
+        pygame.mixer.music.load(self.location+'/guitar.ogg')
+        pygame.mixer.music.play()
+
+    def time(self):
+        return pygame.mixer.music.get_pos()
+
+    def set_update_speed(self, rate):
         # Rate in ms
+        self.update_rate = rate
         for t,items in self.notes.iteritems():
             for note in items:
                 x = int(round(note['dur']/(rate/1000.0)))
                 x = 1 if x < 1 else x
                 note['len'] = x
 
+    def set_delay(self, time):
+        self.delay -= time
 
     def read_ini(self):
         config = ConfigParser.ConfigParser()
         config.read(self.location + '/song.ini')
         self.artist = config.get('song', 'artist')
         self.name = config.get('song', 'name')
-        self.delay = config.getfloat('song', 'delay')/1000 # Seconds
+        self.delay = config.getfloat('song', 'delay') # Seconds
         self.top_note = config.getint('song', 'top_note')
 
     def read_midi(self):
@@ -49,8 +66,15 @@ class Song:
         self.resolution = float(pattern.resolution)
         pattern.make_ticks_abs()
 
-        tempo_events = self.parse_tempo_events(pattern[0])
-        note_events = self.parse_note_events(pattern[1])
+        for track in pattern:
+            if len([True for x in track if isinstance(x, midi.SetTempoEvent)]) > 0:
+                tempo_events = self.parse_tempo_events(track)
+                break
+
+        for track in pattern:
+            if len([True for x in track if isinstance(x, midi.NoteOnEvent)]) > 0:
+                note_events = self.parse_note_events(track)
+                break
 
         self.notes = self.merge_note_tempo_events(note_events, tempo_events)
 

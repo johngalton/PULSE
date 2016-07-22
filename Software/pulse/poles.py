@@ -23,7 +23,7 @@ class Poles:
           logger.error("Serial library not initialised")
       else:
           try:
-              self.ser = serial.Serial("/dev/tty.wchusbserial1420", 9600, timeout=0.5)
+              self.ser = serial.Serial("/dev/tty.wchusbserial1410", 9600, timeout=0.5)
           except SerialException:
               logger.error("Error initialising serial link")
               self.ser = None
