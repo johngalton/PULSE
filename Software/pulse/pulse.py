@@ -32,7 +32,7 @@ class Pulse:
             continue
 
     def song_test(self):
-        self.btns.update(1,2,3,5,6)
+        self.btns.update([1,2,3,5,6])
 
         update = 15
         pole_delay = 190*update
