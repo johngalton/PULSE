@@ -31,12 +31,13 @@ class Buttons:
             logger.error("Serial library not initialised")
         else:
             try:
-                self.ser = serial.Serial("/dev/tty.wchusbserial1410", 9600, timeout=0.5)
+                self.ser = serial.Serial("/dev/tty.wchusbserial1420", 9600, timeout=0.5)
             except SerialException:
                 logger.error("Error initialising serial link")
                 self.ser = None
 
         self.state = [0] * 5
+        self.rcvd = [0] * 6
         self.rcverr = 0
 
     def update(self, colours):
@@ -47,7 +48,6 @@ class Buttons:
         colours = colours[:5]
         colours.extend([0] * (5 - len(colours)))
         output = bytearray([127]+colours)
-        #logger.info("Colours: %s", str(output))
 
         try:
             self.ser.write(output)
@@ -70,6 +70,5 @@ class Buttons:
             for i,byte in enumerate(rcvd[1:6]):
                 self.state[i] = ord(byte)
 
-            #logger.info("States: %s", str(self.state))
 
         return self.state
