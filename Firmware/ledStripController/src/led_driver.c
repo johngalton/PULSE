@@ -203,9 +203,9 @@ void led_set_beacon_background(uint8_t value)
 	beaconRedStep = ((beaconBackground.col.red - beaconColour.col.red) / beaconFadeDiv) + 1;
 }
 
-void led_pulse_target(void)
+void led_pulse_target(uint8_t code)
 {
-	targetColour.val = 0x00FFFFFF;
+	targetColour = get_colour(code);
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -217,14 +217,16 @@ void led_propagate(void)
 {
 	if (targetColour.val != TARGET_COL)
 	{
-		targetColour.col.red >>= 1;
-		targetColour.col.green >>= 1;
-		targetColour.col.blue >>= 1;
+		targetColour.col.red <<= 2;
+		targetColour.col.green <<= 2;
+		targetColour.col.blue <<= 2;
 
-		if (targetColour.col.red < (TARGET_COL & 0xFF))
-		{
-			targetColour.val = TARGET_COL;
-		}
+		targetColour.val |= 0x00030303;
+
+		//if (targetColour.col.red > (TARGET_COL & 0xFF))
+		//{
+		//	targetColour.val = TARGET_COL;
+		//}
 	}
 
 	if (beaconBackground.val != beaconColour.val)

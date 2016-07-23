@@ -19,7 +19,7 @@ uint8_t led_push_buffer(uint8_t value);
 void led_set_beacon(uint8_t value);
 void led_set_beacon_background(uint8_t value);
 void led_set_beacon_fade_div(uint8_t value);
-void led_pulse_target(void);
+void led_pulse_target(uint8_t code);
 void led_propagate(void);
 void led_set_all(uint8_t code);
 
