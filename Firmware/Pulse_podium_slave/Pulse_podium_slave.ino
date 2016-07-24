@@ -20,10 +20,13 @@ byte actualRed = 0;
 byte actualGre = 0;
 byte actualBlu = 0;
 
-unsigned long lastPress = 0;
-unsigned long lastValidPacket = 0;
+unsigned long lastPress = 0;      // used for latch ing button presses for s specific time
+unsigned long lastRxPacket = 0;   // used for the RJ45 jack status indicators
+unsigned long colourUpdate = 0;   // used for the colour fading timings
 
-unsigned long colourUpdate = 0;
+byte buttonAddress = 0;   // 0 is undefined, 1-5 are podium numbers
+
+int stickyTime = 200;
 
 void setup()
 {
@@ -49,14 +52,12 @@ void setup()
 void loop()
 {
 	if (!digitalRead(BUT_SW))
-	{
 		lastPress = millis();
+
+   if ((millis() - lastPress) < stickyTime)
 		digitalWrite(SLVE_LED_YEL, HIGH);
-	}
 	else
-	{
 		digitalWrite(SLVE_LED_YEL, LOW);
-	}
 
 
 	if (!digitalRead(DEBUG_BUT))
@@ -74,48 +75,124 @@ void loop()
 		pixel.show();
 	}
 
+  byte c = Serial.peek();
 
-	if (Serial.available() >= 6)	// START LED1 LED2 LED3 LED4 LED 5
-	{
-		if (Serial.read() == 127)	// START BYTE
-		{
-			lastValidPacket = millis();
-			byte data1 = Serial.read();
-			byte data2 = Serial.read();
-			byte data3 = Serial.read();
-			byte data4 = Serial.read();
-			byte data5 = Serial.read();
+  if (c != -1)
+  {
+    byte newColour = 255;
+  
+    if (c != 0xFF)
+      lastRxPacket = millis();
+  
+    if (c == 0xF0)        // first in chain, message from master
+    {
+      if (Serial.available() >= 6)
+      {
+        buttonAddress = 1;
+        Serial.read();                // discard command byte
+        newColour = Serial.read();    // use colour 1
+        Serial.write(0xF1);
+        Serial.write(Serial.read());  // send on colour 2
+        Serial.write(Serial.read());  // send on colour 3
+        Serial.write(Serial.read());  // send on colour 4
+        Serial.write(Serial.read());  // send on colour 5
+      }
+    }
+    else if (c == 0xF1)   // second in chain, message from button 1
+    {
+      if (Serial.available() >= 5)
+      {
+        buttonAddress = 2;
+        Serial.read();                // discard command byte
+        newColour = Serial.read();    // use colour 2
+        Serial.write(0xF2);
+        Serial.write(Serial.read());  // send on colour 3
+        Serial.write(Serial.read());  // send on colour 4
+        Serial.write(Serial.read());  // send on colour 5
+       }
+    }
+    else if (c == 0xF2)   // third in chain, message from button 2
+    {
+      if (Serial.available() >= 4)
+      {
+        buttonAddress = 3;
+        Serial.read();                // discard command byte
+        newColour = Serial.read();    // use colour 3
+        Serial.write(0xF3);
+        Serial.write(Serial.read());  // send on colour 4
+        Serial.write(Serial.read());  // send on colour 5
+      }
+    }
+    else if (c == 0xF3)   // etc
+    {
+      if (Serial.available() >= 3)
+      {
+        buttonAddress = 4;
+        Serial.read();                // discard command byte
+        newColour = Serial.read();    // use colour 4
+        Serial.write(0xF4);
+        Serial.write(Serial.read());  // send on colour 5
+      }
+    }
+    else if (c == 0xF4)
+    {
+      if (Serial.available() >= 2)
+      {
+        buttonAddress = 5;
+        Serial.read();                // discard command byte
+        newColour = Serial.read();    // use colour 5
+        Serial.print("OK");           // send chain confimation
+      }
+    }
+    else if (c == 0xFA)   // set hold time
+    {
+      if (Serial.available() >= 3)
+      {
+        Serial.read();  // discard command byte
+        byte data1 = Serial.read();
+        byte data2 = Serial.read();
+        stickyTime = ((int)data1 << 8) | (int)data2;
+        Serial.write(0xFA);
+        Serial.write(data1);
+        Serial.write(data2);
+      }
+    }
+    else if ((c & 0xE0) == 0xC0) //request data command (top 3 bits are 110)
+    {
+      byte inData = Serial.read();
+  
+      if (((millis() - lastPress) < stickyTime) && (buttonAddress != 0))
+        Serial.write(inData | (1 << (5 - buttonAddress)));
+      else
+        Serial.write(inData);
+  
+      lastPress = 0;    // reset sticky bit
+    }
+    else
+    {
+      if (c != 0xFF)
+        Serial.read();  // discard first byte in buffer, as we didn't recognise it
+    }
+    
+    if (newColour == 0)
+      setNewTargetColour(0, 0, 0);
+    else if (newColour == 1)
+      setNewTargetColour(255, 0, 0);
+    else if (newColour == 2)
+      setNewTargetColour(255, 255, 0);
+    else if (newColour == 3)
+      setNewTargetColour(0, 255, 0);
+    else if (newColour == 4)
+      setNewTargetColour(0, 255, 255);
+    else if (newColour == 5)
+      setNewTargetColour(0, 0, 255);
+    else if (newColour == 6)
+      setNewTargetColour(255, 0, 255);
+    else if (newColour == 7)
+      setNewTargetColour(255, 255, 255);
+  }
 
-			if (data1 == 0)
-				setNewTargetColour(0, 0, 0);
-			else if (data1 == 1)
-				setNewTargetColour(255, 0, 0);
-			else if (data1 == 2)
-				setNewTargetColour(255, 255, 0);
-			else if (data1 == 3)
-				setNewTargetColour(0, 255, 0);
-			else if (data1 == 4)
-				setNewTargetColour(0, 255, 255);
-			else if (data1 == 5)
-				setNewTargetColour(0, 0, 255);
-			else if (data1 == 6)
-				setNewTargetColour(255, 0, 255);
-			else if (data1 == 7)
-				setNewTargetColour(255, 255, 255);
-
-			Serial.write(127);
-			Serial.write(data2);
-			Serial.write(data3);
-			Serial.write(data4);
-			Serial.write(data5);
-			if ((millis() - lastPress) < 200)
-				Serial.write(1);
-			else
-				Serial.write(0);
-		}
-	}
-
-	if ((millis() - lastValidPacket) < 200)
+	if ((millis() - lastRxPacket) < 200)
 	{
 		digitalWrite(MSTR_LED_GRE, HIGH);
 	}
