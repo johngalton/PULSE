@@ -19,7 +19,6 @@ logger = logging.getLogger(__name__)
 import time
 
 class Song:
-
     def __init__(self, location):
         self.location = location
         if not os.path.isdir(location):
@@ -46,7 +45,8 @@ class Song:
         for t,items in self.notes.iteritems():
             for note in items:
                 x = int(round(note['dur']/(rate/1000.0)))
-                x = 1 if x < 1 else x
+                x = 2 if x < 2 else x       #increased
+                x = x - 4 if x > 10 else x   #added
                 note['len'] = x
 
     def set_delay(self, time):
@@ -145,3 +145,9 @@ class Song:
                 bpm['after_time'] = 0
 
         return bpms
+    
+    def isPlaying(self):
+        if not pygame.mixer.get_init():
+            return False
+        
+        return pygame.mixer.music.get_busy()

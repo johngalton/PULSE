@@ -23,7 +23,7 @@ class Poles:
           logger.error("Serial library not initialised")
       else:
           try:
-              self.ser = serial.Serial("/dev/tty.wchusbserial1410", 9600, timeout=0.5)
+              self.ser = serial.Serial("COM6", 9600, timeout=0.5)
           except SerialException:
               logger.error("Error initialising serial link")
               self.ser = None
@@ -36,6 +36,9 @@ class Poles:
         for col in colours:
             poles.append([col, 0])
         self.update_cmd(0x01, poles)
+       
+    def hit(self, poles):
+        self.update_cmd(0x04, poles)
 
     def set_update_speed(self, addr, period):
         period_bytes = list(struct.pack("!H",period))

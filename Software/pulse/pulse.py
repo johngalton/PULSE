@@ -35,9 +35,14 @@ class Pulse:
         self.btns.update([1,2,3,5,6])
 
         update = 15
-        pole_delay = 190*update
+        pole_delay = 181*update
 
-        s = Song('/Users/daniel/Dropbox/PULSE Audio/Europe - The Final Countdown')
+     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Europe - The Final Countdown')
+     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Coldplay - Viva the something')
+        s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Daft Punk - Derezzed')
+     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Andy - Test Track')
+     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Green Day - Boulevard of Broken Dreams')
+     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Survivor - Eye of the tiger')
         s.set_update_speed(update)
         s.set_delay(pole_delay)
 
@@ -64,6 +69,9 @@ class Pulse:
                 continue
 
             self.poles.pulse(poles)
+        
+        while (s.isPlaying() == True):
+            continue
 
 
     def btn_test(self):
@@ -115,7 +123,8 @@ class Pulse:
 if __name__ == "__main__":
     pulse = Pulse()
     signal.signal(signal.SIGINT, pulse.stop_signal)
-    pygame.init()
+  #  pygame.init() doesn't work on my machine!
+    pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 
     args = str(sys.argv)
     if "btntest" in args:
