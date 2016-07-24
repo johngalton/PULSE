@@ -32,48 +32,94 @@ class Pulse:
             continue
 
     def song_test(self):
+        logger.info("Song test")
         self.btns.update([1,2,3,5,6])
+        logger.info("btn response")
 
-        update = 15
+        update = 20
         pole_delay = 181*update
 
-     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Europe - The Final Countdown')
-     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Coldplay - Viva the something')
-        s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Daft Punk - Derezzed')
-     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Andy - Test Track')
-     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Green Day - Boulevard of Broken Dreams')
-     #   s = Song('C:\Users\cowan\Dropbox\PULSE Audio\Survivor - Eye of the tiger')
+     #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
+        s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
+     #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
+     #   s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+     #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
+     #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
         s.set_update_speed(update)
-        s.set_delay(pole_delay)
+        note_delay = s.delay + (20 * update)
+        pole_delay = s.delay - pole_delay
 
         self.poles.set_update_speed(0x00, update)
 
         s.start()
-
-        for t,notes in s.notes.iteritems():
-            poles = [[0,0],[0,0],[0,0]]
-            for n in notes:
-                pole = n['pitch']
-                if pole <= 2:
-                    poles[0][0] = pole
-                    poles[0][1] = n['len']
-                if pole == 3:
-                    poles[1][0] = 3
-                    poles[1][1] = n['len']
-                if pole >= 4:
-                    poles[2][0] = pole+1
-                    poles[2][1] = n['len']
-
-
-            while s.time()-s.delay < t*1000:
-                continue
-
-            self.poles.pulse(poles)
+        
+        key_iter = s.notes.iterkeys()
+        next_note = key_iter.next()
+        
+        poles = self.get_poles(s, next_note)
+        
+        note_keys = list(s.notes.keys())
+        hit_index = 0
+        hit_delay = 5 * update
+        last_btn_update = 0
         
         while (s.isPlaying() == True):
-            continue
+            if next_note >= 0 and (s.time()-pole_delay) > (next_note):
+                self.poles.pulse(poles)
+                
+                try:
+                    next_note = key_iter.next()
+                    poles = self.get_poles(s, next_note)
+                
+                except StopIteration:
+                    next_note = -1;
+                    poles = [[0,0],[0,0],[0,0]]
+            
+            if (hit_index < len(note_keys) and note_keys[hit_index] + note_delay - hit_delay < s.time()):
+                if (note_keys[hit_index] + note_delay + hit_delay < s.time()):
+                    hit_index += 1
+                    print "miss"
+                    continue
+                
+                state = self.btns.check()
+                
+                if True in state:
+                    temp_hit_index = hit_index
+                    
+                    while (temp_hit_index < len(note_keys) and note_keys[temp_hit_index] + note_delay - hit_delay < s.time()):
+                        match_key = True
+                        
+                        for n in s.notes[note_keys[temp_hit_index]]:
+                            if state[n['pitch'] - 1] == False:
+                                match_key = False
+                                break
+                        
+                        if match_key == True:
+                            print "hit!"
+                            self.poles.hit(self.get_poles(s, note_keys[temp_hit_index]))
+                            hit_index = temp_hit_index + 1
+                            break
+                        else:
+                            temp_hit_index += 1
 
-
+    def get_poles(self, s, next_note):
+        poles = [[0,0],[0,0],[0,0]]
+        
+        for n in s.notes[next_note]:
+            pole = n['pitch']
+            
+            if pole <= 2:
+                poles[0][0] = pole
+                poles[0][1] = n['len']
+            if pole == 3:
+                poles[1][0] = 3
+                poles[1][1] = n['len']
+            if pole >= 4:
+                poles[2][0] = pole+1
+                poles[2][1] = n['len']
+        
+        return poles
+    
     def btn_test(self):
         colour = [1,2,3,4,5,6]
         while(True):

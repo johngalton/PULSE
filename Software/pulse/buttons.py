@@ -25,7 +25,8 @@ from serial.serialutil import SerialException
 class Buttons:
 
     def __init__(self):
-
+        logger.info("Initialising buttons")
+        
         if serial is None:
             self.ser = None
             logger.error("Serial library not initialised")
@@ -39,15 +40,41 @@ class Buttons:
         self.state = [0] * 5
         self.rcvd = [0] * 6
         self.rcverr = 0
+        
+    def check(self):
+        if self.ser is None:
+            return [False] * 5
+        
+        try:
+            self.ser.write([0xC0])
+        except SerialException:
+            logger.error("Error writing to serial port.")
+            self.ser = None
+
+        try:
+            rcvd = self.ser.read(size=1)
+        except SerialException:
+            logger.error("Error reading from serial port.")
+            self.ser = None
+
+        if len(rcvd) != 1 and (bytearray(rcvd)[0] & 0xe0 != 0xc0):
+            logger.error("Error: buttons not returning proper data. Check connections and restart.")
+            
+            return [False] * 5
+        
+        rcvd = bytearray(rcvd)[0] & 0xFF
+        
+        buttons = [rcvd & 16 == 16, rcvd & 8 == 8, rcvd & 4 == 4, rcvd & 2 == 2, rcvd & 1 == 1]
+        
+        return buttons
 
     def update(self, colours):
-
         if self.ser is None:
             return
 
         colours = colours[:5]
         colours.extend([0] * (5 - len(colours)))
-        output = bytearray([127]+colours)
+        output = bytearray([0xF0]+colours)
 
         try:
             self.ser.write(output)
@@ -56,19 +83,12 @@ class Buttons:
             self.ser = None
 
         try:
-            rcvd = self.ser.read(size=6)
+            rcvd = self.ser.read(size=2)
         except SerialException:
             logger.error("Error reading from serial port.")
             self.ser = None
 
-        if len(rcvd) != 6:
-            self.rcverr = self.rcverr + 1
-        elif self.rcverr >= 3:
+        if rcvd != "OK":
             logger.error("Error: buttons not returning proper data. Check connections and restart.")
-            self.ser = None
-        else:
-            for i,byte in enumerate(rcvd[1:6]):
-                self.state[i] = ord(byte)
-
-
-        return self.state
+        
+        return

@@ -17,16 +17,17 @@ import struct
 class Poles:
 
     def __init__(self):
-
-      if serial is None:
-          self.ser = None
-          logger.error("Serial library not initialised")
-      else:
-          try:
-              self.ser = serial.Serial("COM6", 9600, timeout=0.5)
-          except SerialException:
-              logger.error("Error initialising serial link")
-              self.ser = None
+        logger.info("Initialising poles")
+        
+        if serial is None:
+            self.ser = None
+            logger.error("Serial library not initialised")
+        else:
+            try:
+                self.ser = serial.Serial("COM4", 9600, timeout=0.5)
+            except SerialException:
+                logger.error("Error initialising serial link")
+                self.ser = None
 
     def pulse(self, poles):
         self.update_cmd(0x00, poles[:3])
