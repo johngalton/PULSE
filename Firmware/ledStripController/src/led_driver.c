@@ -12,6 +12,8 @@
 #define COL_COUNT	8
 #define BUF_SIZE	1000
 
+#define TARGET_COL	0x00FFFFFF
+
 #define SYSTICK_ENABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk
 #define SYSTICK_DISABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk
 
@@ -52,6 +54,7 @@ uint16_t bufferCount = 0;
 colour targetColour;
 
 colour targetColourDefault;
+
 void led_init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -59,7 +62,7 @@ void led_init(void)
 	//Initialize colour variables
 	beaconColour = colour_lookup[0];
 	beaconBackground = colour_lookup[0];
-	targetColour.val = targetColourDefault.val = 0x00101010;
+	targetColour.val = targetColourDefault.val = TARGET_COL;
 
 	//					   0x00GGRRBB
 	colour_lookup[0].val = 0x00000000;//Nothing
@@ -200,9 +203,9 @@ void led_set_beacon_background(uint8_t value)
 	beaconRedStep = ((beaconBackground.col.red - beaconColour.col.red) / beaconFadeDiv) + 1;
 }
 
-void led_pulse_target(void)
+void led_pulse_target(uint8_t code)
 {
-	targetColour.val = 0x00FFFFFF;
+	targetColour = get_colour(code);
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -212,16 +215,18 @@ void led_set_beacon_fade_div(uint8_t value)
 
 void led_propagate(void)
 {
-	if (targetColour.val != 0x00101010)
+	if (targetColour.val != TARGET_COL)
 	{
-		targetColour.col.red >>= 1;
-		targetColour.col.green >>= 1;
-		targetColour.col.blue >>= 1;
+		targetColour.col.red <<= 2;
+		targetColour.col.green <<= 2;
+		targetColour.col.blue <<= 2;
 
-		if (targetColour.col.red < 0x10)
-		{
-			targetColour.val = 0x00101010;
-		}
+		targetColour.val |= 0x00030303;
+
+		//if (targetColour.col.red > (TARGET_COL & 0xFF))
+		//{
+		//	targetColour.val = TARGET_COL;
+		//}
 	}
 
 	if (beaconBackground.val != beaconColour.val)
@@ -269,6 +274,11 @@ void led_propagate(void)
 	ledStrip[STRIP_SIZE-1] = get_colour(read_buffer());
 
 	ledStrip[8] = ledStrip[10];
+
+	ledStrip[8].col.red >>= 4;
+	ledStrip[8].col.green >>= 4;
+	ledStrip[8].col.blue >>= 4;
+
 	ledStrip[10] = targetColour;//0x00101010;
 	ledStrip[9] = targetColour;//0x00101010;
 }

@@ -147,10 +147,11 @@ void shortHandler(uint8_t *data)
 		break;
 		case 4:
 		{
+			uint8_t col = data[1 + (2 * (id - 1))];
 			uint8_t value = data[2 + (2 * (id - 1))];
 
 			if (value > 0)
-				led_pulse_target();
+				led_pulse_target(col);
 		}
 		break;
 		default:
