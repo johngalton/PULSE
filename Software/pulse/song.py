@@ -107,7 +107,8 @@ class Song:
                         notes[t] = []
                     notes[t].append({
                         'pitch': pitch,
-                        'dur': dur})
+                        'dur': dur,
+                        'time': t})
 
         return notes
 
