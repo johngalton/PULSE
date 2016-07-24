@@ -36,13 +36,13 @@ $FE$00$03$08$05$06$01$0C
 M18
 
 M19
-
+SCOREBOARD
 M20
-
+score=0#013
 M21
-
+delta=325#013
 M22
-
+pulse#013
 M23
 
 M24
