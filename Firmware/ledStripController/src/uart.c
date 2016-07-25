@@ -134,8 +134,6 @@ void uart_handle(void)
 	{
 		case idle:
 		{
-			uint8_t byteCount = 0;
-
 			uint8_t byte = readBuffer();
 			if (byte == 0xFE)
 			{

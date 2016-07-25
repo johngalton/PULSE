@@ -44,7 +44,7 @@ void shortHandler(uint8_t *data);
 void longHandler(uart_long_function data);
 void timHandler(void);
 
-uint8_t id = 3;
+uint8_t id = DEV_ID;
 volatile uint8_t led_updated = 0;
 
 int main(void)
@@ -152,6 +152,18 @@ void shortHandler(uint8_t *data)
 
 			if (value > 0)
 				led_pulse_target(col);
+		}
+		break;
+		case 5:
+		{
+			uint8_t col = data[1+(2*(id-1))];
+			uint8_t offset = data[2+(2*(id-1))];
+
+			//Greatest allowed offset
+			if ((offset+29) > STRIP_SIZE)
+				offset = STRIP_SIZE - 29;
+
+			led_show_logo(col, offset);
 		}
 		break;
 		default:
