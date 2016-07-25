@@ -56,7 +56,13 @@ uint32_t timer_get_now(void)
 
 void timer_set_interval(uint16_t interval)
 {
-	TIM2->ARR = interval;
+	if (interval == 0)
+		timer_set_state(timer_disabled);
+	else
+	{
+		TIM2->ARR = interval;
+		timer_set_state(timer_enabled);
+	}
 }
 
 uint16_t timer_get_interval(void)
