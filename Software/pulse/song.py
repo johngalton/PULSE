@@ -81,27 +81,34 @@ class Song:
     def merge_note_tempo_events(self, note_events, tempo_events):
         notes = collections.OrderedDict()
         i = 0
+        last_t = 0
 
         for tempo_event in tempo_events:
             for n,note_event in enumerate(note_events[i:]):
-
                 if note_event['tick'] >= tempo_event['before_tick'] and tempo_event['before_tick'] is not None:
                     i += n
                     break
+                
+                if note_event['tick'] < tempo_event['after_tick']:
+                    continue
 
                 pitch = note_event['pitch']
                 if pitch < 1 or pitch > 5:
                     continue
 
-                t = tempo_event['after_time'] + (note_event['tick'] - tempo_event['after_tick'])*tempo_event['tick_dur']
+                t = (tempo_event['after_time'] + (note_event['tick'] - tempo_event['after_tick'])*tempo_event['tick_dur']) * 1000
 
                 dur = note_event['dur']*tempo_event['tick_dur']
-
-                if t not in notes:
-                    notes[t] = []
-                notes[t].append({
-                    'pitch': pitch,
-                    'dur': dur})
+                
+                if t >= last_t:
+                    last_t = t
+                    
+                    if t not in notes:
+                        notes[t] = []
+                    notes[t].append({
+                        'pitch': pitch,
+                        'dur': dur,
+                        'time': t})
 
         return notes
 

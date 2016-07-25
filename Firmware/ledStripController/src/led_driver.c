@@ -55,6 +55,14 @@ colour targetColour;
 
 colour targetColourDefault;
 
+#if (DEV_ID==1)
+const uint8_t logo[29] = {1,1,1,1,1,0,1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1};
+#elif (DEV_ID==2)
+const uint8_t logo[29] = {1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1};
+#else
+const uint8_t logo[29] = {1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1};
+#endif
+
 void led_init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -213,15 +221,29 @@ void led_set_beacon_fade_div(uint8_t value)
 	beaconFadeDiv = value;
 }
 
+void led_show_logo(uint8_t code, uint8_t offset)
+{
+	uint8_t position = STRIP_SIZE - 29 - offset;
+	colour logoCol = get_colour(code);
+
+	for (uint8_t count = 0; count < 29; count++)
+	{
+		if (logo[count] == 1)
+			ledStrip[position+count] = logoCol;
+		else
+			ledStrip[position+count] = get_colour(0);
+	}
+}
+
 void led_propagate(void)
 {
 	if (targetColour.val != TARGET_COL)
 	{
-		targetColour.col.red <<= 2;
-		targetColour.col.green <<= 2;
-		targetColour.col.blue <<= 2;
+		targetColour.col.red <<= 1;
+		targetColour.col.green <<= 1;
+		targetColour.col.blue <<= 1;
 
-		targetColour.val |= 0x00030303;
+		targetColour.val |= 0x00010101;
 
 		//if (targetColour.col.red > (TARGET_COL & 0xFF))
 		//{

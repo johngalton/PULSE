@@ -22,5 +22,6 @@ void led_set_beacon_fade_div(uint8_t value);
 void led_pulse_target(uint8_t code);
 void led_propagate(void);
 void led_set_all(uint8_t code);
+void led_show_logo(uint8_t code, uint8_t offset);
 
 #endif /* INC_LED_DRIVER_H_ */

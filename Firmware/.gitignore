@@ -1,3 +1,5 @@
 [Dd]ebug/
 [Rr]elease/
 .metadata/
+.cproject
+.settings/
