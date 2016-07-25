@@ -16,6 +16,8 @@
 
 #define SYSTICK_ENABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk
 #define SYSTICK_DISABLE	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk
+#define GET_POS(x)		((x + bufferPosition) % STRIP_SIZE)
+
 
 typedef struct
 {
@@ -51,7 +53,9 @@ colour ledStrip[STRIP_SIZE];
 colour colour_lookup[COL_COUNT];
 uint8_t buffer[BUF_SIZE] = {0};
 uint16_t bufferCount = 0;
+uint8_t bufferPosition = 0;
 colour targetColour;
+uint8_t notePressed = 0;
 
 colour targetColourDefault;
 
@@ -113,7 +117,10 @@ void led_update(void)
 		if (isLast)
 		{
 			mask = 0x00800000;
-			count++;
+			if (count == (STRIP_SIZE - 1))
+				count = 0;
+			else
+				count++;
 		}
 		else
 		{
@@ -205,6 +212,7 @@ void led_set_beacon_background(uint8_t value)
 
 void led_pulse_target(uint8_t code)
 {
+	notePressed = 1;
 	targetColour = get_colour(code);
 }
 
@@ -254,33 +262,48 @@ void led_propagate(void)
 			beaconColour.col.blue = tmp;
 	}
 
-	ledStrip[10].val = 0;
- 	ledStrip[9].val = 0;
+	ledStrip[GET_POS(10)].val = 0;
+ 	ledStrip[GET_POS(9)].val = 0;
 
 	//Move existing LED's down
-	for (uint16_t currentLED = 0; currentLED < (STRIP_SIZE - 1); currentLED++)
+ 	bufferPosition = (bufferPosition + 1) % STRIP_SIZE;
+
+	for (uint16_t ledCount = 0; ledCount < (STRIP_SIZE - 1); ledCount++)
 	{
-		if (ledStrip[currentLED+1].val > 0)
-			ledStrip[currentLED].val = ledStrip[currentLED+1].val;
-		else if (ledStrip[currentLED].val > 0)
+		uint16_t currentLED = GET_POS(1);
+		uint16_t previousLED = bufferPosition; //0
+
+		if (ledStrip[currentLED].val == 0 && ledStrip[previousLED].val > 0)
 		{
-			//ledStrip[currentLED].val = 0;
+			ledStrip[currentLED] = ledStrip[previousLED];
+
 			ledStrip[currentLED].col.red >>= 1;
 			ledStrip[currentLED].col.green >>= 1;
 			ledStrip[currentLED].col.blue >>= 1;
 		}
+
+		currentLED = (currentLED+1) % STRIP_SIZE;
+		previousLED = (previousLED+1) % STRIP_SIZE;
 	}
 
-	ledStrip[STRIP_SIZE-1] = get_colour(read_buffer());
+	ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
 
-	ledStrip[8] = ledStrip[10];
+	uint8_t afterTargetPos = GET_POS(8);
+	ledStrip[afterTargetPos] = ledStrip[GET_POS(10)];
 
-	ledStrip[8].col.red >>= 4;
-	ledStrip[8].col.green >>= 4;
-	ledStrip[8].col.blue >>= 4;
+	//If the note has been hit we should fade the data or clear it completely
+	if (notePressed)
+	{
+		if (ledStrip[afterTargetPos].val == 0)
+			notePressed = 0;
 
-	ledStrip[10] = targetColour;//0x00101010;
-	ledStrip[9] = targetColour;//0x00101010;
+		ledStrip[afterTargetPos].col.red >>= 4;
+		ledStrip[afterTargetPos].col.green >>= 4;
+		ledStrip[afterTargetPos].col.blue >>= 4;
+	}
+
+	ledStrip[GET_POS(10)] = targetColour;//0x00101010;
+	ledStrip[GET_POS(9)] = targetColour;//0x00101010;
 }
 
 void send_high(uint8_t run)
