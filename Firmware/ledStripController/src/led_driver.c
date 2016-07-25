@@ -217,11 +217,11 @@ void led_propagate(void)
 {
 	if (targetColour.val != TARGET_COL)
 	{
-		targetColour.col.red <<= 2;
-		targetColour.col.green <<= 2;
-		targetColour.col.blue <<= 2;
+		targetColour.col.red <<= 1;
+		targetColour.col.green <<= 1;
+		targetColour.col.blue <<= 1;
 
-		targetColour.val |= 0x00030303;
+		targetColour.val |= 0x00010101;
 
 		//if (targetColour.col.red > (TARGET_COL & 0xFF))
 		//{

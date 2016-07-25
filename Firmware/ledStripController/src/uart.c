@@ -136,21 +136,18 @@ void uart_handle(void)
 		{
 			uint8_t byteCount = 0;
 
-			while (bytesToRead > 0 && byteCount++ < MAX_READ_BYTES)
+			uint8_t byte = readBuffer();
+			if (byte == 0xFE)
 			{
-				uint8_t byte = readBuffer();
-				if (byte == 0xFE)
-				{
-					uart_send((uint8_t *)"OK",2);
-					currentState = shortCmd;
-					break;
-				}
-				else if (byte == 0xFC)
-				{
-					uart_send((uint8_t *)"OK",2);
-					currentState = longCmd1;
-					break;
-				}
+				uart_send((uint8_t *)"OK",2);
+				currentState = shortCmd;
+				break;
+			}
+			else if (byte == 0xFC)
+			{
+				uart_send((uint8_t *)"OK",2);
+				currentState = longCmd1;
+				break;
 			}
 		}
 		break;
