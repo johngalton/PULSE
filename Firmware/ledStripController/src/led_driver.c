@@ -95,7 +95,7 @@ void led_update(void)
 {
 	SYSTICK_DISABLE;
 
-	uint16_t count = 0;
+	uint16_t count = bufferPosition;
 	uint32_t mask = 0x00800000;
 
 	mask = 0x00800000;
