@@ -104,7 +104,7 @@ void led_update(void)
 	uint32_t bitCount = 0;
 //beacon 48
 	uint16_t beaconCount = 48*24;
-
+	uint8_t stripEnd = STRIP_SIZE-1;
 	do
 	{
 		isLast = mask & 1;
@@ -117,7 +117,7 @@ void led_update(void)
 		if (isLast)
 		{
 			mask = 0x00800000;
-			if (count == (STRIP_SIZE - 1))
+			if (count == stripEnd)
 				count = 0;
 			else
 				count++;
@@ -125,8 +125,8 @@ void led_update(void)
 		else
 		{
 			mask >>= 1;
-			nop;
-			nop;
+			//nop;
+			//nop;
 		}
 		bitCount++;
 
@@ -153,8 +153,8 @@ void led_update(void)
 		else
 		{
 			mask >>= 1;
-			nop;
-			nop;
+			//nop;
+			//nop;
 		}
 
 		bitCount++;
@@ -230,11 +230,6 @@ void led_propagate(void)
 		targetColour.col.blue <<= 1;
 
 		targetColour.val |= 0x00010101;
-
-		//if (targetColour.col.red > (TARGET_COL & 0xFF))
-		//{
-		//	targetColour.val = TARGET_COL;
-		//}
 	}
 
 	if (beaconBackground.val != beaconColour.val)
@@ -245,7 +240,6 @@ void led_propagate(void)
 			beaconColour.col.red = beaconBackground.col.red;
 		else
 			beaconColour.col.red = tmp;
-
 
 		tmp = beaconColour.col.green + beaconGreenStep;
 
@@ -310,14 +304,14 @@ void send_high(uint8_t run)
 {
 	//Use scope to calculate number of nops
 	GPIOB->BSRR = GPIO_PIN_7;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
 	nop;
 	nop;
 	nop;
@@ -334,8 +328,8 @@ void send_high(uint8_t run)
 	GPIOB->BRR = GPIO_PIN_7;
 	if (run)
 	{
-		nop;
-		nop;
+		//nop;
+		//nop;
 		nop;
 		nop;
 		nop;
@@ -355,24 +349,24 @@ void send_low(uint8_t run)
 	nop;
 	nop;
 	GPIOB->BRR = GPIO_PIN_7;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
-	nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
+	//nop;
 	if (run)
 	{
-		nop;
-		nop;
+		//nop;
+		//nop;
 		nop;
 		nop;
 		nop;
