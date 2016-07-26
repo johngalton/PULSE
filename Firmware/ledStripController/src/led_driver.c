@@ -268,11 +268,11 @@ void led_propagate(void)
 	//Move existing LED's down
  	bufferPosition = (bufferPosition + 1) % STRIP_SIZE;
 
+	uint16_t currentLED = GET_POS(1);
+	uint16_t previousLED = bufferPosition; //0
+
 	for (uint16_t ledCount = 0; ledCount < (STRIP_SIZE - 1); ledCount++)
 	{
-		uint16_t currentLED = GET_POS(1);
-		uint16_t previousLED = bufferPosition; //0
-
 		if (ledStrip[currentLED].val == 0 && ledStrip[previousLED].val > 0)
 		{
 			ledStrip[currentLED] = ledStrip[previousLED];
