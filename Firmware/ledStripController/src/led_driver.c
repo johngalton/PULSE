@@ -237,9 +237,9 @@ void led_show_logo(uint8_t code, uint8_t offset)
 	for (uint8_t count = 0; count < 29; count++)
 	{
 		if (logo[count] == 1)
-			ledStrip[position+count] = logoCol;
+			ledStrip[GET_POS(position+count)] = logoCol;
 		else
-			ledStrip[position+count] = get_colour(0);
+			ledStrip[GET_POS(position+count)] = get_colour(0);
 	}
 }
 
@@ -313,9 +313,18 @@ void led_propagate(void)
 		if (ledStrip[afterTargetPos].val == 0)
 			notePressed = 0;
 
-		ledStrip[afterTargetPos].col.red >>= 4;
-		ledStrip[afterTargetPos].col.green >>= 4;
-		ledStrip[afterTargetPos].col.blue >>= 4;
+		ledStrip[afterTargetPos].val = 0;
+		ledStrip[GET_POS(7)].val = 0;
+		ledStrip[GET_POS(6)].val = 0;
+		ledStrip[GET_POS(5)].val = 0;
+		ledStrip[GET_POS(4)].val = 0;
+		ledStrip[GET_POS(3)].val = 0;
+		ledStrip[GET_POS(2)].val = 0;
+		ledStrip[GET_POS(1)].val = 0;
+		ledStrip[GET_POS(0)].val = 0;
+		//ledStrip[afterTargetPos].col.red >>= 4;
+		//ledStrip[afterTargetPos].col.green >>= 4;
+		//ledStrip[afterTargetPos].col.blue >>= 4;
 	}
 
 	ledStrip[GET_POS(10)] = targetColour;//0x00101010;
