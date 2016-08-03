@@ -88,8 +88,8 @@ void led_init(void)
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-	//Initialise B7 (led data)
-	GPIO_InitStruct.Pin = GPIO_PIN_7;
+	//Initialise B7 (led data) and B4 (Enable)
+	GPIO_InitStruct.Pin = GPIO_PIN_7 | GPIO_PIN_4;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -97,6 +97,7 @@ void led_init(void)
 
 	/*Set it to off by default */
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
 }
 
 void led_update(void)
