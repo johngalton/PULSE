@@ -106,8 +106,10 @@ class Pulse:
         while (s.isPlaying() == True):
             #Check if something has gone wrong with retrieving the next note and if so break
             if next_note < 0:
-                break;
+                continue
 
+            last_note = s.notes[note_keys[hit_index]]
+                
             #if we have now passed the time the note needs to be sent 
             if s.time() >= (next_note + pole_delay):
                 #Send the note to the poles
@@ -148,7 +150,7 @@ class Pulse:
                         logger.info("Button Pressed In Window")
                         note_hit = True
                         #If the note is longer than 1 then we need to handle a long press
-                        if s.notes[temp_time_key][0]['len'] > 1:
+                        if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             buttonHoldFlag = True
                             note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
                 elif True in state:
@@ -169,6 +171,7 @@ class Pulse:
                     #If we're still within the allowed time then boost the score
                     if s.time() < note_end and btn_state == note_state:
                         self.hold_score()
+                        logger.info("Hold!")
                     #Otherwise remove the flag
                     else:
                         buttonHoldFlag = False
