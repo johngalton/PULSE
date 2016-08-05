@@ -32,7 +32,7 @@ class Buttons:
             logger.error("Serial library not initialised")
         else:
             try:
-                self.ser = serial.Serial("COM3", 9600, timeout=0.5)
+                self.ser = serial.Serial("COM8", 9600, timeout=0.5)
             except SerialException:
                 logger.error("Error initialising serial link")
                 self.ser = None

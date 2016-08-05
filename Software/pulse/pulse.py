@@ -45,7 +45,7 @@ class Pulse:
         update = 15
         pole_delay = 180 * update
         buttons_delay = 3 * update
-        led_hit_window = 20
+        led_hit_window = 30
         
         self.streak = 0
         self.score = 0
@@ -56,12 +56,12 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
      #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
      #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
-        s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
+     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
      #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
      #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
      #   s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
-     #   s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
      #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
      #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
         s.set_update_speed(update)
