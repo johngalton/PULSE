@@ -60,7 +60,7 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
      #   s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
-     #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
+        s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
      #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
      #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
      #   s = Song('C:\workspace\PULSE\Audio\Hotter Than Hell - Dua Lipa')
@@ -68,7 +68,7 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
      #   s = Song('C:\workspace\PULSE\Audio\Ninja Sex Party - NSP Theme Song')
      #   s = Song('C:\workspace\PULSE\Audio\Queen - Dont Stop Me Now')
-        s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
+     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
      #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
      
      
@@ -132,13 +132,12 @@ class Pulse:
             btn_state = self.btns_to_int(state)
             #Get the notes start time
             note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else -1
-            note_end = 0
 
             #If we're in a button window and 
             if note_start >= 0 and s.time() >= (note_start - hit_delay) and s.time() <= note_start + hit_delay:
                 #If this is the first time we've entered this window then play the start tone
                 if windowStart == False:
-                    logger.info("Entered Window")
+                    #logger.info("Entered Window")
                     windowStart = True
                     #startTone.play()
 
@@ -151,7 +150,7 @@ class Pulse:
                         #Score a hit
                         self.poles.hit(self.get_poles(s, note_keys[hit_index]))
                         self.hit()
-                        logger.info("Button Pressed In Window")
+                        #logger.info("Button Pressed In Window")
                         note_hit = True
                         
                         outBy = s.time() - note_start
@@ -161,29 +160,26 @@ class Pulse:
 
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
-                            logger.info("Long note detected.")
+                            #logger.info("Long note detected.")
                             hold_note_state = note_state
                             buttonHoldFlag = True
-                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
-                            logger.info("current time: " + str(s.time()))
-                            logger.info("end time: " + str(note_end))
+                            note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_delay
+                            #logger.info("current time: " + str(s.time()))
+                            #logger.info("end time: " + str(note_end))
+                            #logger.info("duration: " + str(last_note[0]['dur']))
                         else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
                         if s.time() < note_end and btn_state == hold_note_state:
                             self.hold_score()
-                            logger.info("Holding!")
+                            #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
                         #Otherwise remove the flag
                         else:
-                            if (btn_state != hold_note_state):
-                                logger.info("Long note ended due to release of button.")
-                            else:
-                                logger.info("Long note ended due to end of note.")
                             buttonHoldFlag = False
 
                 elif True in state:
                     self.miss();
-                    logger.info("Wrong button pressed")
+                    #logger.info("Wrong button pressed")
             else:
                 #If we've just left a window then play the stop tone
                 if windowStart == True:
@@ -200,18 +196,15 @@ class Pulse:
                     #If we're still within the allowed time then boost the score
                     if s.time() < note_end and btn_state == hold_note_state:
                         self.hold_score()
-                        logger.info("Holding!")
+                        #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
+                        #logger.info("Holding!")
                     #Otherwise remove the flag
                     else:
-                        if (btn_state != hold_note_state):
-                            logger.info("Long note ended due to release of button.")
-                        else:
-                            logger.info("Long note ended due to end of note.")
                         buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
-                elif True in state:
-                    self.miss()
-                    logger.info("Button pressed when not in window")
+                #elif True in state:
+                    #self.miss()
+                    #logger.info("Button pressed when not in window")
 
 
             # #Get the button state
@@ -348,11 +341,11 @@ class Pulse:
         self.scoreboard.score(0)
         self.scoreboard.score(self.score)
         time.sleep(3)
+        self.scoreboard.set_text("      ")
         
         self.scoreboard.pulse()
         
         self.scoreboard.zeros(True)
-        self.scoreboard.score(self.score)
         self.scoreboard.count_time(300)
     
     def btn_pressed(self, btn_state, last_state):
