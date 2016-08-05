@@ -165,7 +165,7 @@ class Pulse:
                             buttonHoldFlag = True
                             note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
                         else:
-                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
+                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len']])
                     elif buttonHoldFlag == True:
                         if s.time() < note_end and btn_state == note_state:
                             self.hold_score()
