@@ -68,7 +68,7 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
      #   s = Song('C:\workspace\PULSE\Audio\Ninja Sex Party - NSP Theme Song')
      #   s = Song('C:\workspace\PULSE\Audio\Queen - Dont Stop Me Now')
-     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
+        s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
      #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
      
      
@@ -157,14 +157,16 @@ class Pulse:
                         outBy = s.time() - note_start
                         hitCount += 1
                         hitDelayTotal += outBy
-                        logger.info("Button out by " + str(outBy))
+                        #logger.info("Button out by " + str(outBy))
 
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             logger.info("Long note detected.")
                             hold_note_state = note_state
                             buttonHoldFlag = True
-                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay + hit_delay
+                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
+                            logger.info("current time: " + str(s.time()))
+                            logger.info("end time: " + str(note_end))
                         else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
