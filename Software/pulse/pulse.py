@@ -44,7 +44,7 @@ class Pulse:
         # Game configuration
         update = 15
         pole_delay = 180 * update
-        buttons_delay = 30 * update
+        buttons_delay = 24 * update
         led_hit_window = 20
         
         self.streak = 0
@@ -90,6 +90,7 @@ class Pulse:
         playedStart = 0
         note_end = 0
         windowStart = False
+        buttonsReleased = True
         
         #While the song is playing
         while (s.isPlaying() == True):
@@ -125,37 +126,41 @@ class Pulse:
                     windowStart = True
                     #startTone.play()
 
-                #Get what the state should be 
-                note_state = self.notes_to_int(s.notes[note_keys[hit_index]])
-                #If we've pressed correctly then we can move on to looking for the new note
-                if btn_state == note_state:
-                    if note_hit == False:
-                        #Score a hit
-                        self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                        self.hit()
-                        logger.info("Button Pressed In Window")
-                        note_hit = True
-                        #If this is a long note we should store the information
-                        #if (s.notes[temp_time_key][0]['len'] > 2):
-                elif True in state:
-                    self.miss();
-                    logger.info("Wrong button pressed")
+                if not True in last_btn_state: 
+                    #Get what the state should be 
+                    note_state = self.notes_to_int(s.notes[note_keys[hit_index]])
+                    #If we've pressed correctly then we can move on to looking for the new note
+                    if btn_state == note_state:
+                        if note_hit == False:
+                            #Score a hit
+                            self.poles.hit(self.get_poles(s, note_keys[hit_index]))
+                            self.hit()
+                            logger.info("Button Pressed In Window")
+                            note_hit = True
+                            #If this is a long note we should store the information
+                            #if (s.notes[temp_time_key][0]['len'] > 2):
+                    elif True in state:
+                        self.miss();
+                        logger.info("Wrong button pressed")
             else:
                 #If we've just left a window then play the stop tone
                 if windowStart== True:
+                
+                    if note_hit == False:
+                        self.miss()
+                        logger.info("Button missed")
+
                     windowStart = False
                     #stopTone.play()
                     hit_index = hit_index + 1
                     note_hit = False
                 
-                    if note_hit == False:
-                        self.miss()
-                        logger.info("Note missed")
                         
                 if True in state:
                     self.miss()
-                    logger.info("Note pressed when not in window")
+                    logger.info("Button pressed when not in window")
 
+            last_btn_state = btn_state
 
             # #Get the button state
             # state = self.btns.check()
