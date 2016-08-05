@@ -54,7 +54,7 @@ class Pulse:
         self.hit_count = 0
         self.miss_count = 0
         
-     #   s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
         
      #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
      #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
@@ -62,7 +62,7 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
      #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
      #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
-        s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
+     #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
      #   s = Song('C:\workspace\PULSE\Audio\Hotter Than Hell - Dua Lipa')
      #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
      #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
@@ -163,11 +163,11 @@ class Pulse:
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             logger.info("Long note detected.")
                             buttonHoldFlag = True
-                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
+                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay + hit_delay
                         else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
-                        if s.time() < note_end and btn_state == note_state:
+                        if s.time() <= note_end and btn_state == note_state:
                             self.hold_score()
                             logger.info("Holding!")
                         #Otherwise remove the flag
