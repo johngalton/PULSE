@@ -86,28 +86,65 @@ class Pulse:
         last_btn_update = 0
         last_btn_state = 0
         last_note = None
-        
+        note_hit = False
         playedStart = 0
+        note_end = 0
+        windowStart = False
         
         #While the song is playing
         while (s.isPlaying() == True):
-            #If the next notes time is not negative (end) and it is time to send the next note
-            if next_note >= 0 and (s.time()-pole_delay) > (next_note):
-                #Send the appropriate LED's
+            #Check if something has gone wrong with retrieving the next note and if so break
+            if next_note < 0:
+                break;
+
+            #if we have now passed the time the note needs to be sent 
+            if s.time() >= (next_note + pole_delay) 
+                #Send the note to the poles
                 self.poles.pulse(poles)
-                
-                #Try to find the next note
+                #Try to get the next note
                 try:
-                    #Get the next note
                     next_note = key_iter.next()
-                    #Get the colour and duration of the notes to send to the pole
                     poles = self.get_poles(s, next_note)
-                #Catch exceeption
                 except StopIteration:
-                    #Cancel next note, send nothing to the poles.
                     next_note = -1;
                     poles = [[0,0],[0,0],[0,0]]
-            
+
+            #now we move on to the buttons
+            #Get the button states
+            state = self.btns.check()
+            btn_state = self.btns_to_int(state)
+            #Get the notes start time
+            note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else -1
+            note_end = 0
+
+            #If we're in a button window
+            if note_start >= 0 and s.time >= (note_start - hit_delay) and s.time <= note_start + hit_delay:
+                #If this is the first time we've entered this window then play the start tone
+                if windowStart == False:
+                    windowStart = True
+                    startTone.play()
+
+                #Get what the state should be 
+                note_state = self.notes_to_int(s.notes[temp_time_key])
+                #If we've pressed correctly then we can move on to looking for the new note
+                if btn_state == note_state and note_hit == False:
+                    #Score a hit
+                    self.poles.hit(self.get_poles(s, temp_time_key))
+                    self.hit()
+                    note_hit = True
+                    #If this is a long note we should store the information
+                    #if (s.notes[temp_time_key][0]['len'] > 2):
+
+            else:
+                #If we've just left a window then play the stop tone
+                if windowStart== True:
+                    windowStart = False
+                    stopTone.play()
+                    hit_index++
+                    note_hit = False
+
+
+"""
             #Get the button state
             state = self.btns.check()
             #Convert to integer (btn_state = int value of state)
@@ -116,7 +153,6 @@ class Pulse:
             cur_time = s.time()
             #Get the time of the current note, add note delay and see if we are out of notes set start to 0
             note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else 0
-            
             
             #if we haven't run out of notes and we are after the start of the hit window
             if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
@@ -211,7 +247,7 @@ class Pulse:
             
             #Track the last button state
             last_btn_state = btn_state
-        
+   """     
         self.scoreboard.pulse()
         
         self.scoreboard.zeros(False)
