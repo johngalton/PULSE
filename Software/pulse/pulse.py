@@ -54,8 +54,9 @@ class Pulse:
         # Game configuration
         update = 15
         pole_delay = 180 * update
-        buttons_delay = 24 * update
-        led_hit_window = 20
+
+        buttons_delay =  24 * update
+        led_hit_window = 25
         
         self.streak = 0
         self.score = 0
