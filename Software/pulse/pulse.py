@@ -63,18 +63,25 @@ class Pulse:
         self.high_streak = 0
         self.hit_count = 0
         self.miss_count = 0
-
-     #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
-     #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
-     #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
-     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
+        
+        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+        
      #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
-     #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
+     #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
      #   s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
-        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+     #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
+     #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
      #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
+     #   s = Song('C:\workspace\PULSE\Audio\Hotter Than Hell - Dua Lipa')
+     #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
+     #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
+     #   s = Song('C:\workspace\PULSE\Audio\Ninja Sex Party - NSP Theme Song')
+     #   s = Song('C:\workspace\PULSE\Audio\Queen - Dont Stop Me Now')
+     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
      #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
+     
+     
         s.set_update_speed(update)
         note_delay = s.delay + buttons_delay
         pole_delay = s.delay - pole_delay
