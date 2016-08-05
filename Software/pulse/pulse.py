@@ -117,6 +117,7 @@ class Pulse:
             if s.time() >= (next_note + pole_delay):
                 #Send the note to the poles
                 self.poles.pulse(poles)
+                self.poles.pulseTop(poles)
                 #Try to get the next note
                 try:
                     next_note = key_iter.next()
@@ -163,9 +164,9 @@ class Pulse:
                             logger.info("Long note detected.")
                             buttonHoldFlag = True
                             note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
-                        else
+                        else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
-                    elif buttonHoldFlag == True
+                    elif buttonHoldFlag == True:
                         if s.time() < note_end and btn_state == note_state:
                             self.hold_score()
                             logger.info("Holding!")

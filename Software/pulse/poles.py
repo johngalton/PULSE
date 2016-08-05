@@ -31,6 +31,9 @@ class Poles:
 
     def pulse(self, poles):
         self.update_cmd(0x00, poles[:3])
+        
+    def pulseTop(self, poles):
+        self.update_cmd(0x01, poles[:3])
 
     def beacon(self, colours):
         poles = []
