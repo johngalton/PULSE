@@ -35,7 +35,7 @@ C_DEPS += \
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross GCC Compiler'
-	arm-none-eabi-gcc -std=c99 -DSTM32L052xx -DDEV_ID=2 -DUSE_STDPERIPH_DRIVER -I"C:\Users\John\Documents\GitHub\PULSE\Firmware\Drivers\CMSIS\Include" -I"C:\Users\John\Documents\GitHub\PULSE\Firmware\ledStripController\inc" -I"C:\Users\John\Documents\GitHub\PULSE\Firmware\Drivers\CMSIS\Device\ST\STM32L0xx\Include" -I"C:\Users\John\Documents\GitHub\PULSE\Firmware\Drivers\STM32L0xx_HAL_Driver\Inc" -O2 -g -Wall -c -fmessage-length=0 -mthumb -mcpu=cortex-m0plus -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	arm-none-eabi-gcc -std=c99 -DSTM32L052xx -DDEV_ID=2 -DUSE_STDPERIPH_DRIVER -I"C:\Users\ja9g1\Documents\Git Projects\PULSE\Firmware\Drivers\CMSIS\Include" -I"C:\Users\ja9g1\Documents\Git Projects\PULSE\Firmware\ledStripController\inc" -I"C:\Users\ja9g1\Documents\Git Projects\PULSE\Firmware\Drivers\CMSIS\Device\ST\STM32L0xx\Include" -I"C:\Users\ja9g1\Documents\Git Projects\PULSE\Firmware\Drivers\STM32L0xx_HAL_Driver\Inc" -O2 -g -Wall -c -fmessage-length=0 -mthumb -mcpu=cortex-m0plus -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
