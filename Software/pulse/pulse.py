@@ -170,13 +170,13 @@ class Pulse:
                     if s.time() < note_end and btn_state == note_state:
                         self.hold_score()
                     #Otherwise remove the flag
-                    else
+                    else:
                         buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
                 elif True in state:
                     self.miss()
                     logger.info("Button pressed when not in window")
-                else
+                else:
                     note_hit = false
 
 
