@@ -157,16 +157,15 @@ class Pulse:
                         outBy = s.time() - note_start
                         hitCount += 1
                         hitDelayTotal += outBy
-                        logger.info("Button out by " + str(outBy)
+                        logger.info("Button out by " + str(outBy))
 
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             logger.info("Long note detected.")
                             buttonHoldFlag = True
-                            hold_note_state = note_state
-                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay + buttons_delay
+                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay + hit_delay
                         else:
-                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len']])
+                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
                         if s.time() < note_end and btn_state == hold_note_state:
                             self.hold_score()
@@ -317,7 +316,7 @@ class Pulse:
             # last_btn_state = btn_state
   
 
-        logger.info("Average: " + str(hitDelayTotal / hitCount)
+        logger.info("Average: " + str(hitDelayTotal / hitCount))
 
         self.scoreboard.pulse()
         
