@@ -17,7 +17,7 @@ from serial.serialutil import SerialException
 class Scoreboard:
 
     def __init__(self):
-        logger.info("Initialising buttons")
+        logger.info("Initialising scoreboard")
         
         if serial is None:
             self.ser = None
