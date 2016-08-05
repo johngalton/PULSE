@@ -177,7 +177,7 @@ class Pulse:
                     self.miss()
                     logger.info("Button pressed when not in window")
                 else:
-                    note_hit = false
+                    note_hit = False
 
 
             # #Get the button state
