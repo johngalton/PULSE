@@ -106,19 +106,21 @@ class Pulse:
             cur_time = s.time()
             note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else 0
             
+            logger.info(hit_index)
+            
             if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
                 if (playedStart == 0):
                     startTone.play()
-                    playedStart = 1;
-                if (note_start + hit_delay < cur_time):
+                    playedStart = 1
+                if (note_start + hit_delay < cur_time):     # if the note is over, advance
                     self.miss()
                     hit_index += 1
                     stopTone.play()
-                    playedStart = 0;
+                    playedStart = 0
                     continue
+                                    
                 
-                
-                if True in state and btn_state != last_btn_state:
+                if True in state and btn_state != last_btn_state:     # if a button has been pressed
                     temp_hit_index = hit_index
                     temp_note_start = note_start
                     temp_time_key = note_keys[temp_hit_index]
