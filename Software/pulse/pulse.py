@@ -44,8 +44,8 @@ class Pulse:
         # Game configuration
         update = 15
         pole_delay = 180 * update
-        buttons_delay = 3 * update
-        led_hit_window = 30
+        buttons_delay = 30 * update
+        led_hit_window = 20
         
         self.streak = 0
         self.score = 0
@@ -158,17 +158,18 @@ class Pulse:
             if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
                 #If we haven't already then play the start beep
                 if (playedStart == 0):
-                    startTone.play()
+                 #   startTone.play()
                     playedStart = 1;
                 #If we're now past the end of the hit window
                 #NOTE we will not land here if you hit the note
                 if (note_start + hit_delay < cur_time):
                     #Resets streak
                     self.miss()
+     #               logger.info("End of window, no presses")
                     #Lets look for the next note now
                     hit_index += 1
                     #Play the stop tone, we never hit it... :(
-                    stopTone.play()
+                  #  stopTone.play()
                     #Reset the start tone flag
                     playedStart = 0
                     #Forget the rest of the loop...
@@ -192,6 +193,7 @@ class Pulse:
                             #If we've already hit a wrong note then kill the multiplier 
                             if hit_index != temp_hit_index:
                                 self.miss()
+                                logger.info("Wrong button ")
                             
                             #Tell the poles you've hit and register a hit
                             self.poles.hit(self.get_poles(s, temp_time_key))
