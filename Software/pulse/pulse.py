@@ -34,16 +34,6 @@ class Pulse:
         while True:
             continue
 
-    def buttons_been_pressed(new, old):
-        res = old;
-        for (index in range(1,len(old)))
-            if (new[index] == True and old[index] == False)
-                res[index] = True
-            else
-                res[index] = False
-
-        return res
-
     def song_test(self):
         self.scoreboard.pulse()
         self.scoreboard.zeros(True)
