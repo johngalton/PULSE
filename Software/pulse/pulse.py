@@ -143,6 +143,7 @@ class Pulse:
                 note_state = self.notes_to_int(s.notes[note_keys[hit_index]])
                 #If we've pressed correctly then we can move on to looking for the new note
                 if btn_state == note_state:
+                    #If we haven't yet pressed thisnote
                     if note_hit == False:
                         #Score a hit
                         self.poles.hit(self.get_poles(s, note_keys[hit_index]))
@@ -157,7 +158,6 @@ class Pulse:
             else:
                 #If we've just left a window then play the stop tone
                 if windowStart== True:
-                
                     if note_hit == False:
                         self.miss()
                         logger.info("Button missed")
@@ -165,7 +165,6 @@ class Pulse:
                     windowStart = False
                     #stopTone.play()
                     hit_index = hit_index + 1
-                    note_hit = False
                 
                 #If we're not in a window and a button is pressed then this is an error
                 if True in state and True not in last_state:
