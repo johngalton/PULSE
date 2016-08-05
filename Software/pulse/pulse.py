@@ -101,7 +101,7 @@ class Pulse:
         windowStart = False
         buttonPressed = False
         buttonHoldFlag = False
-
+        hold_note_state = None
         hitCount = 0
         hitDelayTotal = 0.0
         
@@ -163,16 +163,20 @@ class Pulse:
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             logger.info("Long note detected.")
                             buttonHoldFlag = True
-                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
+                            hold_note_state = note_state
+                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay + buttons_delay
                         else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len']])
                     elif buttonHoldFlag == True:
-                        if s.time() < note_end and btn_state == note_state:
+                        if s.time() < note_end and btn_state == hold_note_state:
                             self.hold_score()
                             logger.info("Holding!")
                         #Otherwise remove the flag
                         else:
-                            logger.info("Long note ended.")
+                            if (btn_state != hold_note_state)
+                                logger.info("Long note ended due to release of button.")
+                            else
+                                logger.info("Long note ended due to end of note.")
                             buttonHoldFlag = False
 
                 elif True in state:
@@ -191,12 +195,15 @@ class Pulse:
                 #If we're in a hold state
                 if buttonHoldFlag == True:
                     #If we're still within the allowed time then boost the score
-                    if s.time() < note_end and btn_state == note_state:
+                    if s.time() < note_end and btn_state == hold_note_state:
                         self.hold_score()
                         logger.info("Holding!")
                     #Otherwise remove the flag
                     else:
-                        logger.info("Long note ended.")
+                            if (btn_state != hold_note_state)
+                                logger.info("Long note ended due to release of button.")
+                            else
+                                logger.info("Long note ended due to end of note.")
                         buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
                 elif True in state:
