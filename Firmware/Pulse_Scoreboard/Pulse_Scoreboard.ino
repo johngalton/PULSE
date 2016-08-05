@@ -31,18 +31,18 @@ void setup()
 
   pulse();
     
-  Serial.begin(9600);
+  Serial1.begin(9600);
 }
 
 void loop()
 {
-  if (Serial.available())
+  if (Serial1.available())
   {
     if ((bufPos != -1) || (useStartChar == false))   //we have already started
     {
       if (bufPos == -1)
         bufPos = 0;
-      char inChar = Serial.read();
+      char inChar = Serial1.read();
       if ((inChar == 13) || (inChar == 10)) //EOL
       {
         serBuf[bufPos] = 0;      //null terminate
@@ -58,13 +58,13 @@ void loop()
         {
           if (strstr(command, "text") != NULL)
           {
-            Serial.println("OK");
+            Serial1.println("OK");
             setDisplayText(data);
             scoreCount = -1;
           }
           else if (strstr(command, "numb") != NULL)
           {
-            Serial.println("OK");
+            Serial1.println("OK");
             scoreCount = atol(data);
             setDisplayNum(scoreCount);
           }
@@ -72,7 +72,7 @@ void loop()
           {
             long newScore = atol(data);
             
-            Serial.println("OK");
+            Serial1.println("OK");
             if (scoreCount == -1)
             {
               setDisplayNum(newScore);
@@ -115,7 +115,7 @@ void loop()
           {
             if (scoreCount != -1)
             {
-              Serial.println("OK");
+              Serial1.println("OK");
               long target = scoreCount + atol(data);
               long stepSize = ((target - scoreCount) / countSteps);
               if (stepSize == 0)
@@ -131,13 +131,13 @@ void loop()
             }
             else
             {
-              Serial.println("Score not currently displayed");
+              Serial1.println("Score not currently displayed");
             }
           }
           else if (strstr(command, "countTime") != NULL)
           {
             countSteps = (atoi(data) / 10);
-            Serial.println("OK");
+            Serial1.println("OK");
           }
           else if (strstr(command, "showLeadingZeros") != NULL)
           {
@@ -146,18 +146,18 @@ void loop()
               showLeadingZeros = false;
               if (scoreCount != -1)
                 setDisplayNum(scoreCount);
-              Serial.println("OK");
+              Serial1.println("OK");
             }
             else if ((data[0] == '1') || (data[0] == 'y'))
             {
               showLeadingZeros = true;
               if (scoreCount != -1)
                 setDisplayNum(scoreCount);
-              Serial.println("OK");
+              Serial1.println("OK");
             }
             else
             {
-              Serial.println("Invalid parameter");
+              Serial1.println("Invalid parameter");
             }
           }
           else if (strstr(command, "bright") != NULL)
@@ -167,34 +167,34 @@ void loop()
             {
               brightness = newBrightness;
               updateBrightness();
-              Serial.println("OK");
+              Serial1.println("OK");
             }
             else
             {
-              Serial.println("Out of range");
+              Serial1.println("Out of range");
             }
           }
           else
           {
-            Serial.println("Invalid command");
+            Serial1.println("Invalid command");
           }
         }
         else if (strstr(command, "clear") != NULL)
         {
-          Serial.println("OK");
+          Serial1.println("OK");
           clearDisplay();
           scoreCount = -1;
         }
         else if (strstr(command, "pulse") != NULL)
         {
-          Serial.println("OK");
+          Serial1.println("OK");
           pulse();
           scoreCount = -1;
         }
         else
         {
           if (strlen(serBuf) > 0)
-            Serial.println("Invalid command format");
+            Serial1.println("Invalid command format");
         }
         bufPos = -1;
       }
@@ -206,7 +206,7 @@ void loop()
     }
     else
     {
-      if (Serial.read() == '!') //start char
+      if (Serial1.read() == '!') //start char
         bufPos = 0;
     }
   }
