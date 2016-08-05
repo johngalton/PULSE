@@ -88,8 +88,8 @@ void led_init(void)
 	//Enable clock for GPIOB
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-	//Initialise B7 (led data)
-	GPIO_InitStruct.Pin = GPIO_PIN_7;
+	//Initialise B7 (led data) and B4 (Enable)
+	GPIO_InitStruct.Pin = GPIO_PIN_7 | GPIO_PIN_4;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -97,6 +97,7 @@ void led_init(void)
 
 	/*Set it to off by default */
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
 }
 
 void led_update(void)
@@ -237,9 +238,9 @@ void led_show_logo(uint8_t code, uint8_t offset)
 	for (uint8_t count = 0; count < 29; count++)
 	{
 		if (logo[count] == 1)
-			ledStrip[position+count] = logoCol;
+			ledStrip[GET_POS(position+count)] = logoCol;
 		else
-			ledStrip[position+count] = get_colour(0);
+			ledStrip[GET_POS(position+count)] = get_colour(0);
 	}
 }
 
@@ -313,9 +314,18 @@ void led_propagate(void)
 		if (ledStrip[afterTargetPos].val == 0)
 			notePressed = 0;
 
-		ledStrip[afterTargetPos].col.red >>= 4;
-		ledStrip[afterTargetPos].col.green >>= 4;
-		ledStrip[afterTargetPos].col.blue >>= 4;
+		ledStrip[afterTargetPos].val = 0;
+		ledStrip[GET_POS(7)].val = 0;
+		ledStrip[GET_POS(6)].val = 0;
+		ledStrip[GET_POS(5)].val = 0;
+		ledStrip[GET_POS(4)].val = 0;
+		ledStrip[GET_POS(3)].val = 0;
+		ledStrip[GET_POS(2)].val = 0;
+		ledStrip[GET_POS(1)].val = 0;
+		ledStrip[GET_POS(0)].val = 0;
+		//ledStrip[afterTargetPos].col.red >>= 4;
+		//ledStrip[afterTargetPos].col.green >>= 4;
+		//ledStrip[afterTargetPos].col.blue >>= 4;
 	}
 
 	ledStrip[GET_POS(10)] = targetColour;//0x00101010;

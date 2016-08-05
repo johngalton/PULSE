@@ -38,6 +38,7 @@
 #include "led_driver.h"
 #include "timer.h"
 #include "uart.h"
+#include <math.h>
 
 void initialise(void);
 void shortHandler(uint8_t *data);
@@ -49,6 +50,10 @@ volatile uint8_t led_updated = 0;
 
 int main(void)
 {
+	float value = 0.2;
+
+	value = log(value);
+
 	initialise();
 
 	while (1)

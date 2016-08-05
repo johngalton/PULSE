@@ -41,7 +41,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-arm-none-eabi-objcopy -O srec ledStripController.elf ledStripController.s19
+	-arm-none-eabi-objcopy -O srec ledStripController.elf pole1.s19
 	-@echo ' '
 
 .PHONY: all clean dependents

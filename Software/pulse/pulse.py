@@ -40,26 +40,38 @@ class Pulse:
         self.scoreboard.score(0)
         
         self.btns.update([1,2,3,5,6])
-
-        update = 20
+    
+        # Game configuration
+        update = 15
         pole_delay = 180 * update
+        buttons_delay = 3 * update
+        led_hit_window = 30
+        
         self.streak = 0
         self.score = 0
         self.high_streak = 0
         self.hit_count = 0
         self.miss_count = 0
 
-        s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
+     #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
+     #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
+     #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
+     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
+     #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
+     #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
      #   s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
-     #   s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
      #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
      #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
         s.set_update_speed(update)
-        note_delay = s.delay + (18 * update)
+        note_delay = s.delay + buttons_delay
         pole_delay = s.delay - pole_delay
 
         self.poles.set_update_speed(0x00, update)
+		
+        startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
+        stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
 
         s.start()
         
@@ -69,11 +81,13 @@ class Pulse:
         poles = self.get_poles(s, next_note)
         
         note_keys = list(s.notes.keys())
+        hit_delay = (led_hit_window / 2) * update
         hit_index = 0
-        hit_delay = 8 * update
         last_btn_update = 0
         last_btn_state = 0
         last_note = None
+        
+        playedStart = 0
         
         while (s.isPlaying() == True):
             if next_note >= 0 and (s.time()-pole_delay) > (next_note):
@@ -89,34 +103,49 @@ class Pulse:
             
             state = self.btns.check()
             btn_state = self.btns_to_int(state)
+            cur_time = s.time()
+            note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else 0
             
-            if (hit_index < len(note_keys) and note_keys[hit_index] + note_delay - hit_delay < s.time()):
-                if (note_keys[hit_index] + note_delay + hit_delay < s.time()):
+            if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
+                if (playedStart == 0):
+                    startTone.play()
+                    playedStart = 1;
+                if (note_start + hit_delay < cur_time):
                     self.miss()
                     hit_index += 1
+                    stopTone.play()
+                    playedStart = 0;
                     continue
                 
                 
                 if True in state and btn_state != last_btn_state:
                     temp_hit_index = hit_index
+                    temp_note_start = note_start
+                    temp_time_key = note_keys[temp_hit_index]
                     
-                    while (temp_hit_index < len(note_keys) and note_keys[temp_hit_index] + note_delay - hit_delay < s.time()):
-                        note_state = self.notes_to_int(s.notes[note_keys[temp_hit_index]])
+                    while (temp_hit_index < len(note_keys) and temp_note_start - hit_delay < s.time()):
+                        note_state = self.notes_to_int(s.notes[temp_time_key])
                         
                         if note_state == btn_state:
                             if hit_index != temp_hit_index:
                                 self.miss()
                             
-                            self.poles.hit(self.get_poles(s, note_keys[temp_hit_index]))
+                            self.poles.hit(self.get_poles(s, temp_time_key))
                             self.hit()
                             hit_index = temp_hit_index + 1
                             
-                            if (s.notes[note_keys[temp_hit_index]][0]['len'] > 2):
-                                last_note = s.notes[note_keys[temp_hit_index]]
+                            if (s.notes[temp_time_key][0]['len'] > 2):
+                                last_note = s.notes[temp_time_key]
                             
                             break
                         else:
                             temp_hit_index += 1
+                            
+                            if temp_hit_index < len(note_keys):
+                                temp_note_start = note_keys[temp_hit_index] + note_delay
+                                temp_time_key = note_keys[temp_hit_index]
+                            else:
+                                break
             else:
                 if btn_state != last_btn_state:
                     last_note = None
@@ -124,7 +153,9 @@ class Pulse:
                     if self.btn_pressed(btn_state, last_btn_state):
                         self.miss()
                 elif last_note != None and True in state:
-                    if (last_note[0]['len'] * update) + last_note[0]['time'] + note_delay < s.time():
+                    last_note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
+                    
+                    if last_note_end < s.time():
                         last_note = None
                     else:
                         self.hold_score()
