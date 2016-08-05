@@ -54,7 +54,7 @@ class Pulse:
         self.hit_count = 0
         self.miss_count = 0
         
-        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
+     #   s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
         
      #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
      #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
@@ -62,7 +62,7 @@ class Pulse:
      #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
      #   s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
      #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
-     #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
+        s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
      #   s = Song('C:\workspace\PULSE\Audio\Hotter Than Hell - Dua Lipa')
      #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
      #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
@@ -157,7 +157,7 @@ class Pulse:
                         outBy = s.time() - note_start
                         hitCount += 1
                         hitDelayTotal += outBy
-                        logger.info("Button out by " + str(outBy)
+                        logger.info("Button out by " + str(outBy))
 
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
@@ -165,7 +165,7 @@ class Pulse:
                             buttonHoldFlag = True
                             note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
                         else:
-                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len']])
+                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
                         if s.time() < note_end and btn_state == note_state:
                             self.hold_score()
@@ -310,7 +310,7 @@ class Pulse:
             # last_btn_state = btn_state
   
 
-        logger.info("Average: " + str(hitDelayTotal / hitCount)
+        logger.info("Average: " + str(hitDelayTotal / hitCount))
 
         self.scoreboard.pulse()
         
