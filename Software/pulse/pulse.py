@@ -138,7 +138,7 @@ class Pulse:
             note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else -1
             note_end = 0
 
-            #If we're in a button window and haven't handled it yet
+            #If we're in a button window and 
             if note_start >= 0 and s.time() >= (note_start - hit_delay) and s.time() <= note_start + hit_delay:
                 #If this is the first time we've entered this window then play the start tone
                 if windowStart == False:
@@ -157,14 +157,16 @@ class Pulse:
                         self.hit()
                         logger.info("Button Pressed In Window")
                         note_hit = True
-                        #If this is a long note we should store the information
-                        #if (s.notes[temp_time_key][0]['len'] > 2):
+                        #If the note is longer than 1 then we need to handle a long press
+                        if s.notes[temp_time_key][0]['len'] > 1:
+                            buttonHoldFlag = True
+                            note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
                 elif True in state:
                     self.miss();
                     logger.info("Wrong button pressed")
             else:
                 #If we've just left a window then play the stop tone
-                if windowStart== True:
+                if windowStart == True:
                     if note_hit == False:
                         self.miss()
                         logger.info("Button missed")
@@ -172,14 +174,21 @@ class Pulse:
                     windowStart = False
                     #stopTone.play()
                     hit_index = hit_index + 1
-                
+                #If we're in a hold state
+                if buttonHoldFlag == True:
+                    #If we're still within the allowed time then boost the score
+                    if s.time() < note_end and btn_state == note_state:
+                        self.hold_score()
+                    #Otherwise remove the flag
+                    else
+                        buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
-                if True in state and True not in last_state:
+                elif True in state:
                     self.miss()
                     logger.info("Button pressed when not in window")
+                else
+                    note_hit = false
 
-            last_btn_state = btn_state
-            last_state = state
 
             # #Get the button state
             # state = self.btns.check()
