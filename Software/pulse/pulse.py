@@ -101,6 +101,9 @@ class Pulse:
         windowStart = False
         buttonPressed = False
         buttonHoldFlag = False
+
+        hitCount = 0
+        hitDelayTotal = 0.0
         
         #While the song is playing
         while (s.isPlaying() == True):
@@ -149,11 +152,19 @@ class Pulse:
                         self.hit()
                         logger.info("Button Pressed In Window")
                         note_hit = True
+                        
+                        outBy = s.time() - note_start
+                        hitCount += 1
+                        hitDelayTotal += outBy
+                        logger.info("Button out by " + outBy)
+
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
                             logger.info("Long note detected.")
                             buttonHoldFlag = True
                             note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
+                        else
+                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True
                         if s.time() < note_end and btn_state == note_state:
                             self.hold_score()
@@ -297,6 +308,8 @@ class Pulse:
             # #Track the last button state
             # last_btn_state = btn_state
   
+
+        logger.info("Average: " + hitDelayTotal / hitCount)
 
         self.scoreboard.pulse()
         
