@@ -89,79 +89,125 @@ class Pulse:
         
         playedStart = 0
         
+        #While the song is playing
         while (s.isPlaying() == True):
+            #If the next notes time is not negative (end) and it is time to send the next note
             if next_note >= 0 and (s.time()-pole_delay) > (next_note):
+                #Send the appropriate LED's
                 self.poles.pulse(poles)
                 
+                #Try to find the next note
                 try:
+                    #Get the next note
                     next_note = key_iter.next()
+                    #Get the colour and duration of the notes to send to the pole
                     poles = self.get_poles(s, next_note)
-                
+                #Catch exceeption
                 except StopIteration:
+                    #Cancel next note, send nothing to the poles.
                     next_note = -1;
                     poles = [[0,0],[0,0],[0,0]]
             
+            #Get the button state
             state = self.btns.check()
+            #Convert to integer (btn_state = int value of state)
             btn_state = self.btns_to_int(state)
+            #Get the current song time
             cur_time = s.time()
+            #Get the time of the current note, add note delay and see if we are out of notes set start to 0
             note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else 0
             
-            logger.info(hit_index)
             
+            #if we haven't run out of notes and we are after the start of the hit window
             if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
+                #If we haven't already then play the start beep
                 if (playedStart == 0):
                     startTone.play()
-                    playedStart = 1
-                if (note_start + hit_delay < cur_time):     # if the note is over, advance
+                    playedStart = 1;
+                #If we're now past the end of the hit window
+                #NOTE we will not land here if you hit the note
+                if (note_start + hit_delay < cur_time):
+                    #Resets streak
                     self.miss()
+                    #Lets look for the next note now
                     hit_index += 1
+                    #Play the stop tone, we never hit it... :(
                     stopTone.play()
+                    #Reset the start tone flag
                     playedStart = 0
+                    #Forget the rest of the loop...
                     continue
                                     
                 
-                if True in state and btn_state != last_btn_state:     # if a button has been pressed
+                #If any button is pushed and the state has changed 
+                if True in state and btn_state != last_btn_state: 
+                    #Take some temporary values to keep track of current values
                     temp_hit_index = hit_index
                     temp_note_start = note_start
                     temp_time_key = note_keys[temp_hit_index]
                     
+                    #While we are not at the end and we are after the current start of the hit window
                     while (temp_hit_index < len(note_keys) and temp_note_start - hit_delay < s.time()):
+                        #Get what the notes should be
                         note_state = self.notes_to_int(s.notes[temp_time_key])
                         
+                        #Check that the buttons are what they should be
                         if note_state == btn_state:
+                            #If we've already hit a wrong note then kill the multiplier 
                             if hit_index != temp_hit_index:
                                 self.miss()
                             
+                            #Tell the poles you've hit and register a hit
                             self.poles.hit(self.get_poles(s, temp_time_key))
                             self.hit()
-                            hit_index = temp_hit_index + 1
-                            
+                            #increment hit index 
+                            #hit_index = temp_hit_index + 1
+                            hit_index = hit_index + 1 #JOHN - Otherwise if you've hit a wrong note first you will jump a load of notes
+
+                            #If the note length > 2
                             if (s.notes[temp_time_key][0]['len'] > 2):
+                                #Keep track of the notes time 
                                 last_note = s.notes[temp_time_key]
-                            
+                            #Break out of while loop 
                             break
+                        #If wrong buttons were pressed
                         else:
+                            #Increment our temp index
                             temp_hit_index += 1
                             
+                            #If we haven't finished the song 
                             if temp_hit_index < len(note_keys):
+                                #Keep track of the long notes start
                                 temp_note_start = note_keys[temp_hit_index] + note_delay
+                                #Keep track of the long notes key
                                 temp_time_key = note_keys[temp_hit_index]
+                            #Otherwise don't bother keeping track of the last buttons state
                             else:
                                 break
             else:
+                #If we've changed the buttons that are held
                 if btn_state != last_btn_state:
+                    #Clear the last note
                     last_note = None
                     
+                    #If we've pressed something different
                     if self.btn_pressed(btn_state, last_btn_state):
+                        #Count a miss
                         self.miss()
+                #Otherwise if we're still holding a long note
                 elif last_note != None and True in state:
+                    #Calculate the end of this note
                     last_note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
                     
+                    #If we've reached the end of the note
                     if last_note_end < s.time():
+                        #Clear the note
                         last_note = None
                     else:
+                        #Otherwise add score
                         self.hold_score()
             
+            #Track the last button state
             last_btn_state = btn_state
         
         self.scoreboard.pulse()
