@@ -99,9 +99,13 @@ class Pulse(ApplicationSession):
                 break
 
         game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
+
+        res = yield self.call(u'com.emfpulse.current', {'isplaying': True})
+
         score = game.play()
 
         res = yield self.call(u'com.emfpulse.play.endgame', score)
+        res = yield self.call(u'com.emfpulse.current', {'isplaying': False})
 
         self.enabled = yield self.call(u'com.emfpulse.enabled.get')
         if self.enabled:
