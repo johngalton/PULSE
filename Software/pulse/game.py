@@ -126,8 +126,12 @@ class Game:
 
                 if buttonJustPressed:
 
+                    print "just pressed"
+
                     # Buttons match notes exactly
                     if btnstateint == notestateint:
+
+                        print "matches"
 
                         if not noteHit:
                             # Register a hit
@@ -145,6 +149,7 @@ class Game:
 
                     # Wrong Button/s
                     else:
+                        print "wrong"
                         self.multiplierStreak = 0
 
             # Not in a button window
@@ -223,6 +228,7 @@ class Game:
 
     def updateScore(self):
         #self.score += math.floor(10 * min(1 + (self.multiplierStreak / 5.0), 5))
+        print "updatescore"
 
         self.score += 10*(math.pow(2.0,(min(self.multiplierStreak/5.0, 4.0))))
 
