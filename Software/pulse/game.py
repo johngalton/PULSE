@@ -76,12 +76,10 @@ class Game:
         noteHit = False
         buttonHoldFlag = False
         buttonHoldEnd = 0
+        holdstateint = None
 
-        loop = False
+        notesLeftBtn = True
         while self.s.isPlaying():
-
-            if loop:
-                continue
 
             if notesLeft and self.s.time() >= next_note[0] + pole_delay:
                 # Send next note to the poles
@@ -98,10 +96,7 @@ class Game:
             # Check Buttons
             btnstate = self.btns.check()
             btnstateint = self.btns_to_int(btnstate)
-            print btnstate
-            print btnstateint
             notestateint = self.notes_to_int(next_note_btn[1])
-            print notestateint
 
             note_start = next_note_btn[0] + note_delay
 
@@ -123,18 +118,13 @@ class Game:
                     buttonHoldFlag = False
 
             # If in button window
-            if self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
-                print "window"
+            if notesLeftBtn and self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
                 windowStart = True
 
                 if buttonJustPressed:
 
-                    print "just pressed"
-
                     # Buttons match notes exactly
                     if btnstateint == notestateint:
-
-                        print "matches"
 
                         if not noteHit:
                             # Register a hit
@@ -152,7 +142,6 @@ class Game:
 
                     # Wrong Button/s
                     else:
-                        print "wrong"
                         self.multiplierStreak = 0
 
             # Not in a button window
@@ -175,7 +164,7 @@ class Game:
                         next_poles_btn = self.get_poles(next_note_btn[1])
                     except KeyError:
                         # No more notes
-                        loop = True
+                        notesLeftBtn = False
 
                 if buttonPressed and not buttonHoldFlag:
                     self.multiplierStreak = 0
@@ -189,7 +178,7 @@ class Game:
 
         self.scoreboardShit()
 
-        return self.score
+        return int(self.score)
 
 
     def scoreboardShit(self):
@@ -213,7 +202,7 @@ class Game:
         self.scoreboard.set_text(" OUT OF ")
         time.sleep(1)
         self.scoreboard.score(0)
-        self.scoreboard.score(len(note_keys))
+        self.scoreboard.score(len(self.s.notes))
         time.sleep(3)
 
         self.scoreboard.set_text("  SCORE ")
@@ -231,7 +220,6 @@ class Game:
 
     def updateScore(self):
         #self.score += math.floor(10 * min(1 + (self.multiplierStreak / 5.0), 5))
-        print "updatescore"
 
         self.score += 10*(math.pow(2.0,(min(self.multiplierStreak/5.0, 4.0))))
 

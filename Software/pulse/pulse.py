@@ -112,7 +112,8 @@ class Pulse(ApplicationSession):
             self.start()
 
     def publishScore(self, score):
-        self.publish(u'com.emfpulse.current', {'score': score})
+        #self.publish(u'com.emfpulse.current', {'score': score})
+        return
 
     @inlineCallbacks
     def checkForPlayerInQueue(self):
