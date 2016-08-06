@@ -101,6 +101,7 @@ class Game:
             print btnstate
             print btnstateint
             notestateint = self.notes_to_int(next_note_btn[1])
+            print notestateint
 
             note_start = next_note_btn[0] + note_delay
 
@@ -122,7 +123,7 @@ class Game:
                     buttonHoldFlag = False
 
             # If in button window
-            if self.s.time() >= note_start - self.hit_delay and self.s.time() <= note_start + self.hit_delay:
+            if self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
                 print "window"
                 windowStart = True
 
