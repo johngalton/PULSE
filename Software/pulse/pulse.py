@@ -48,6 +48,7 @@ class Pulse:
         buttons_delay =  24 * update
         led_hit_window = 25
         
+        self.multiplierStreak = 0
         self.streak = 0
         self.score = 0
         self.high_streak = 0
@@ -142,7 +143,7 @@ class Pulse:
                     #startTone.play()
 
                 #Get what the state should be 
-                note_state = self.notes_to_int(s.notes[note_keys[hit_index]])
+                note_state = self.notes_to_int(last_note)
                 #If we've pressed correctly then we can move on to looking for the new note
                 if btn_state == note_state:
                     #If we haven't yet pressed thisnote
@@ -178,7 +179,7 @@ class Pulse:
                             buttonHoldFlag = False
 
                 elif True in state:
-                    self.miss();
+                    self.wrong_button();
                     #logger.info("Wrong button pressed")
             else:
                 #If we've just left a window then play the stop tone
@@ -378,21 +379,26 @@ class Pulse:
     
     def hit(self):
         # print "score"
-        self.score += math.floor(10 * min(1 + (self.streak / 5.0), 5))
+        self.score += math.floor(10 * min(1 + (self.multiplierStreak / 5.0), 5))
         self.scoreboard.score(self.score)
         
+        self.multiplierStreak += 1
         self.streak += 1
         self.high_streak = max(self.high_streak, self.streak)
         self.hit_count += 1
     
     def hold_score(self):
         # print "hold score"
-        self.score += min(1 + (self.streak / 5), 5)
+        self.score += min(1 + (self.multiplierStreak / 5), 5)
         self.scoreboard.score(self.score)
     
+    def wrong_button(self)
+        self.multiplierStreak = 0
+
     def miss(self):
         # print "miss"
-        self.streak = 0;
+        self.streak = 0
+        self.multiplierStreak = 0
         self.miss_count += 1
     
     def get_poles(self, s, next_note):
