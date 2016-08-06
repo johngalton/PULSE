@@ -5,6 +5,7 @@ PULSE Main Controller
 
 """
 
+import os
 import sys
 import logging
 import signal
@@ -12,433 +13,143 @@ import time
 import pygame
 import math
 
+from autobahn import wamp
+from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
+from twisted.internet.defer import inlineCallbacks
+from twisted.internet import reactor
+from twisted.python.failure import Failure
+from twisted.internet.defer import returnValue
+
 from .scoreboard import Scoreboard
 from .buttons import Buttons
 from .poles import Poles
 from .song import Song
+from .game import Game
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s: %(message)s")
 logger = logging.getLogger("pulse.Pulse")
 
-class Pulse:
-    def __init__(self):
+songdirectory = "C:\workspace\PULSE\Audio\\"
+
+class Pulse(ApplicationSession):
+    def __init__(self, config):
+        ApplicationSession.__init__(self, config)
         logger.info("Initialising")
 
         self.btns = Buttons()
         self.poles = Poles()
         self.scoreboard = Scoreboard()
+        self.songs = []
+        signal.signal(signal.SIGINT, self.stop_signal)
 
-    def main(self):
-        while True:
-            continue
+    @inlineCallbacks
+    def onJoin(self, details):
+        logger.info("Session Joined")
 
-    def song_test(self):
-        self.scoreboard.pulse()
-        self.scoreboard.zeros(True)
-        self.scoreboard.score(0)
-        
-        self.btns.update([1,2,3,5,6])
-    
-        # Game configuration
-        update = 15
-        pole_delay = 180 * update
+        subscribes = yield self.subscribe(self)
+        for sub in subscribes:
+            if isinstance(sub, Failure):
+                logger.error("subscribe failed: {}".format(sub.getErrorMessage()))
 
-        buttons_delay =  24 * update
-        led_hit_window = 25
-        
-        self.multiplierStreak = 0
-        self.streak = 0
-        self.score = 0
-        self.high_streak = 0
-        self.hit_count = 0
-        self.miss_count = 0
-        
-        s = Song('C:\workspace\PULSE\Audio\Andy - Test Track')
-        
-     #   s = Song('C:\workspace\PULSE\Audio\Alan Walker - Faded')
-     #   s = Song('C:\workspace\PULSE\Audio\Bastile - Bad Blood')
-     #   s = Song('C:\workspace\PULSE\Audio\Coldplay - Viva the something')
-     #   s = Song('C:\workspace\PULSE\Audio\Daft Punk - Derezzed')
-        s = Song('C:\workspace\PULSE\Audio\Europe - The Final Countdown')
-     #   s = Song('C:\workspace\PULSE\Audio\Gnarls Barkley - Crazy')
-     #   s = Song('C:\workspace\PULSE\Audio\Green Day - Boulevard of Broken Dreams')
-     #   s = Song('C:\workspace\PULSE\Audio\Hotter Than Hell - Dua Lipa')
-     #   s = Song('C:\workspace\PULSE\Audio\Junior Senior - Move Your Feet')
-     #   s = Song('C:\workspace\PULSE\Audio\Lost Frequencies - Are You With Me')
-     #   s = Song('C:\workspace\PULSE\Audio\Ninja Sex Party - NSP Theme Song')
-     #   s = Song('C:\workspace\PULSE\Audio\Queen - Dont Stop Me Now')
-     #   s = Song('C:\workspace\PULSE\Audio\Sigala - Easy Love')
-     #   s = Song('C:\workspace\PULSE\Audio\Survivor - Eye of the tiger')
-     
-     
-        s.set_update_speed(update)
-        note_delay = s.delay + buttons_delay
-        pole_delay = s.delay - pole_delay
+        self.updateSongs()
 
-        self.poles.set_update_speed(0x00, update)
-		
-        startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
-        stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
+        self.enabled = yield self.call(u'com.emfpulse.enabled.get')
+        logger.info("Enabled: {}".format(self.enabled))
+        if self.enabled:
+            self.start()
 
-        s.start()
-        
-        key_iter = s.notes.iterkeys()
-        next_note = key_iter.next()
-        
-        poles = self.get_poles(s, next_note)
-        
-        note_keys = list(s.notes.keys())
-        hit_delay = (led_hit_window / 2) * update
-        hit_index = 0
-        last_btn_update = 0
-        last_btn_state = 0
-        last_note = None
-        note_hit = False
-        note_handled = False
-        playedStart = 0
-        note_end = 0
-        windowStart = False
-        buttonPressed = False
-        buttonHoldFlag = False
-        hold_note_state = None
-        hitCount = 0
-        hitDelayTotal = 0.0
-        
-        #While the song is playing
-        while (s.isPlaying() == True):
-            #Check if something has gone wrong with retrieving the next note and if so break
-            if next_note < 0:
-                continue
+    def onDisconnect(self):
+        logger.error("Disconnected")
 
-            last_note = s.notes[note_keys[hit_index]]
-                
-            #if we have now passed the time the note needs to be sent 
-            if s.time() >= (next_note + pole_delay):
-                #Send the note to the poles
-                self.poles.pulse(poles)
-                self.poles.pulseTop(poles)
+    def quit(self):
+        logger.info("Quitting")
+        reactor.stop()
+        sys.exit(0)
 
-            #now we move on to the buttons
-            #Get the button states
-            state = self.btns.check()
-            btn_state = self.btns_to_int(state)
-            #Get the notes start time
-            note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else -1
+    def stop_signal(self, sig, frame):
+        self.quit()
 
-            #If we're in a button window and 
-            if note_start >= 0 and s.time() >= (note_start - hit_delay) and s.time() <= note_start + hit_delay:
-                #If this is the first time we've entered this window then play the start tone
-                if windowStart == False:
-                    #logger.info("Entered Window")
-                    windowStart = True
-                    #startTone.play()
-
-                #Get what the state should be 
-                note_state = self.notes_to_int(last_note)
-                #Only check the notes if we've released the notes
-                if (buttonPressed == False)
-                    #If we've pressed correctly then we can move on to looking for the new note
-                    if btn_state == note_state:
-                        #If we haven't yet pressed thisnote
-                        if note_hit == False:
-                            #Score a hit
-                            self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                            self.hit()
-                            note_hit = True 
-                            buttonPressed = True
-
-                            #If the note is longer than 1 then we need to handle a long press
-                            if s.notes[note_keys[hit_index]][0]['len'] > 1:
-                                hold_note_state = note_state
-                                buttonHoldFlag = True
-                                note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_dela
-                            else:
-                                logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
-                        elif buttonHoldFlag == True:
-                            if s.time() < note_end and btn_state == hold_note_state:
-                                self.hold_score()
-                                #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                            #Otherwise remove the flag
-                            else:
-                                buttonHoldFlag = False
-
-                    elif True in state:
-                        self.wrong_button()
-                        #logger.info("Wrong button pressed")
-                elif True not in state:
-                    buttonPressed = False
-            else:
-                #If we've just left a window then play the stop tone
-                if windowStart == True:
-                    if note_hit == False:
-                        self.miss()
-                        logger.info("Button missed")
-
-                    windowStart = False
-                    note_hit = False
-                    #stopTone.play()
-                    hit_index = hit_index + 1
-
-                    #Try to get the next note
-                    try:
-                        next_note = key_iter.next()
-                        poles = self.get_poles(s, next_note)
-                    except StopIteration:
-                        next_note = -1;
-                        poles = [[0,0],[0,0],[0,0]]
-
-                #If we're in a hold state
-                if buttonHoldFlag == True:
-                    #If we're still within the allowed time then boost the score
-                    if s.time() < note_end and btn_state == hold_note_state:
-                        self.hold_score()
-                    #Otherwise remove the flag
-                    else:
-                        buttonHoldFlag = False
-                #If we're not in a window and a button is pressed then this is an error
-                elif True in state and buttonPressed == False:
-                    self.wrong_button()
-                    buttonPressed = True
-                    logger.info("Button pressed when not in window")
-
-                if True not in state
-                    buttonPressed = False
-
-
-            # #Get the button state
-            # state = self.btns.check()
-            # #Convert to integer (btn_state = int value of state)
-            # btn_state = self.btns_to_int(state)
-            # #Get the current song time
-            # cur_time = s.time()
-            # #Get the time of the current note, add note delay and see if we are out of notes set start to 0
-            # note_start = note_keys[hit_index] + note_delay if hit_index < len(note_keys) else 0
-            
-            # #if we haven't run out of notes and we are after the start of the hit window
-            # if (hit_index < len(note_keys) and note_start - hit_delay < cur_time):
-                # #If we haven't already then play the start beep
-                # if (playedStart == 0):
-                 # #   startTone.play()
-                    # playedStart = 1;
-                # #If we're now past the end of the hit window
-                # #NOTE we will not land here if you hit the note
-                # if (note_start + hit_delay < cur_time):
-                    # #Resets streak
-                    # self.miss()
-     # #               logger.info("End of window, no presses")
-                    # #Lets look for the next note now
-                    # hit_index += 1
-                    # #Play the stop tone, we never hit it... :(
-                  # #  stopTone.play()
-                    # #Reset the start tone flag
-                    # playedStart = 0
-                    # #Forget the rest of the loop...
-                    # continue
-                                    
-                
-                # #If any button is pushed and the state has changed 
-                # if True in state and btn_state != last_btn_state: 
-                    # #Take some temporary values to keep track of current values
-                    # temp_hit_index = hit_index
-                    # temp_note_start = note_start
-                    # temp_time_key = note_keys[temp_hit_index]
-                    
-                    # #While we are not at the end and we are after the current start of the hit window
-                    # while (temp_hit_index < len(note_keys) and temp_note_start - hit_delay < s.time()):
-                        # #Get what the notes should be
-                        # note_state = self.notes_to_int(s.notes[temp_time_key])
-                        
-                        # #Check that the buttons are what they should be
-                        # if note_state == btn_state:
-                            # #If we've already hit a wrong note then kill the multiplier 
-                            # if hit_index != temp_hit_index:
-                                # self.miss()
-                                # logger.info("Wrong button ")
-                            
-                            # #Tell the poles you've hit and register a hit
-                            # self.poles.hit(self.get_poles(s, temp_time_key))
-                            # self.hit()
-                            # #increment hit index 
-                            # #hit_index = temp_hit_index + 1
-                            # hit_index = hit_index + 1 #JOHN - Otherwise if you've hit a wrong note first you will jump a load of notes
-
-                            # #If the note length > 2
-                            # if (s.notes[temp_time_key][0]['len'] > 2):
-                                # #Keep track of the notes time 
-                                # last_note = s.notes[temp_time_key]
-                            # #Break out of while loop 
-                            # break
-                        # #If wrong buttons were pressed
-                        # else:
-                            # #Increment our temp index
-                            # temp_hit_index += 1
-                            
-                            # #If we haven't finished the song 
-                            # if temp_hit_index < len(note_keys):
-                                # #Keep track of the long notes start
-                                # temp_note_start = note_keys[temp_hit_index] + note_delay
-                                # #Keep track of the long notes key
-                                # temp_time_key = note_keys[temp_hit_index]
-                            # #Otherwise don't bother keeping track of the last buttons state
-                            # else:
-                                # break
-            # else:
-                # #If we've changed the buttons that are held
-                # if btn_state != last_btn_state:
-                    # #Clear the last note
-                    # last_note = None
-                    
-                    # #If we've pressed something different
-                    # if self.btn_pressed(btn_state, last_btn_state):
-                        # #Count a miss
-                        # self.miss()
-                # #Otherwise if we're still holding a long note
-                # elif last_note != None and True in state:
-                    # #Calculate the end of this note
-                    # last_note_end = last_note[0]['dur'] + last_note[0]['time'] + note_delay
-                    
-                    # #If we've reached the end of the note
-                    # if last_note_end < s.time():
-                        # #Clear the note
-                        # last_note = None
-                    # else:
-                        # #Otherwise add score
-                        # self.hold_score()
-            
-            # #Track the last button state
-            # last_btn_state = btn_state
-  
-
-        logger.info("Average: " + str(hitDelayTotal / hitCount))
+    @inlineCallbacks
+    def start(self):
+        qn = yield self.checkForPlayerInQueue()
+        logger.info(qn)
+        if not qn:
+            self.noplayer = True
+            return
 
         self.scoreboard.pulse()
-        
-        self.scoreboard.zeros(False)
-        self.scoreboard.count_time(1000)
-        self.scoreboard.set_text(" LONGEST")
-        time.sleep(1)
-        self.scoreboard.set_text("   RUN  ")
-        time.sleep(1)
-        self.scoreboard.score(0)
-        self.scoreboard.score(self.high_streak)
-        time.sleep(3)
-        
-        self.scoreboard.set_text("   HIT  ")
-        time.sleep(1)
-        self.scoreboard.score(0)
-        self.scoreboard.score(self.hit_count)
-        time.sleep(2)
-        self.scoreboard.set_text(" OUT OF ")
-        time.sleep(1)
-        self.scoreboard.score(0)
-        self.scoreboard.score(len(note_keys))
-        time.sleep(3)
-        
-        self.scoreboard.set_text("  SCORE ")
-        time.sleep(1)
-        self.scoreboard.score(0)
-        self.scoreboard.score(self.score)
-        time.sleep(3)
-        self.scoreboard.set_text("      ")
-        
-        self.scoreboard.pulse()
-        
-        self.scoreboard.zeros(True)
-        self.scoreboard.count_time(300)
-    
-    def btn_pressed(self, btn_state, last_state):
-        ret = False
-        ret = True if btn_state & 1 != last_state & 1 and btn_state & 1 == 1 else False
-        ret = True if btn_state & 2 != last_state & 2 and btn_state & 2 == 2 else False
-        ret = True if btn_state & 4 != last_state & 4 and btn_state & 4 == 4 else False
-        ret = True if btn_state & 8 != last_state & 8 and btn_state & 8 == 8 else False
-        ret = True if btn_state & 16 != last_state & 16 and btn_state & 16 == 16 else False
-        
-        return ret
-    
-    def btns_to_int(self, buttons):
-        ret = 0
-        ret = (ret | (1 << 0)) if buttons[0] == True else ret
-        ret = (ret | (1 << 1)) if buttons[1] == True else ret
-        ret = (ret | (1 << 2)) if buttons[2] == True else ret
-        ret = (ret | (1 << 3)) if buttons[3] == True else ret
-        ret = (ret | (1 << 4)) if buttons[4] == True else ret
-        
-        return ret
-    
-    def notes_to_int(self, notes):
-        ret = 0
-        
-        for n in notes:
-            ret = ret | (1 << (n['pitch'] - 1))
-        
-        return ret
-    
-    def hit(self):
-        # print "score"
-        self.score += math.floor(10 * min(1 + (self.multiplierStreak / 5.0), 5))
-        self.scoreboard.score(self.score)
-        
-        self.multiplierStreak += 1
-        self.streak += 1
-        self.high_streak = max(self.high_streak, self.streak)
-        self.hit_count += 1
-    
-    def hold_score(self):
-        # print "hold score"
-        self.score += min(1 + (self.multiplierStreak / 5), 5)
-        self.scoreboard.score(self.score)
-    
-    def wrong_button(self)
-        self.multiplierStreak = 0
+        self.scoreboard.set_text(str(qn)+" NEHT")
+        self.btns.update([0,0,1,0,0])
 
-    def miss(self):
-        # print "miss"
-        self.streak = 0
-        self.multiplierStreak = 0
-        self.miss_count += 1
-    
-    def get_poles(self, s, next_note):
-        poles = [[0,0],[0,0],[0,0]]
-        
-        for n in s.notes[next_note]:
-            pole = n['pitch']
-            
-            if pole <= 2:
-                poles[0][0] = pole
-                poles[0][1] = n['len']
-            if pole == 3:
-                poles[1][0] = 3
-                poles[1][1] = n['len']
-            if pole >= 4:
-                poles[2][0] = pole+1
-                poles[2][1] = n['len']
-        
-        return poles
-    
-    def btn_test(self):
-        colour = [1,2,3,4,5,6]
-        while(True):
-            btnstate = self.btns.update(colour)
-            if 1 in btnstate:
-                colour = [colour[5]]+colour[:5]
-            time.sleep(0.25)
-
-    def pole_test(self):
-        poles = [[0,0],[0,0],[0,0]]
-        self.poles.set_update_speed(0x00, 20)
-        while True:
-            for i in range(1,8):
-                #self.poles.beacon([i,0,0])
-                poles[0] = [1,200]
-                poles[1] = [5,200]
-                poles[2] = [2,200]
-                self.poles.pulse(poles)
+        pretime = time.clock()
+        while not self.btns.check()[2]: #While red button not pressed
+            if time.clock() > pretime+30:
+                self.publish(u'com.emfpulse.queue.toolate', qn)
+                self.start()
                 return
-                time.sleep(0.3)
 
+        info = yield self.call(u'com.emfpulse.queue.getnextinfo', qn)
+        print info['artist']
+        for song in self.songs:
+            print song['artist']
+            if song['name'] == info['song'] and song['artist'] == info['artist']:
+                songpath = song['path']
+                break
+
+        game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
+        score = game.play()
+
+        res = yield self.call(u'com.emfpulse.play.endgame', score)
+
+        self.enabled = yield self.call(u'com.emfpulse.enabled.get')
+        if self.enabled:
+            self.start()
+
+    def publishScore(self, score):
+        self.publish(u'com.emfpulse.current', {'score': score})
+
+    @inlineCallbacks
+    def checkForPlayerInQueue(self):
+
+        q = yield self.call(u'com.emfpulse.queue.status')
+
+        if q['queue_total'] > 0:
+            qn = yield self.call(u'com.emfpulse.queue.next')
+        else:
+            qn = False
+
+        returnValue(qn)
+
+    @inlineCallbacks
+    def updateSongs(self):
+        for songpath in os.listdir(songdirectory):
+            if os.path.isdir(songdirectory+songpath):
+                logger.info(songpath)
+                artist = songpath.split(" - ")[0]
+                song = songpath.split(" - ")[1]
+                self.songs.append({'artist': artist, 'name': song, 'path': songdirectory+songpath})
+
+        yield self.call(u'com.emfpulse.songs.update', self.songs)
+
+    @wamp.subscribe(u'com.emfpulse.enabled.status')
+    def onEnabledStatus(self, i):
+        wasenabled = self.enabled
+        self.enabled = i
+        logger.info("Enabled: {}".format(self.enabled))
+
+        if self.enabled and not wasenabled:
+            self.start()
+        #elif not self.enabled and wasenabled:
+        #    self.rain()
+
+    @wamp.subscribe(u'com.emfpulse.queue')
+    def onQueueChange(self, data):
+        if data['queue_total'] > 0 and self.noplayer:
+            self.noplayer = False
+            if self.enabled:
+                self.start()
 
     def pole_btn_test(self):
         colour = [1,2,3,5,6]
@@ -453,31 +164,11 @@ class Pulse:
                     self.poles.beacon([colour[i],0,0])
                     poles[0] = [colour[i],6]
                     poles[1] = [colour[i],6]
+                    poles[2] = [colour[i],6]
                     self.poles.pulse(poles)
-                    #time.sleep(0.2)
-
-
-    def stop(self):
-        logger.info("Quitting")
-        sys.exit(0)
-
-    def stop_signal(self, sig, frame):
-        self.stop()
 
 if __name__ == "__main__":
-    pulse = Pulse()
-    signal.signal(signal.SIGINT, pulse.stop_signal)
-  #  pygame.init() doesn't work on my machine!
     pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 
-    args = str(sys.argv)
-    if "btntest" in args:
-        pulse.btn_test()
-    elif "poletest" in args:
-        pulse.pole_test()
-    elif "pbtest" in args:
-        pulse.pole_btn_test()
-    elif "songtest" in args:
-        pulse.song_test()
-    else:
-        pulse.main()
+    runner = ApplicationRunner(url=u"ws://emfpulse.com:12345/ws", realm=u'realm1')
+    runner.run(Pulse)
