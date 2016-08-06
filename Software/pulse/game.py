@@ -224,7 +224,7 @@ class Game:
     def updateScore(self):
         #self.score += math.floor(10 * min(1 + (self.multiplierStreak / 5.0), 5))
 
-        self.score += 10*(2.0^(min(self.multiplierStreak/5.0, 4.0)))
+        self.score += 10*(math.pow(2.0,(min(self.multiplierStreak/5.0, 4.0))))
 
         self.scoreboard.score(self.score)
         self.scoreCallback(self.score)
@@ -235,7 +235,7 @@ class Game:
         self.hit_count += 1
 
     def updateHoldScore(self):
-        self.score += 2*(2.0^(min((self.multiplierStreak/5.0), 4.0)))
+        self.score += 2*(math.pow(2.0,(min((self.multiplierStreak/5.0), 4.0))))
 
         self.scoreboard.score(self.score)
 
@@ -244,13 +244,13 @@ class Game:
         for i in range(5):
             ret = (ret | (1 << i)) if buttons[i] else ret
         return ret
-        
+
     def notes_to_int(self, notes):
         ret = 0
-        
+
         for n in notes:
             ret = ret | (1 << (n['pitch'] - 1))
-        
+
         return ret
 
     def get_poles(self, note):
