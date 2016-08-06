@@ -137,33 +137,38 @@ class Pulse:
 
                 #Get what the state should be 
                 note_state = self.notes_to_int(last_note)
-                #If we've pressed correctly then we can move on to looking for the new note
-                if btn_state == note_state:
-                    #If we haven't yet pressed thisnote
-                    if note_hit == False:
-                        #Score a hit
-                        self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                        self.hit()
-                        note_hit = True
+                #Only check the notes if we've released the notes
+                if (buttonPressed == False)
+                    #If we've pressed correctly then we can move on to looking for the new note
+                    if btn_state == note_state:
+                        #If we haven't yet pressed thisnote
+                        if note_hit == False:
+                            #Score a hit
+                            self.poles.hit(self.get_poles(s, note_keys[hit_index]))
+                            self.hit()
+                            note_hit = True 
+                            buttonPressed = True
 
-                        #If the note is longer than 1 then we need to handle a long press
-                        if s.notes[note_keys[hit_index]][0]['len'] > 1:
-                            hold_note_state = note_state
-                            buttonHoldFlag = True
-                            note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_dela
-                        else:
-                            logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
-                    elif buttonHoldFlag == True:
-                        if s.time() < note_end and btn_state == hold_note_state:
-                            self.hold_score()
-                            #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                        #Otherwise remove the flag
-                        else:
-                            buttonHoldFlag = False
+                            #If the note is longer than 1 then we need to handle a long press
+                            if s.notes[note_keys[hit_index]][0]['len'] > 1:
+                                hold_note_state = note_state
+                                buttonHoldFlag = True
+                                note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_dela
+                            else:
+                                logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
+                        elif buttonHoldFlag == True:
+                            if s.time() < note_end and btn_state == hold_note_state:
+                                self.hold_score()
+                                #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
+                            #Otherwise remove the flag
+                            else:
+                                buttonHoldFlag = False
 
-                elif True in state:
-                    self.wrong_button();
-                    #logger.info("Wrong button pressed")
+                    elif True in state:
+                        self.wrong_button()
+                        #logger.info("Wrong button pressed")
+                elif True not in state:
+                    buttonPressed = False
             else:
                 #If we've just left a window then play the stop tone
                 if windowStart == True:
@@ -193,9 +198,13 @@ class Pulse:
                     else:
                         buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
-                elif True in state:
+                elif True in state and buttonPressed == False:
                     self.wrong_button()
+                    buttonPressed = True
                     logger.info("Button pressed when not in window")
+
+                if True not in state
+                    buttonPressed = False
 
 
             # #Get the button state
