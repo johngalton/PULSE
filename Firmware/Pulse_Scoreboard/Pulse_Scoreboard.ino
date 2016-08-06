@@ -2,7 +2,9 @@
 #define SHIFT_DATA 5
 #define nSHIFT_OE 9
 
-long scoreCount = -1;
+long scoreCount = -1;   // Local version of displayed score. '-1' means somethign else (text or clear)
+long targetScore = -1;  // Target score used for autonomous updating
+long stepSize = 10;     // ...at this particular step size
 
 char ledDisplay[9];  //user modifiable
 byte outData[8];  //don't touch this, auto populated
@@ -31,13 +33,14 @@ void setup()
 
   pulse();
     
-  Serial1.begin(9600);
+  Serial1.begin(9600);      // use the hardware Serial1 port
 }
 
 void loop()
 {
-  if (Serial1.available())
-  {
+  
+  while (Serial1.available())
+  {    
     if ((bufPos != -1) || (useStartChar == false))   //we have already started
     {
       if (bufPos == -1)
@@ -54,7 +57,7 @@ void loop()
         command = strtok(serBuf, "=");
         data = strtok(NULL, "=");
 
-        if ((command != NULL) && (data != NULL))
+        if ((command != NULL) && (data != NULL))        // Most commands have both a command and data part
         {
           if (strstr(command, "text") != NULL)
           {
@@ -70,44 +73,27 @@ void loop()
           }
           else if (strstr(command, "score") != NULL)
           {
-            long newScore = atol(data);
+            targetScore = atol(data);
             
             Serial1.println("OK");
-            if (scoreCount == -1)
+            if (scoreCount == -1)           // If we're not currently displaying a score
             {
-              setDisplayNum(newScore);
-              scoreCount = newScore;
+              setDisplayNum(targetScore);   // Jump straight to the new score
+              scoreCount = targetScore;     // And update the local score count
             }
             else
             {
-              long stepSize;
-              if (scoreCount < newScore)
+              if (targetScore > scoreCount) // New Score is higher
               {
-                stepSize = ((newScore - scoreCount) / countSteps);
-                if (stepSize == 0)
-                  stepSize = 1;
-                while (scoreCount < (newScore - stepSize))
-                {
-                  setDisplayNum(scoreCount);
-                  delay(10);
-                  scoreCount += stepSize;
-                }
-                scoreCount = newScore;
-                setDisplayNum(scoreCount);
+                stepSize = ((targetScore - scoreCount) / countSteps);
+                if (stepSize == 0)                                      // Tiny step sizes round to 0 (due to integers)
+                  stepSize = 1;                                         // So set to a minimum of 1 so it does count
               }
-              else
+              else if (targetScore < scoreCount)
               {
-                stepSize = ((scoreCount - newScore) / countSteps);
-                if (stepSize == 0)
-                  stepSize = 1;
-                while (scoreCount > (newScore + stepSize))
-                {
-                  setDisplayNum(scoreCount);
-                  delay(10);
-                  scoreCount -= stepSize;
-                }
-                scoreCount = newScore;
-                setDisplayNum(scoreCount);
+                stepSize = ((scoreCount - targetScore) / countSteps);
+                if (stepSize == 0)                                      // Tiny step sizes round to 0 (due to integers)
+                  stepSize = 1;                                         // So set to a minimum of 1 so it does count
               }
             }
           }
@@ -116,18 +102,10 @@ void loop()
             if (scoreCount != -1)
             {
               Serial1.println("OK");
-              long target = scoreCount + atol(data);
-              long stepSize = ((target - scoreCount) / countSteps);
-              if (stepSize == 0)
-                  stepSize = 1;
-              while (scoreCount < (target - stepSize))
-              {
-                setDisplayNum(scoreCount);
-                delay(10);
-                scoreCount += stepSize;
-              }
-              scoreCount = target;
-              setDisplayNum(scoreCount);
+              targetScore = scoreCount + atol(data);
+              stepSize = ((targetScore - scoreCount) / countSteps);
+                if (stepSize == 0)                                      // Tiny step sizes round to 0 (due to integers)
+                  stepSize = 1;                                         // So set to a minimum of 1 so it does count
             }
             else
             {
@@ -179,7 +157,7 @@ void loop()
             Serial1.println("Invalid command");
           }
         }
-        else if (strstr(command, "clear") != NULL)
+        else if (strstr(command, "clear") != NULL)      // Simple commands
         {
           Serial1.println("OK");
           clearDisplay();
@@ -191,29 +169,38 @@ void loop()
           pulse();
           scoreCount = -1;
         }
-        else
+        else                                            // Invalid commands
         {
           if (strlen(serBuf) > 0)
             Serial1.println("Invalid command format");
         }
         bufPos = -1;
       }
-      else
+      else                              // incomplete command, add to internal buffer
       {
         serBuf[bufPos] = inChar;
         bufPos++;
       }
     }
-    else
-    {
-      if (Serial1.read() == '!') //start char
-        bufPos = 0;
-    }
   }
-
+  
+  // handle autonomous updating of score
+  
+  // Only scroll to the new score if we're currently displaying a score, and we're not showing the target score
+  
+  if ((scoreCount != -1) && (scoreCount != targetScore))
+  {
+      if ((scoreCount + stepSize) < targetScore)            // If we can increase by stepsize without going over the target
+          scoreCount = scoreCount + stepSize;
+      else if ((scoreCount - stepSize)  > targetScore)      // If we can decrease by stepsize without going under the target
+          scoreCount = scoreCount - stepSize;
+      else
+          scoreCount = targetScore;                         // Otherwise if we're really close (but not quite there), then jump
+      
+      delay(10);
+      setDisplayNum(scoreCount);
+  }
 }
-
-
 
 
 void setDisplayNum(unsigned long inValue)
