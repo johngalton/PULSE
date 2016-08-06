@@ -60,12 +60,12 @@ class Game:
         note_delay = self.s.delay + self.buttons_delay
         pole_delay = self.s.delay - self.pole_delay
 
-        notes = self.s.notes
+        notes = self.s.notes[:]
         next_note = notes.popitem(last=False)
         next_poles = self.get_poles(next_note[1])
         notesLeft = True
 
-        notes_btn = self.s.notes
+        notes_btn = self.s.notes[:]
         next_note_btn = notes_btn.popitem(last=False)
         next_poles_btn = self.get_poles(next_note_btn[1])
 
@@ -187,7 +187,7 @@ class Game:
 
             buttonWasPressed = buttonPressed
 
-        scoreboardShit()
+        self.scoreboardShit()
 
         return self.score
 
