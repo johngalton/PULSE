@@ -98,7 +98,7 @@ void led_init(void)
 
 	/*Set it to off by default */
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 }
 
 void led_update(void)
@@ -284,7 +284,7 @@ void led_propagate(void)
 
 	ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
 
-	if (ledStrip[bufferPosition].val == 0)
+	if (ledStrip[GET_POS(STRIP_SIZE-1)].val == 0)
 	{
 		beaconSet = 0;
 	}
