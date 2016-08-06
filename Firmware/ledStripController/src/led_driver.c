@@ -56,6 +56,7 @@ uint16_t bufferCount = 0;
 uint8_t bufferPosition = 0;
 colour targetColour;
 uint8_t notePressed = 0;
+uint8_t beaconSet = 0;
 
 colour targetColourDefault;
 
@@ -201,6 +202,7 @@ uint8_t led_push_buffer(uint8_t value)
 void led_set_beacon(uint8_t value)
 {
 	beaconColour = get_colour(value);
+	beaconSet = 1;
 
 	beaconBlueStep = ((beaconBackground.col.blue - beaconColour.col.blue) / beaconFadeDiv) + 1;
 	beaconGreenStep = ((beaconBackground.col.green - beaconColour.col.green) / beaconFadeDiv) + 1;
@@ -222,7 +224,8 @@ void led_set_beacon_background(uint8_t value)
 void led_pulse_target(uint8_t code)
 {
 	notePressed = 1;
-	targetColour = get_colour(code);
+	//Changed so that it automatically picks up on the colour
+	//targetColour = get_colour(code);
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -246,37 +249,13 @@ void led_show_logo(uint8_t code, uint8_t offset)
 
 void led_propagate(void)
 {
-	if (targetColour.val != TARGET_COL)
+	if (targetColour.val != TARGET_COL && notePressed == 0)
 	{
 		targetColour.col.red <<= 1;
 		targetColour.col.green <<= 1;
 		targetColour.col.blue <<= 1;
 
 		targetColour.val |= 0x00010101;
-	}
-
-	if (beaconBackground.val != beaconColour.val)
-	{
-		int16_t tmp = beaconColour.col.red + beaconRedStep;
-
-		if (((tmp > beaconBackground.col.red) && beaconRedStep > 0) || ((tmp < beaconBackground.col.red) && beaconRedStep < 0))
-			beaconColour.col.red = beaconBackground.col.red;
-		else
-			beaconColour.col.red = tmp;
-
-		tmp = beaconColour.col.green + beaconGreenStep;
-
-		if (((tmp > beaconBackground.col.green) && beaconGreenStep > 0) || ((tmp < beaconBackground.col.green) && beaconGreenStep < 0))
-			beaconColour.col.green = beaconBackground.col.green;
-		else
-			beaconColour.col.green = tmp;
-
-		tmp = beaconColour.col.blue + beaconBlueStep;
-
-		if (((tmp > beaconBackground.col.blue) && beaconBlueStep > 0) || ((tmp < beaconBackground.col.blue) && beaconBlueStep < 0))
-			beaconColour.col.blue = beaconBackground.col.blue;
-		else
-			beaconColour.col.blue = tmp;
 	}
 
 	ledStrip[GET_POS(10)].val = 0;
@@ -305,6 +284,35 @@ void led_propagate(void)
 
 	ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
 
+	if (ledStrip[bufferPosition].val == 0)
+	{
+		beaconSet = 0;
+	}
+
+	if (beaconBackground.val != beaconColour.val && beaconSet == 0)
+	{
+		int16_t tmp = beaconColour.col.red + beaconRedStep;
+
+		if (((tmp > beaconBackground.col.red) && beaconRedStep > 0) || ((tmp < beaconBackground.col.red) && beaconRedStep < 0))
+			beaconColour.col.red = beaconBackground.col.red;
+		else
+			beaconColour.col.red = tmp;
+
+		tmp = beaconColour.col.green + beaconGreenStep;
+
+		if (((tmp > beaconBackground.col.green) && beaconGreenStep > 0) || ((tmp < beaconBackground.col.green) && beaconGreenStep < 0))
+			beaconColour.col.green = beaconBackground.col.green;
+		else
+			beaconColour.col.green = tmp;
+
+		tmp = beaconColour.col.blue + beaconBlueStep;
+
+		if (((tmp > beaconBackground.col.blue) && beaconBlueStep > 0) || ((tmp < beaconBackground.col.blue) && beaconBlueStep < 0))
+			beaconColour.col.blue = beaconBackground.col.blue;
+		else
+			beaconColour.col.blue = tmp;
+	}
+
 	uint8_t afterTargetPos = GET_POS(8);
 	ledStrip[afterTargetPos] = ledStrip[GET_POS(10)];
 
@@ -312,7 +320,15 @@ void led_propagate(void)
 	if (notePressed)
 	{
 		if (ledStrip[afterTargetPos].val == 0)
-			notePressed = 0;
+		{
+			if (notePressed == 2)
+				notePressed = 0;
+		}
+		else if (notePressed == 1)
+		{
+			targetColour = ledStrip[afterTargetPos];
+			notePressed = 2;
+		}
 
 		ledStrip[afterTargetPos].val = 0;
 		ledStrip[GET_POS(7)].val = 0;
