@@ -45,8 +45,9 @@ class Song:
         for t,items in self.notes.iteritems():
             for note in items:
                 x = int(round(note['dur']/(rate/1000.0)))
-                x = 2 if x < 2 else x       #increased
-                x = x - 4 if x > 10 else x   #added
+                #x = 2 if x < 2 else x       #increased
+                #x = x - 4 if x > 10 else x   #added
+                x = min(x-6, 2)
                 note['len'] = x
 
     def set_delay(self, time):
@@ -88,7 +89,7 @@ class Song:
                 if note_event['tick'] >= tempo_event['before_tick'] and tempo_event['before_tick'] is not None:
                     i += n
                     break
-                
+
                 if note_event['tick'] < tempo_event['after_tick']:
                     continue
 
@@ -99,10 +100,10 @@ class Song:
                 t = (tempo_event['after_time'] + (note_event['tick'] - tempo_event['after_tick'])*tempo_event['tick_dur']) * 1000
 
                 dur = note_event['dur']*tempo_event['tick_dur']
-                
+
                 if t >= last_t:
                     last_t = t
-                    
+
                     if t not in notes:
                         notes[t] = []
                     notes[t].append({
@@ -152,9 +153,9 @@ class Song:
                 bpm['after_time'] = 0
 
         return bpms
-    
+
     def isPlaying(self):
         if not pygame.mixer.get_init():
             return False
-        
+
         return pygame.mixer.music.get_busy()
