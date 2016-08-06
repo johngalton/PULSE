@@ -98,6 +98,8 @@ class Game:
             # Check Buttons
             btnstate = self.btns.check()
             btnstateint = self.btns_to_int(btnstate)
+            print btnstate
+            print btnstateint
             notestateint = self.notes_to_int(next_note_btn[1])
 
             note_start = next_note_btn[0] + note_delay
