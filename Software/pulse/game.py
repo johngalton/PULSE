@@ -146,7 +146,7 @@ class Game:
                             for note in next_note_btn[1]:
                                 if note['len'] > 5:
                                     buttonHoldFlag = True
-                                    buttonHoldEnd = note['dur']*1000 + note['time'] + note_delay + hit_delay
+                                    buttonHoldEnd = note['dur']*1000 + note['time'] + note_delay + self.hit_delay
                                     holdstateint = btnstateint
                                     break
 
