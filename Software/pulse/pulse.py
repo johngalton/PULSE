@@ -144,23 +144,13 @@ class Pulse:
                         #Score a hit
                         self.poles.hit(self.get_poles(s, note_keys[hit_index]))
                         self.hit()
-                        #logger.info("Button Pressed In Window")
                         note_hit = True
-                        
-                        outBy = s.time() - note_start
-                        hitCount += 1
-                        hitDelayTotal += outBy
-                        #logger.info("Button out by " + str(outBy))
 
                         #If the note is longer than 1 then we need to handle a long press
                         if s.notes[note_keys[hit_index]][0]['len'] > 1:
-                            #logger.info("Long note detected.")
                             hold_note_state = note_state
                             buttonHoldFlag = True
-                            note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_delay
-                            #logger.info("current time: " + str(s.time()))
-                            #logger.info("end time: " + str(note_end))
-                            #logger.info("duration: " + str(last_note[0]['dur']))
+                            note_end = (last_note[0]['dur'] * 1000) + last_note[0]['time'] + note_delay + hit_dela
                         else:
                             logger.info("Logging duration was: " + s.notes[note_keys[hit_index]][0]['len'])
                     elif buttonHoldFlag == True:
@@ -193,21 +183,19 @@ class Pulse:
                     except StopIteration:
                         next_note = -1;
                         poles = [[0,0],[0,0],[0,0]]
-                        
+
                 #If we're in a hold state
                 if buttonHoldFlag == True:
                     #If we're still within the allowed time then boost the score
                     if s.time() < note_end and btn_state == hold_note_state:
                         self.hold_score()
-                        #self.poles.hit(self.get_poles(s, note_keys[hit_index]))
-                        #logger.info("Holding!")
                     #Otherwise remove the flag
                     else:
                         buttonHoldFlag = False
                 #If we're not in a window and a button is pressed then this is an error
-                #elif True in state:
-                    #self.miss()
-                    #logger.info("Button pressed when not in window")
+                elif True in state:
+                    self.wrong_button()
+                    logger.info("Button pressed when not in window")
 
 
             # #Get the button state
