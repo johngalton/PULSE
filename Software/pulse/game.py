@@ -30,9 +30,9 @@ class Game:
         self.scoreCallback = scoreCallback
 
         self.update = 15
-        self.pole_delay = 180 * update
+        self.pole_delay = 180 * self.update
 
-        self.buttons_delay =  24 * update
+        self.buttons_delay =  24 * self.update
         self.led_hit_window = 25
         self.hit_delay = (self.led_hit_window / 2) * self.update
 
@@ -62,12 +62,12 @@ class Game:
 
         notes = self.s.notes
         next_note = notes.popitem(last=False)
-        next_poles = self.get_poles(next_note)
+        next_poles = self.get_poles(next_note[1])
         notesLeft = True
 
         notes_btn = self.s.notes
         next_note_btn = notes_btn.popitem(last=False)
-        next_poles_btn = self.get_poles(next_note_btn)
+        next_poles_btn = self.get_poles(next_note_btn[1])
 
         windowStart = False
         buttonPressed = False
@@ -90,7 +90,7 @@ class Game:
 
                 try:
                     next_note = notes.popitem(last=False)
-                    next_poles = self.get_poles(next_note)
+                    next_poles = self.get_poles(next_note[1])
                 except KeyError:
                     # No more notes
                     notesLeft = False
@@ -121,7 +121,7 @@ class Game:
 
             # If in button window
             if self.s.time() >= note_start - self.hit_delay and self.s.time() <= note_start + self.hit_delay:
-
+                print "window"
                 windowStart = True
 
                 if buttonJustPressed:
@@ -164,7 +164,7 @@ class Game:
                     # Get next btn note
                     try:
                         next_note_btn = notes_btn.popitem(last=False)
-                        next_poles_btn = self.get_poles(next_note_btn)
+                        next_poles_btn = self.get_poles(next_note_btn[1])
                     except KeyError:
                         # No more notes
                         loop = True
@@ -243,6 +243,14 @@ class Game:
         ret = 0
         for i in range(5):
             ret = (ret | (1 << i)) if buttons[i] else ret
+        return ret
+        
+    def notes_to_int(self, notes):
+        ret = 0
+        
+        for n in notes:
+            ret = ret | (1 << (n['pitch'] - 1))
+        
         return ret
 
     def get_poles(self, note):

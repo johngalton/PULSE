@@ -31,7 +31,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s: %(message)s")
 logger = logging.getLogger("pulse.Pulse")
 
-songdirectory = "/Users/daniel/Dropbox/PULSE Audio/"
+songdirectory = "C:\workspace\PULSE\Audio\\"
 
 class Pulse(ApplicationSession):
     def __init__(self, config):
@@ -91,13 +91,15 @@ class Pulse(ApplicationSession):
                 return
 
         info = yield self.call(u'com.emfpulse.queue.getnextinfo', qn)
+        print info['artist']
         for song in self.songs:
-            if song['name'] is info['song'] and song['artist'] is info['artist']:
+            print song['artist']
+            if song['name'] == info['song'] and song['artist'] == info['artist']:
                 songpath = song['path']
                 break
 
-        game = Game(songpath, self.btns, self.poles, self.scoreboard)
-        score = game.play(self.publishScore)
+        game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
+        score = game.play()
 
         res = yield self.call(u'com.emfpulse.play.endgame', score)
 

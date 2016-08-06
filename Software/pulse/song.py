@@ -47,7 +47,7 @@ class Song:
                 x = int(round(note['dur']/(rate/1000.0)))
                 #x = 2 if x < 2 else x       #increased
                 #x = x - 4 if x > 10 else x   #added
-                x = min(x-6, 2)
+                x = max(x-6, 2)
                 note['len'] = x
 
     def set_delay(self, time):
