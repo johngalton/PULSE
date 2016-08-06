@@ -119,13 +119,6 @@ class Pulse:
                 #Send the note to the poles
                 self.poles.pulse(poles)
                 self.poles.pulseTop(poles)
-                #Try to get the next note
-                try:
-                    next_note = key_iter.next()
-                    poles = self.get_poles(s, next_note)
-                except StopIteration:
-                    next_note = -1;
-                    poles = [[0,0],[0,0],[0,0]]
 
             #now we move on to the buttons
             #Get the button states
@@ -192,6 +185,15 @@ class Pulse:
                     note_hit = False
                     #stopTone.play()
                     hit_index = hit_index + 1
+
+                    #Try to get the next note
+                    try:
+                        next_note = key_iter.next()
+                        poles = self.get_poles(s, next_note)
+                    except StopIteration:
+                        next_note = -1;
+                        poles = [[0,0],[0,0],[0,0]]
+                        
                 #If we're in a hold state
                 if buttonHoldFlag == True:
                     #If we're still within the allowed time then boost the score
