@@ -47,10 +47,10 @@ class Game:
         self.scoreboard.pulse()
         self.scoreboard.zeros(True)
         self.btns.update([1,2,3,5,6])
-        
+
         startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
         stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
-        
+
         self.scoreboard.set_text("3 3 3 3 ")
         startTone.play()
         time.sleep(0.7)

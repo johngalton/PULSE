@@ -111,7 +111,7 @@ class Pulse(ApplicationSession):
             self.start()
 
     def publishScore(self, score):
-        self.publish(u'com.emfpulse.current', {'score': score})
+        self.publish(u'com.emfpulse.current', {'score': int(score)})
         return
 
     @inlineCallbacks
