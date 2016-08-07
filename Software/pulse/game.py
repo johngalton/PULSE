@@ -22,13 +22,14 @@ from .song import Song
 
 class Game:
 
-    def __init__(self, songpath, btns, poles, scoreboard, scoreCallback):
+    def __init__(self, songpath, btns, poles, scoreboard, scoreCallback, endGameCallback):
         logger.info("Initialising game")
 
         self.btns = btns
         self.poles = poles
         self.scoreboard = scoreboard
         self.scoreCallback = scoreCallback
+        self.endGameCallback = endGameCallback
 
         self.update = 15
         self.pole_delay = 178 * self.update
@@ -47,10 +48,10 @@ class Game:
         self.scoreboard.pulse()
         self.scoreboard.zeros(True)
         self.btns.update([1,2,3,5,6])
-        
+
         startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
         stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
-        
+
         self.scoreboard.set_text("3 3 3 3 ")
         startTone.play()
         time.sleep(0.7)
@@ -133,7 +134,7 @@ class Game:
                     buttonHoldFlag = False
 
             # If in button window
-            if notesLeftBtn and self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
+            if not noteHit and notesLeftBtn and self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
                 windowStart = True
 
                 if buttonJustPressed:
@@ -191,6 +192,7 @@ class Game:
 
             buttonWasPressed = buttonPressed
 
+        self.hiscore = yield self.endGameCallback(self.score)
         self.scoreboardShit()
 
         return int(self.score)
@@ -202,6 +204,15 @@ class Game:
 
         self.scoreboard.zeros(False)
         self.scoreboard.count_time(1000)
+
+        if self.hiscore:
+            self.scoreboard.set_text("CONGRATS")
+            time.sleep(1)
+            self.scoreboard.set_text("HI-SCORE")
+            time.sleep(1)
+            self.scoreboard.set_text("        ")
+            time.sleep(0.5)
+
         self.scoreboard.set_text(" LONGEST")
         time.sleep(1)
         self.scoreboard.set_text("   RUN  ")
@@ -239,7 +250,7 @@ class Game:
         self.score += 10*(math.pow(2.0,(min(self.multiplierStreak/5.0, 4.0))))
 
         self.scoreboard.score(self.score)
-        self.scoreCallback(self.score)
+        yield self.scoreCallback(self.score)
 
         self.multiplierStreak += 1
         self.streak += 1
