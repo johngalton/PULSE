@@ -100,15 +100,21 @@ class Pulse(ApplicationSession):
 
         res = yield self.call(u'com.emfpulse.playstatus.set', True)
 
-        game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
+        game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore, self.endGame)
         score = game.play()
 
-        res = yield self.call(u'com.emfpulse.play.endgame', score)
+        #res = yield self.call(u'com.emfpulse.play.endgame', score)
         res = yield self.call(u'com.emfpulse.playstatus.set', False)
 
         self.enabled = yield self.call(u'com.emfpulse.enabled.get')
         if self.enabled:
             self.start()
+
+    @inlineCallbacks
+    def endGame(self, score):
+        res = yield self.call(u'com.emfpulse.play.endgame', int(score))
+        returnValue(res)
+
 
     def publishScore(self, score):
         self.publish(u'com.emfpulse.current', {'score': int(score)})
