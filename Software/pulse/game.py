@@ -19,7 +19,6 @@ from .buttons import Buttons
 from .poles import Poles
 from .song import Song
 
-from twisted.internet.defer import inlineCallbacks
 
 
 class Game:
@@ -70,7 +69,6 @@ class Game:
         self.s.set_update_speed(self.update)
         self.poles.set_update_speed(0x00, self.update)
 
-    @inlineCallbacks
     def play(self):
         self.s.start()
 
