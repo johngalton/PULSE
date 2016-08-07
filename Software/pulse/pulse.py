@@ -180,5 +180,5 @@ class Pulse(ApplicationSession):
 if __name__ == "__main__":
     pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 
-    runner = ApplicationRunner(url=u"ws://emfpulse.com:12345/ws", realm=u'realm1')
+    runner = ApplicationRunner(url=u"ws://emfpulse.com/wamp/ws", realm=u'realm1')
     runner.run(Pulse)
