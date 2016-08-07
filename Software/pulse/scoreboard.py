@@ -46,7 +46,7 @@ class Scoreboard:
             return
         
         try:
-            self.ser.write("num=" + str(score) + "\r")
+            self.ser.write("numb=" + str(score) + "\r")
         except SerialException:
             logger.error("Error writing to serial port.")
             self.ser = None

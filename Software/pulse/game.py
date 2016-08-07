@@ -217,8 +217,8 @@ class Game:
         time.sleep(3)
         self.scoreboard.set_text(" OUT OF ")
         time.sleep(1)
-        self.scoreboard.numb(len(self.s.notes))
-        time.sleep(3)
+        self.scoreboard.set_number(len(self.s.notes))
+        time.sleep(2)
 
         self.scoreboard.set_text("  SCORE ")
         time.sleep(1)
