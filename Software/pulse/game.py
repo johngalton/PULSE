@@ -133,7 +133,7 @@ class Game:
                     buttonHoldFlag = False
 
             # If in button window
-            if notesLeftBtn and self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
+            if not noteHit and notesLeftBtn and self.s.time() >= (note_start - self.hit_delay) and self.s.time() <= (note_start + self.hit_delay):
                 windowStart = True
 
                 if buttonJustPressed:
