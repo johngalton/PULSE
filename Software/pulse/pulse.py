@@ -104,8 +104,10 @@ class Pulse(ApplicationSession):
 
         game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
         score = game.play()
+        
+        print score
 
-        res = yield self.call(u'com.emfpulse.play.endgame', int(score))
+        res = yield self.call(u'com.emfpulse.play.endgame', score)
         res = yield self.call(u'com.emfpulse.playstatus.set', False)
 
         self.enabled = yield self.call(u'com.emfpulse.enabled.get')
@@ -182,5 +184,5 @@ class Pulse(ApplicationSession):
 if __name__ == "__main__":
     pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 
-    runner = ApplicationRunner(url=u"ws://emfpulse.com/wamp/ws", realm=u'realm1')
+    runner = ApplicationRunner(url=u"ws://emfpulse.com:12345/ws", realm=u'realm1')
     runner.run(Pulse)

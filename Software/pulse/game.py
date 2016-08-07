@@ -181,11 +181,12 @@ class Game:
                         # No more notes
                         notesLeftBtn = False
 
-                if buttonPressed and not buttonHoldFlag:
-                    self.multiplierStreak = 0
+                #if buttonPressed and not buttonHoldFlag:
+                #    self.multiplierStreak = 0
 
                 if buttonJustPressed and not buttonHoldFlag:
                     self.streak = 0
+                    self.multiplierStreak = 0
 
 
 
@@ -194,7 +195,8 @@ class Game:
         #self.hiscore = yield self.endGameCallback(self.score)
         self.scoreboardShit()
 
-        return self.score
+        print self.score
+        return int(self.score)
 
 
     def scoreboardShit(self):
@@ -227,8 +229,9 @@ class Game:
         time.sleep(3)
         self.scoreboard.set_text(" OUT OF ")
         time.sleep(1)
-        self.scoreboard.set_number(len(self.s.notes))
-        time.sleep(2)
+        self.scoreboard.score(0)
+        self.scoreboard.score(len(self.s.notes))
+        time.sleep(3)
 
         self.scoreboard.set_text("  SCORE ")
         time.sleep(1)
