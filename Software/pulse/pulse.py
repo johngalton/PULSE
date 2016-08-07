@@ -98,14 +98,13 @@ class Pulse(ApplicationSession):
                 songpath = song['path']
                 break
 
+        res = yield self.call(u'com.emfpulse.playstatus.set', True)
+
         game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore)
-
-        res = self.publish(u'com.emfpulse.current', {'isplaying': True})
-
         score = game.play()
 
         res = yield self.call(u'com.emfpulse.play.endgame', score)
-        res = self.publish(u'com.emfpulse.current', {'isplaying': False})
+        res = yield self.call(u'com.emfpulse.playstatus.set', False)
 
         self.enabled = yield self.call(u'com.emfpulse.enabled.get')
         if self.enabled:
