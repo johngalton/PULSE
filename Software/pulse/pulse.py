@@ -103,7 +103,7 @@ class Pulse(ApplicationSession):
         res = yield self.call(u'com.emfpulse.playstatus.set', True)
 
         game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore, self.endGame)
-        game.play()
+        yield game.play()
 
         #res = yield self.call(u'com.emfpulse.play.endgame', score)
         res = yield self.call(u'com.emfpulse.playstatus.set', False)
