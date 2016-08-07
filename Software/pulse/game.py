@@ -9,6 +9,7 @@ The actual game code
 import time
 import logging
 import math
+import pygame
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +31,9 @@ class Game:
         self.scoreCallback = scoreCallback
 
         self.update = 15
-        self.pole_delay = 180 * self.update
+        self.pole_delay = 178 * self.update
 
-        self.buttons_delay =  24 * self.update
+        self.buttons_delay =  22 * self.update
         self.led_hit_window = 25
         self.hit_delay = (self.led_hit_window / 2) * self.update
 
@@ -45,8 +46,22 @@ class Game:
 
         self.scoreboard.pulse()
         self.scoreboard.zeros(True)
-        self.scoreboard.score(0)
         self.btns.update([1,2,3,5,6])
+        
+        startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
+        stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
+        
+        self.scoreboard.set_text("3 3 3 3 ")
+        startTone.play()
+        time.sleep(0.7)
+        self.scoreboard.set_text(" 2 2 2 2")
+        startTone.play()
+        time.sleep(0.7)
+        self.scoreboard.set_text("1 1 1 1 ")
+        startTone.play()
+        time.sleep(0.7)
+        stopTone.play()
+        self.scoreboard.score(0)
 
         self.s = Song(songpath)
 
@@ -183,6 +198,7 @@ class Game:
 
     def scoreboardShit(self):
         self.scoreboard.pulse()
+        self.btns.update([0,0,0,0,0])
 
         self.scoreboard.zeros(False)
         self.scoreboard.count_time(1000)
@@ -198,7 +214,7 @@ class Game:
         time.sleep(1)
         self.scoreboard.score(0)
         self.scoreboard.score(self.hit_count)
-        time.sleep(2)
+        time.sleep(3)
         self.scoreboard.set_text(" OUT OF ")
         time.sleep(1)
         self.scoreboard.score(0)
