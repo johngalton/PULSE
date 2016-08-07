@@ -24,14 +24,13 @@ from twisted.internet.defer import inlineCallbacks
 
 class Game:
 
-    def __init__(self, songpath, btns, poles, scoreboard, scoreCallback, endGameCallback):
+    def __init__(self, songpath, btns, poles, scoreboard, scoreCallback):
         logger.info("Initialising game")
 
         self.btns = btns
         self.poles = poles
         self.scoreboard = scoreboard
         self.scoreCallback = scoreCallback
-        self.endGameCallback = endGameCallback
 
         self.update = 15
         self.pole_delay = 178 * self.update
@@ -194,8 +193,10 @@ class Game:
 
             buttonWasPressed = buttonPressed
 
-        self.hiscore = yield self.endGameCallback(self.score)
+        #self.hiscore = yield self.endGameCallback(self.score)
         self.scoreboardShit()
+
+        return self.score
 
 
     def scoreboardShit(self):
@@ -205,13 +206,13 @@ class Game:
         self.scoreboard.zeros(False)
         self.scoreboard.count_time(1000)
 
-        if self.hiscore:
-            self.scoreboard.set_text("CONGRATS")
-            time.sleep(1)
-            self.scoreboard.set_text("HI-SCORE")
-            time.sleep(1)
-            self.scoreboard.set_text("        ")
-            time.sleep(0.5)
+        #if self.hiscore:
+        #    self.scoreboard.set_text("CONGRATS")
+        #    time.sleep(1)
+        #    self.scoreboard.set_text("HI-SCORE")
+        #    time.sleep(1)
+        #    self.scoreboard.set_text("        ")
+        #    time.sleep(0.5)
 
         self.scoreboard.set_text(" LONGEST")
         time.sleep(1)
