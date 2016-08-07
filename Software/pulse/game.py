@@ -192,10 +192,10 @@ class Game:
 
             buttonWasPressed = buttonPressed
 
-        self.hiscore = yield self.endGameCallback(self.score)
+        self.hiscore = self.endGameCallback(self.score)
         self.scoreboardShit()
 
-        return int(self.score)
+        return (int(self.score))
 
 
     def scoreboardShit(self):
