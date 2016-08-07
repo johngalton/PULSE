@@ -44,6 +44,8 @@ class Pulse(ApplicationSession):
         self.songs = []
         signal.signal(signal.SIGINT, self.stop_signal)
 
+        self.noplayer = False
+
     @inlineCallbacks
     def onJoin(self, details):
         logger.info("Session Joined")
@@ -101,7 +103,7 @@ class Pulse(ApplicationSession):
         res = yield self.call(u'com.emfpulse.playstatus.set', True)
 
         game = Game(songpath, self.btns, self.poles, self.scoreboard, self.publishScore, self.endGame)
-        score = game.play()
+        game.play()
 
         #res = yield self.call(u'com.emfpulse.play.endgame', score)
         res = yield self.call(u'com.emfpulse.playstatus.set', False)

@@ -192,10 +192,8 @@ class Game:
 
             buttonWasPressed = buttonPressed
 
-        self.hiscore = self.endGameCallback(self.score)
+        self.hiscore = yield self.endGameCallback(self.score)
         self.scoreboardShit()
-
-        return (int(self.score))
 
 
     def scoreboardShit(self):
@@ -250,7 +248,7 @@ class Game:
         self.score += 10*(math.pow(2.0,(min(self.multiplierStreak/5.0, 4.0))))
 
         self.scoreboard.score(self.score)
-        yield self.scoreCallback(self.score)
+        #yield self.scoreCallback(self.score)
 
         self.multiplierStreak += 1
         self.streak += 1
