@@ -34,7 +34,7 @@ class Game:
         self.pole_delay = 178 * self.update
 
         self.buttons_delay =  22 * self.update
-        self.led_hit_window = 25
+        self.led_hit_window = 36
         self.hit_delay = (self.led_hit_window / 2) * self.update
 
         self.multiplierStreak = 0
@@ -217,8 +217,7 @@ class Game:
         time.sleep(3)
         self.scoreboard.set_text(" OUT OF ")
         time.sleep(1)
-        self.scoreboard.score(0)
-        self.scoreboard.score(len(self.s.notes))
+        self.scoreboard.numb(len(self.s.notes))
         time.sleep(3)
 
         self.scoreboard.set_text("  SCORE ")
