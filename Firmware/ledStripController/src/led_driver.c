@@ -199,6 +199,11 @@ uint8_t led_push_buffer(uint8_t value)
 	return 1;
 }
 
+void led_clear_buffer(void)
+{
+	memset(buffer[])
+}
+
 void led_set_beacon(uint8_t value)
 {
 	beaconColour = get_colour(value);
@@ -245,6 +250,17 @@ void led_show_logo(uint8_t code, uint8_t offset)
 		else
 			ledStrip[GET_POS(position+count)] = get_colour(0);
 	}
+}
+
+//Not complete yet!!!
+void led_show_bar(uint8_t colour, uint8_t offset, uint8_t length)
+{
+	//We dont want to use the buffer position for this
+	bufferPosition = 0;
+
+	//need to set ledStrip not buffer
+	memset(&buffer[offset],colour,length);
+	led_update();
 }
 
 void led_propagate(void)

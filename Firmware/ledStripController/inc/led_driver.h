@@ -16,6 +16,7 @@ void led_init(void);
 void led_update(void);
 void led_send_colour(uint32_t col);
 uint8_t led_push_buffer(uint8_t value);
+void led_clear_buffer(void);
 void led_set_beacon(uint8_t value);
 void led_set_beacon_background(uint8_t value);
 void led_set_beacon_fade_div(uint8_t value);
@@ -23,5 +24,6 @@ void led_pulse_target(uint8_t code);
 void led_propagate(void);
 void led_set_all(uint8_t code);
 void led_show_logo(uint8_t code, uint8_t offset);
+void led_show_bar(uint8_t colour, uint8_t offset, uint8_t length);
 
 #endif /* INC_LED_DRIVER_H_ */

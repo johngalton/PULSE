@@ -210,6 +210,25 @@ void longHandler(uart_long_function data)
 			led_set_beacon_fade_div(value);
 		}
 		break;
+		case 4:
+		{
+			//Set the whole bar to 0
+			led_show_bar(0,0,STRIP_SIZE);
+		}
+		break;
+		case 8:
+		{
+			if (data.length != 1)
+				return;
+
+			//Get the value we're setting
+			uint8_t colour = data.data[0];
+			uint8_t offset = data.data[1];
+			uint8_t length = data.data[2];
+
+			led_show_bar(colour, offset, length);
+		}
+		break;
 	}
 }
 
