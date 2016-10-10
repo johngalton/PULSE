@@ -31,9 +31,10 @@ class Song:
 
         self.read_ini()
         self.read_midi()
+        
+        pygame.mixer.music.load(self.location+'/guitar.ogg')
 
     def start(self):
-        pygame.mixer.music.load(self.location+'/guitar.ogg')
         pygame.mixer.music.play()
 
     def time(self):

@@ -10,6 +10,7 @@ import time
 import logging
 import math
 import pygame
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -44,34 +45,56 @@ class Game:
         self.high_streak = 0
         self.hit_count = 0
         self.miss_count = 0
+        
+        self.pulseActivate = pygame.mixer.Sound("C:\workspace\PULSE\Audio\pulseActivate.wav")
 
-        self.scoreboard.pulse()
+        self.scoreboard.pulse(False)
         self.scoreboard.zeros(True)
         self.btns.update([1,2,3,5,6])
+        self.poles.set_reverse(True);
 
-        startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
-        stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
-
-        self.scoreboard.set_text("3 3 3 3 ")
-        startTone.play()
-        time.sleep(0.7)
-        self.scoreboard.set_text(" 2 2 2 2")
-        startTone.play()
-        time.sleep(0.7)
-        self.scoreboard.set_text("1 1 1 1 ")
-        startTone.play()
-        time.sleep(0.7)
-        stopTone.play()
-        self.scoreboard.score(0)
-
+        #startTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\start_tone.wav")
+        #stopTone = pygame.mixer.Sound("C:\Users\Andrew\Documents\Github\PULSE\stop_tone.wav")
+        
         self.s = Song(songpath)
 
         self.s.set_update_speed(self.update)
         self.poles.set_update_speed(0x00, self.update)
+        
+        poleOrder = [1, 2, 3, 4, 5]
+        random.shuffle(poleOrder)
+        
+        fakeNote = {
+            'len': 5,
+            'pitch': poleOrder[0]
+        }
+        
+        self.poles.pulse(self.get_poles([fakeNote]))
+        time.sleep(0.2)
+        
+        fakeNote['pitch'] = poleOrder[1]
+        
+        self.poles.pulse(self.get_poles([fakeNote]))
+        time.sleep(0.2)
+        
+        fakeNote['pitch'] = poleOrder[2]
+        
+        self.poles.pulse(self.get_poles([fakeNote]))
+        time.sleep(0.2)
+        
+        fakeNote['pitch'] = poleOrder[3]
+        
+        self.poles.pulse(self.get_poles([fakeNote]))
+        time.sleep(0.2)
+        
+        fakeNote['pitch'] = poleOrder[4]
+        
+        self.poles.pulse(self.get_poles([fakeNote]))
+        time.sleep(0.2)
+        
+        self.poles.pulse([[7,5],[7,5],[7,5]])
 
     def play(self):
-        self.s.start()
-
         note_delay = self.s.delay + self.buttons_delay
         pole_delay = self.s.delay - self.pole_delay
 
@@ -94,8 +117,30 @@ class Game:
         holdstateint = None
 
         notesLeftBtn = True
+        
+        self.pulseActivate.play()
+        
+        time.sleep(1)
+        
+        self.s.start()
+        
+        self.scoreboard.set_text("3 3 3 3 ")
+        countdown = 1000
+        self.poles.set_reverse(False);
+        
         while self.s.isPlaying():
-
+            
+            if self.s.time() > countdown:
+                if countdown == 1000:
+                    self.scoreboard.set_text(" 2 2 2 2")
+                    countdown = 2000
+                elif countdown == 2000:
+                    self.scoreboard.set_text("1 1 1 1 ")
+                    countdown = 3000
+                elif countdown == 3000:
+                    self.scoreboard.score(0)
+                    countdown = 0
+            
             if notesLeft and self.s.time() >= next_note[0] + pole_delay:
                 # Send next note to the poles
                 self.poles.pulse(next_poles)

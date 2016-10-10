@@ -24,7 +24,7 @@ class Poles:
             logger.error("Serial library not initialised")
         else:
             try:
-                self.ser = serial.Serial("COM9", 9600, timeout=0.5)
+                self.ser = serial.Serial("COM11", 9600, timeout=0.5)
             except SerialException:
                 logger.error("Error initialising serial link")
                 self.ser = None
@@ -47,6 +47,15 @@ class Poles:
     def set_update_speed(self, addr, period):
         period_bytes = list(struct.pack("!H",period))
         self.cmd(addr, 0x01, period_bytes)
+    
+    def set_reverse(self, active):
+        bytes = []
+        
+        if (active == True):
+            bytes.append(1)
+        else:
+            bytes.append(0)
+        self.cmd(0x00, 0x08, bytes)
 
     def update_cmd(self, cmdtype, poles):
         # poles: [[Colour1, Length1], ...]

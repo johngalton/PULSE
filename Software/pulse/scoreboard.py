@@ -24,7 +24,7 @@ class Scoreboard:
             logger.error("Serial library not initialised")
         else:
             try:
-                self.ser = serial.Serial("COM1", 9600, timeout=0.5)
+                self.ser = serial.Serial("COM12", 9600, timeout=0.5)
             except SerialException:
                 logger.error("Error initialising serial link")
                 self.ser = None
@@ -77,7 +77,7 @@ class Scoreboard:
 
         return
     
-    def pulse(self):
+    def pulse(self, sleep = True):
         if self.ser is None:
             return
 
@@ -85,7 +85,9 @@ class Scoreboard:
             self.ser.write("clear\r")
             time.sleep(0.5)
             self.ser.write("pulse\r")
-            time.sleep(2)
+            
+            if (sleep == True):
+                time.sleep(2)
         except SerialException:
             logger.error("Error writing to serial port.")
             self.ser = None
