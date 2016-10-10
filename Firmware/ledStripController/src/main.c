@@ -213,7 +213,8 @@ void longHandler(uart_long_function data)
 		case 4:
 		{
 			//Set the whole bar to 0
-			led_show_bar(0,0,STRIP_SIZE);
+			led_clear_strip();
+			led_clear_buffer();
 		}
 		break;
 		case 8:
@@ -221,12 +222,10 @@ void longHandler(uart_long_function data)
 			if (data.length != 1)
 				return;
 
-			//Get the value we're setting
-			uint8_t colour = data.data[0];
-			uint8_t offset = data.data[1];
-			uint8_t length = data.data[2];
+			uint8_t value = data.data[0];
 
-			led_show_bar(colour, offset, length);
+			led_invert_direction(value);
+			led_hide_target(value);
 		}
 		break;
 	}
