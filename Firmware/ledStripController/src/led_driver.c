@@ -38,7 +38,7 @@ void send_low(uint8_t run);
 void send_res(void);
 uint8_t read_buffer(void);
 colour get_colour(uint8_t code);
-uint32_t mod(uint32_t numerator, uint32_t denominator);
+uint32_t mod(int32_t numerator, int32_t denominator);
 
 //Buffer for the LED strip we have 150 LED's with 24 bit colour
 //B R G X
@@ -292,13 +292,13 @@ void led_propagate(void)
 	}
 
 	//Move existing LED's down
- 	if (invertDirection)
+ 	if (invertDirection == 0)
  	{
- 		bufferPosition = mod((bufferPosition + 1), STRIP_SIZE);
+ 		bufferPosition = mod((int32_t)(bufferPosition + 1), STRIP_SIZE);
  	}
  	else
  	{
- 		bufferPosition = mod((bufferPosition - 1), STRIP_SIZE);
+ 		bufferPosition = mod((int32_t)(bufferPosition - 1), STRIP_SIZE);
  	}
 
 	uint16_t currentLED = GET_POS(1);
@@ -323,8 +323,8 @@ void led_propagate(void)
 
 		if (invertDirection == 1)
 		{
-			currentLED = mod(currentLED-1, STRIP_SIZE);
-			previousLED = mod(previousLED-1, STRIP_SIZE);
+			currentLED = mod((int32_t)currentLED-1, STRIP_SIZE);
+			previousLED = mod((int32_t)previousLED-1, STRIP_SIZE);
 		}
 		else
 		{
@@ -333,7 +333,7 @@ void led_propagate(void)
 		}
 	}
 
-	if (invertDirection)
+	if (invertDirection == 0)
 	{
 		ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
 	}
@@ -534,7 +534,7 @@ void led_set_all(uint8_t code)
 	}
 }
 
-uint32_t mod(uint32_t numerator, uint32_t denominator)
+uint32_t mod(int32_t numerator, int32_t denominator)
 {
 	uint32_t value = numerator % denominator;
 
