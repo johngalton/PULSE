@@ -70,6 +70,7 @@ void loop()
             Serial1.println("OK");
             scoreCount = atol(data);
             setDisplayNum(scoreCount);
+            targetScore = scoreCount;
           }
           else if (strstr(command, "score") != NULL)
           {

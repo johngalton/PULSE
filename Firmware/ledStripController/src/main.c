@@ -210,6 +210,24 @@ void longHandler(uart_long_function data)
 			led_set_beacon_fade_div(value);
 		}
 		break;
+		case 4:
+		{
+			//Set the whole bar to 0
+			led_clear_strip();
+			led_clear_buffer();
+		}
+		break;
+		case 8:
+		{
+			if (data.length != 1)
+				return;
+
+			uint8_t value = data.data[0];
+
+			led_invert_direction(value);
+			led_hide_target(value);
+		}
+		break;
 	}
 }
 

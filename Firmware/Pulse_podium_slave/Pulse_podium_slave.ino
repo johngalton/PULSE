@@ -10,6 +10,12 @@
 
 #define DEBUG_BUT 10
 
+enum receiveResults
+{
+  RESULT_DATA_RECEIVED,
+  RESULT_TIMEOUT
+};
+
 Adafruit_NeoPixel pixel = Adafruit_NeoPixel(1, BUT_LED, NEO_GRB + NEO_KHZ800);
 
 byte targetRed = 0;
@@ -19,6 +25,8 @@ byte targetBlu = 0;
 byte actualRed = 0;
 byte actualGre = 0;
 byte actualBlu = 0;
+
+bool testModeActive = 0;
 
 unsigned long lastPress = 0;      // used for latch ing button presses for s specific time
 unsigned long lastRxPacket = 0;   // used for the RJ45 jack status indicators
@@ -59,7 +67,6 @@ void loop()
 	else
 		digitalWrite(SLVE_LED_YEL, LOW);
 
-
 	if (!digitalRead(DEBUG_BUT))
 	{
 		pixel.setPixelColor(0, pixel.Color(255, 0, 0));
@@ -73,82 +80,102 @@ void loop()
 		delay(1000);
 		pixel.setPixelColor(0, pixel.Color(0, 0, 0));
 		pixel.show();
+    actualRed = 0;  //update what they've been left as
+    actualGre = 0;
+    actualBlu = 0;
 	}
 
-  byte c = Serial.peek();
+  if (testModeActive)
+  {
+    if (!digitalRead(BUT_SW))
+    {
+      actualRed = 255;
+      actualGre = 0;
+    }
+    else
+    {
+      actualRed = 0;
+      actualGre = 255;
+    }
+    actualBlu = 0;
+    pixel.setPixelColor(0, pixel.Color(actualRed, actualGre, actualBlu));
+    pixel.show();
+    delay(20);    //50Hz update in test mode only
+  }
 
-  if (c != -1)
+  byte c = Serial.read();
+
+  if (c != -1)  //if it's an actual packet in the buffer
   {
     byte newColour = 255;
-  
-    if (c != 0xFF)
-      lastRxPacket = millis();
+    lastRxPacket = millis();
+
+    unsigned long packetStartTime = millis();
   
     if (c == 0xF0)        // first in chain, message from master
     {
-      if (Serial.available() >= 6)
+      if (waitForDataOrTimeout(5) == RESULT_DATA_RECEIVED)
       {
         buttonAddress = 1;
-        Serial.read();                // discard command byte
         newColour = Serial.read();    // use colour 1
         Serial.write(0xF1);
         Serial.write(Serial.read());  // send on colour 2
         Serial.write(Serial.read());  // send on colour 3
         Serial.write(Serial.read());  // send on colour 4
         Serial.write(Serial.read());  // send on colour 5
+        testModeActive = false;
       }
     }
     else if (c == 0xF1)   // second in chain, message from button 1
     {
-      if (Serial.available() >= 5)
+      if (waitForDataOrTimeout(4) == RESULT_DATA_RECEIVED)
       {
         buttonAddress = 2;
-        Serial.read();                // discard command byte
         newColour = Serial.read();    // use colour 2
         Serial.write(0xF2);
         Serial.write(Serial.read());  // send on colour 3
         Serial.write(Serial.read());  // send on colour 4
         Serial.write(Serial.read());  // send on colour 5
+        testModeActive = false;
        }
     }
     else if (c == 0xF2)   // third in chain, message from button 2
     {
-      if (Serial.available() >= 4)
+      if (waitForDataOrTimeout(3) == RESULT_DATA_RECEIVED)
       {
         buttonAddress = 3;
-        Serial.read();                // discard command byte
         newColour = Serial.read();    // use colour 3
         Serial.write(0xF3);
         Serial.write(Serial.read());  // send on colour 4
         Serial.write(Serial.read());  // send on colour 5
+        testModeActive = false;
       }
     }
     else if (c == 0xF3)   // etc
     {
-      if (Serial.available() >= 3)
+      if (waitForDataOrTimeout(2) == RESULT_DATA_RECEIVED)
       {
         buttonAddress = 4;
-        Serial.read();                // discard command byte
         newColour = Serial.read();    // use colour 4
         Serial.write(0xF4);
         Serial.write(Serial.read());  // send on colour 5
+        testModeActive = false;
       }
     }
     else if (c == 0xF4)
     {
-      if (Serial.available() >= 2)
+      if (waitForDataOrTimeout(1) == RESULT_DATA_RECEIVED)
       {
         buttonAddress = 5;
-        Serial.read();                // discard command byte
         newColour = Serial.read();    // use colour 5
         Serial.print("OK");           // send chain confimation
+        testModeActive = false;
       }
     }
     else if (c == 0xFA)   // set hold time
     {
-      if (Serial.available() >= 3)
+      if (waitForDataOrTimeout(2) == RESULT_DATA_RECEIVED)
       {
-        Serial.read();  // discard command byte
         byte data1 = Serial.read();
         byte data2 = Serial.read();
         stickyTime = ((int)data1 << 8) | (int)data2;
@@ -159,19 +186,22 @@ void loop()
     }
     else if ((c & 0xE0) == 0xC0) //request data command (top 3 bits are 110)
     {
-      byte inData = Serial.read();
-  
       if (((millis() - lastPress) < stickyTime) && (buttonAddress != 0))
-        Serial.write(inData | (1 << (5 - buttonAddress)));
+        Serial.write(c | (1 << (5 - buttonAddress)));
       else
-        Serial.write(inData);
+        Serial.write(c);
   
       lastPress = 0;    // reset sticky bit
     }
-    else
+    else if (c == 0xFB)
     {
-      if (c != 0xFF)
-        Serial.read();  // discard first byte in buffer, as we didn't recognise it
+      testModeActive = true;
+      Serial.write(0xFB);
+    }
+    else if (c == 0xFC)
+    {
+      testModeActive = false;
+      Serial.write(0xFC);
     }
     
     if (newColour == 0)
@@ -201,7 +231,7 @@ void loop()
 		digitalWrite(MSTR_LED_GRE, LOW);
 	}
 
-	if ((millis() - colourUpdate) > 2)
+	if (((millis() - colourUpdate) > 2) && (!testModeActive))
 	{
 		colourUpdate = millis();
 		bool updateNeeded = false;
@@ -241,6 +271,17 @@ void loop()
 			pixel.show();
 		}
 	}
+}
+
+int waitForDataOrTimeout(int numOfBytes)
+{
+  unsigned long startTime = millis();
+  while (Serial.available() < numOfBytes)
+  {
+    if ((millis() - startTime) > (numOfBytes * 10))
+      return RESULT_TIMEOUT;
+  }
+  return RESULT_DATA_RECEIVED;
 }
 
 void setNewTargetColour(byte red, byte gre, byte blu)

@@ -38,6 +38,7 @@ void send_low(uint8_t run);
 void send_res(void);
 uint8_t read_buffer(void);
 colour get_colour(uint8_t code);
+uint32_t mod(int32_t numerator, int32_t denominator);
 
 //Buffer for the LED strip we have 150 LED's with 24 bit colour
 //B R G X
@@ -57,6 +58,8 @@ uint8_t bufferPosition = 0;
 colour targetColour;
 uint8_t notePressed = 0;
 uint8_t beaconSet = 0;
+uint8_t invertDirection = 0;
+uint8_t targetHidden = 0;
 
 colour targetColourDefault;
 
@@ -199,6 +202,16 @@ uint8_t led_push_buffer(uint8_t value)
 	return 1;
 }
 
+void led_clear_buffer(void)
+{
+	memset(buffer,0,sizeof(buffer));
+}
+
+void led_clear_strip(void)
+{
+	memset(ledStrip, 0, sizeof(ledStrip));
+}
+
 void led_set_beacon(uint8_t value)
 {
 	beaconColour = get_colour(value);
@@ -224,8 +237,20 @@ void led_set_beacon_background(uint8_t value)
 void led_pulse_target(uint8_t code)
 {
 	notePressed = 1;
-	//Changed so that it automatically picks up on the colour
-	//targetColour = get_colour(code);
+}
+
+void led_hide_target(uint8_t hide)
+{
+	if (hide == 0)
+	{
+		targetHidden = 0;
+	}
+	else
+	{
+		targetHidden = 1;
+		ledStrip[GET_POS(9)].val = 0;
+		ledStrip[GET_POS(10)].val = 0;
+	}
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -247,6 +272,14 @@ void led_show_logo(uint8_t code, uint8_t offset)
 	}
 }
 
+void led_invert_direction(uint8_t invert)
+{
+	if (invert == 0)
+		invertDirection = 0;
+	else
+		invertDirection = 1;
+}
+
 void led_propagate(void)
 {
 	if (targetColour.val != TARGET_COL && notePressed == 0)
@@ -258,14 +291,34 @@ void led_propagate(void)
 		targetColour.val |= 0x00010101;
 	}
 
-	ledStrip[GET_POS(10)].val = 0;
- 	ledStrip[GET_POS(9)].val = 0;
+	if (targetHidden == 0)
+	{
+		ledStrip[GET_POS(10)].val = 0;
+		ledStrip[GET_POS(9)].val = 0;
+	}
 
 	//Move existing LED's down
- 	bufferPosition = (bufferPosition + 1) % STRIP_SIZE;
+ 	if (invertDirection == 0)
+ 	{
+ 		bufferPosition = mod((int32_t)(bufferPosition + 1), STRIP_SIZE);
+ 	}
+ 	else
+ 	{
+ 		bufferPosition = mod((int32_t)(bufferPosition - 4), STRIP_SIZE);
+ 		for (uint8_t count = 0; count < 4; count++)
+ 		{
+ 			ledStrip[GET_POS(count)].val = 0;
+ 		}
+ 	}
 
 	uint16_t currentLED = GET_POS(1);
 	uint16_t previousLED = bufferPosition; //0
+
+	if (invertDirection == 1)
+	{
+		currentLED = GET_POS(STRIP_SIZE-2);
+		previousLED = GET_POS(STRIP_SIZE-1);
+	}
 
 	for (uint16_t ledCount = 0; ledCount < (STRIP_SIZE - 1); ledCount++)
 	{
@@ -278,11 +331,28 @@ void led_propagate(void)
 			ledStrip[currentLED].col.blue >>= 1;
 		}
 
-		currentLED = (currentLED+1) % STRIP_SIZE;
-		previousLED = (previousLED+1) % STRIP_SIZE;
+		if (invertDirection == 1)
+		{
+			currentLED = mod((int32_t)currentLED-1, STRIP_SIZE);
+			previousLED = mod((int32_t)previousLED-1, STRIP_SIZE);
+			if (ledCount > (STRIP_SIZE - 6))
+				ledStrip[currentLED].val = 0;
+		}
+		else
+		{
+			currentLED = (currentLED+1) % STRIP_SIZE;
+			previousLED = (previousLED+1) % STRIP_SIZE;
+		}
 	}
 
-	ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
+	if (invertDirection == 0)
+	{
+		ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
+	}
+	else
+	{
+		ledStrip[bufferPosition] = get_colour(read_buffer());
+	}
 
 	if (ledStrip[GET_POS(STRIP_SIZE-1)].val == 0)
 	{
@@ -313,39 +383,42 @@ void led_propagate(void)
 			beaconColour.col.blue = tmp;
 	}
 
-	uint8_t afterTargetPos = GET_POS(8);
-	ledStrip[afterTargetPos] = ledStrip[GET_POS(10)];
-
-	//If the note has been hit we should fade the data or clear it completely
-	if (notePressed)
+	if (targetHidden == 0)
 	{
-		if (ledStrip[afterTargetPos].val == 0)
+		uint8_t afterTargetPos = GET_POS(8);
+		ledStrip[afterTargetPos] = ledStrip[GET_POS(10)];
+
+		//If the note has been hit we should fade the data or clear it completely
+		if (notePressed)
 		{
-			if (notePressed == 2)
-				notePressed = 0;
-		}
-		else if (notePressed == 1)
-		{
-			targetColour = ledStrip[afterTargetPos];
-			notePressed = 2;
+			if (ledStrip[afterTargetPos].val == 0)
+			{
+				if (notePressed == 2)
+					notePressed = 0;
+			}
+			else if (notePressed == 1)
+			{
+				targetColour = ledStrip[afterTargetPos];
+				notePressed = 2;
+			}
+
+			ledStrip[afterTargetPos].val = 0;
+			ledStrip[GET_POS(7)].val = 0;
+			ledStrip[GET_POS(6)].val = 0;
+			ledStrip[GET_POS(5)].val = 0;
+			ledStrip[GET_POS(4)].val = 0;
+			ledStrip[GET_POS(3)].val = 0;
+			ledStrip[GET_POS(2)].val = 0;
+			ledStrip[GET_POS(1)].val = 0;
+			ledStrip[GET_POS(0)].val = 0;
+			//ledStrip[afterTargetPos].col.red >>= 4;
+			//ledStrip[afterTargetPos].col.green >>= 4;
+			//ledStrip[afterTargetPos].col.blue >>= 4;
 		}
 
-		ledStrip[afterTargetPos].val = 0;
-		ledStrip[GET_POS(7)].val = 0;
-		ledStrip[GET_POS(6)].val = 0;
-		ledStrip[GET_POS(5)].val = 0;
-		ledStrip[GET_POS(4)].val = 0;
-		ledStrip[GET_POS(3)].val = 0;
-		ledStrip[GET_POS(2)].val = 0;
-		ledStrip[GET_POS(1)].val = 0;
-		ledStrip[GET_POS(0)].val = 0;
-		//ledStrip[afterTargetPos].col.red >>= 4;
-		//ledStrip[afterTargetPos].col.green >>= 4;
-		//ledStrip[afterTargetPos].col.blue >>= 4;
+		ledStrip[GET_POS(10)] = targetColour;//0x00101010;
+		ledStrip[GET_POS(9)] = targetColour;//0x00101010;
 	}
-
-	ledStrip[GET_POS(10)] = targetColour;//0x00101010;
-	ledStrip[GET_POS(9)] = targetColour;//0x00101010;
 }
 
 void send_high(uint8_t run)
@@ -471,4 +544,16 @@ void led_set_all(uint8_t code)
 	{
 		ledStrip[count] = selected;
 	}
+}
+
+uint32_t mod(int32_t numerator, int32_t denominator)
+{
+	uint32_t value = numerator % denominator;
+
+	if (numerator < 0)
+	{
+		value += denominator;
+	}
+
+	return value;
 }
