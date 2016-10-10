@@ -242,9 +242,15 @@ void led_pulse_target(uint8_t code)
 void led_hide_target(uint8_t hide)
 {
 	if (hide == 0)
+	{
 		targetHidden = 0;
+	}
 	else
+	{
 		targetHidden = 1;
+		ledStrip[GET_POS(9)].val = 0;
+		ledStrip[GET_POS(10)].val = 0;
+	}
 }
 
 void led_set_beacon_fade_div(uint8_t value)
@@ -299,6 +305,10 @@ void led_propagate(void)
  	else
  	{
  		bufferPosition = mod((int32_t)(bufferPosition - 4), STRIP_SIZE);
+ 		for (uint8_t count = 0; count < 4; count++)
+ 		{
+ 			ledStrip[GET_POS(count)].val = 0;
+ 		}
  	}
 
 	uint16_t currentLED = GET_POS(1);
@@ -325,6 +335,8 @@ void led_propagate(void)
 		{
 			currentLED = mod((int32_t)currentLED-1, STRIP_SIZE);
 			previousLED = mod((int32_t)previousLED-1, STRIP_SIZE);
+			if (ledCount > (STRIP_SIZE - 6))
+				ledStrip[currentLED].val = 0;
 		}
 		else
 		{
