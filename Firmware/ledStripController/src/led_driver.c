@@ -304,7 +304,7 @@ void led_propagate(void)
 	uint16_t currentLED = GET_POS(1);
 	uint16_t previousLED = bufferPosition; //0
 
-	if (invertDirection)
+	if (invertDirection == 1)
 	{
 		currentLED = GET_POS(STRIP_SIZE-2);
 		previousLED = GET_POS(STRIP_SIZE-1);
@@ -321,7 +321,7 @@ void led_propagate(void)
 			ledStrip[currentLED].col.blue >>= 1;
 		}
 
-		if (invertDirection)
+		if (invertDirection == 1)
 		{
 			currentLED = mod(currentLED-1, STRIP_SIZE);
 			previousLED = mod(previousLED-1, STRIP_SIZE);
@@ -335,11 +335,11 @@ void led_propagate(void)
 
 	if (invertDirection)
 	{
-		ledStrip[bufferPosition] = get_colour(read_buffer());
+		ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
 	}
 	else
 	{
-		ledStrip[GET_POS(STRIP_SIZE-1)] = get_colour(read_buffer());
+		ledStrip[bufferPosition] = get_colour(read_buffer());
 	}
 
 	if (ledStrip[GET_POS(STRIP_SIZE-1)].val == 0)
