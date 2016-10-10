@@ -298,7 +298,7 @@ void led_propagate(void)
  	}
  	else
  	{
- 		bufferPosition = mod((int32_t)(bufferPosition - 1), STRIP_SIZE);
+ 		bufferPosition = mod((int32_t)(bufferPosition - 4), STRIP_SIZE);
  	}
 
 	uint16_t currentLED = GET_POS(1);
