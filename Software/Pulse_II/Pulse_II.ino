@@ -56,9 +56,9 @@ void loop()
 
 	Serial.println("Please enter song number to play");
 
-	int input = 0;
-	while (input == 0)				//wait for serial input
-		input = Serial.parseInt();
+	while (Serial.available() == 0) {}				//wait for serial input
+	
+	int input = Serial.parseInt();
 
 	Serial.print("\nSong ");
 	Serial.print(input);
@@ -66,14 +66,19 @@ void loop()
 	delay(1000);
   
 	if (pulseAudio.songbook[input].parseMidi() != E_SUCCESS)
-  {
-    while(1) { }
-  }
+	{
+		Serial.println("Unable to parse");
+		while(1) { }
+	}  
 
-	pulseAudio.songbook[input].playOgg();
+	track dummyTrack;
+	dummyTrack.playCountdown();
+	while (audioCodec.isPlaying()) {}
 
 	clearTerminal();
 	printButtonState(0x00);
+  
+	pulseAudio.songbook[input].playOgg();
 
 	uint16_t index = 0;
 
@@ -100,8 +105,6 @@ void loop()
 				cursorHome();
 				printButtonState(noteList.currentNote.event);
 
-     //   Serial.print(noteList.playbackPtr);
-				
 				if (noteList.currentNote.duration < 10)
 					delay(110);
 				else
@@ -114,7 +117,7 @@ void loop()
 			}
 		}
 	}
-  Serial.println();
+	Serial.println();
 
 	noteList.serialPrint(0, CALENDAR_MAX_SIZE);
 
