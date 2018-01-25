@@ -23,6 +23,29 @@ track::track()    //constructor
 }
 
 /**
+*	\brief Play the countdown file
+*
+*	Targets the audio codec to the '3 2 1 activate' track
+*
+*	\return An integer representing status
+**/
+uint8_t track::playCountdown(void)
+{
+	if (!audioCodec.isInitialised)
+		audioCodec.initialise();
+
+	strcpy(audioCodec.filepath, "/Intro/321.ogg");
+
+	if (!SD.exists(audioCodec.filepath))
+	{
+		Serial.println("Countdown track not found");
+		return E_COUNTDOWN_MISSING;
+	}
+
+	return audioCodec.startPlaying(200);  //volume is 0 to 255
+}
+
+/**
 *	\brief Play OGG file
 *
 *	Targets the audio codec to the required track, and initialises playback
@@ -36,7 +59,7 @@ uint8_t track::playOgg(void)					//determines the length, and validity
 
 	strcpy(audioCodec.filepath, songPath);
 	strcat(audioCodec.filepath, "GUITAR.OGG");
-
+  
 	return audioCodec.startPlaying(200);	//volume is 0 to 255
 }
 

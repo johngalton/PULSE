@@ -54,6 +54,7 @@ public:
 
 	// Class functions
 	track();                    //constructor
+	uint8_t playCountdown();    //plays the countdown track
 	uint8_t playOgg();					//determines the length, and validity
 	uint8_t parseIni();					//reads associated parameters
 	uint8_t parseMidi();				//takes a filename, populates the global calendar (which comes from an extern)
