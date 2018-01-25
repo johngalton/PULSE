@@ -83,6 +83,17 @@
 
 #define VS1053_DATABUFFERLEN 32
 
+// The variable feedState is used to step through the state machine in
+// chapter 9.5.1 of the datasheet. Uses the following enum:
+
+enum feedData
+{
+	NOT_PLAYING,
+	FEEDING_AUDIO,
+	FEEDING_END,
+	FEEDING_CANCEL
+};
+
 class VS1053
 {
 public:
@@ -94,6 +105,7 @@ public:
 	VS1053();
 	uint8_t initialise();
 	uint8_t startPlaying(uint8_t volume);
+	bool isPlaying();
 	void stopPlaying(void);
 	void mute(void);
 	void feedBuffer(void);
@@ -102,6 +114,9 @@ public:
 
 private:
 	uint8_t audiobuffer[VS1053_DATABUFFERLEN];
+	uint16_t endFillByte;	// defined as a 16 bit variable, only 8 bits are used
+	uint16_t endBytesSent;
+	uint8_t feedState;
 
 	void reset(void);
 	void softReset(void);

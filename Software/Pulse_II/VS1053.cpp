@@ -34,7 +34,6 @@
 
 volatile boolean feedBufferLock = false;
 
-
 #define VS1053_CONTROL_SPI_SETTING  SPISettings(250000,  MSBFIRST, SPI_MODE0)
 #define VS1053_DATA_SPI_SETTING     SPISettings(8000000, MSBFIRST, SPI_MODE0)
 
@@ -45,11 +44,10 @@ static void VS1053_IRQ(void)
 	myself->feedBuffer();
 }
 
-
 void VS1053::feedBuffer(void)
 {
 	noInterrupts();
-	// dont run twice in case interrupts collided
+	// don't run twice in case interrupts collided
 	// This isn't a perfect lock as it may lose one feedBuffer request if
 	// an interrupt occurs before feedBufferLock is reset to false. This
 	// may cause a glitch in the audio but at least it will not corrupt
@@ -76,15 +74,98 @@ void VS1053::feedBuffer_noLock(void)
 
 	while (readyForData())
 	{
-		// Read some audio data from the SD card file
-		int bytesread = currentTrack.read(audiobuffer, VS1053_DATABUFFERLEN);
+		// The DREQ line goes high if it can accept at least 32 bytes of data. This means
+		// if we are here, the buffer will happily accept a chunk of 32 bytes of data. The
+		// variable feedState is used to determine what kind of data is required.
 
-		if (bytesread == 0)	// must be at the end of the file, wrap it up!
+		// How to play an audio file (see VS1053 datasheet, chapter 9.5.1)
+		//     1) Send an audio file
+		//     2) Once this finishes, send at least 2052 bytes of endFillByte
+		//     3) Set SCI_MODE bit SM_CANCEL
+		//     4) Send at least 32 bytes of endFillByte
+		//     5) If the cancel hasn't happened within 2048 endFillBytes, do a soft reset
+
+		switch (feedState)
 		{
-			currentTrack.close();
-			break;
+			case NOT_PLAYING:
+					{
+						return;
+					}
+					break;
+			case FEEDING_AUDIO:
+					{
+						// Read some audio data from the SD card file
+						int bytesread = currentTrack.read(audiobuffer, VS1053_DATABUFFERLEN);
+						
+						// See if we're at the end of the audio file yet
+						if (bytesread < VS1053_DATABUFFERLEN)
+						{
+							while(bytesread < VS1053_DATABUFFERLEN)
+							{
+								audiobuffer[bytesread] = (endFillByte & 0xFF);
+								bytesread++;
+								endBytesSent++;
+							}
+							currentTrack.close();	//we're at the end of the audio file
+							feedState = FEEDING_END;
+						}
+						playData(audiobuffer, bytesread);
+					}
+					break;
+			case FEEDING_END:
+					{
+						if (endBytesSent < 2052)
+						{
+							for (int i = 0; i < 32; i++)
+							{
+								audiobuffer[i] = (endFillByte & 0xFF);
+							}
+							endBytesSent += 32;
+							playData(audiobuffer, 32);
+						}
+						else
+						{
+							// We've sent enough end bytes - set cancel
+							feedState = FEEDING_CANCEL;
+							uint16_t mode = sciRead(VS1053_REG_MODE);
+              sciWrite(VS1053_REG_MODE, (mode | VS1053_MODE_SM_CANCEL));
+							endBytesSent = 0;
+						}
+					}
+					break;
+			case FEEDING_CANCEL:
+					{
+						// Send 32 more bytes of endFillByte, which should complete the cancel
+						for (int i = 0; i < 32; i++)
+						{
+							audiobuffer[i] = (endFillByte & 0xFF);
+						}
+						endBytesSent += 32;
+						playData(audiobuffer, 32);
+						
+						// When we read back it is no longer still cancelling, we can stop sending blank data
+						uint16_t mode = sciRead(VS1053_REG_MODE);
+						if ((mode & VS1053_MODE_SM_CANCEL) == 0x00)
+						{
+							//Playback and completion of playback complete!
+							feedState = NOT_PLAYING;
+							return;
+						}
+
+						// Otherwise it needs more endFillByte
+						
+						if (endBytesSent > 2048)
+						{
+							softReset();
+							
+							// VS1053 datasheet:
+							// "If SM CANCEL hasn’t cleared after sending 2048 bytes, do a software reset (this should be extremely rare)."
+							
+							Serial.println("Ahh! Extremely rare thing went wrong");
+						}
+					}
+					break;
 		}
-		playData(audiobuffer, bytesread);
 	}
 }
 
@@ -133,6 +214,9 @@ uint8_t VS1053::initialise()
 		Serial.println("Error initialising VS1053");
 		return E_VS1053_INIT_ERROR;
 	}
+
+	feedState = NOT_PLAYING;
+
 	return E_SUCCESS;
 }
 
@@ -185,7 +269,7 @@ uint8_t VS1053::startPlaying(uint8_t volume)	//volume: 0 is quiet, 255 is full
 	sciWrite(VS1053_REG_WRAMADDR, 0x1e29);
 	sciWrite(VS1053_REG_WRAM, 0);
 
-  currentTrack = SD.open(filepath);
+	currentTrack = SD.open(filepath);
 
 	if (!currentTrack)
 	{
@@ -201,6 +285,10 @@ uint8_t VS1053::startPlaying(uint8_t volume)	//volume: 0 is quiet, 255 is full
 	sciWrite(VS1053_REG_DECODETIME, 0x00);
 	sciWrite(VS1053_REG_DECODETIME, 0x00);
 
+	// as we're starting, we haven't send any end bytes
+	endBytesSent = 0;
+	feedState = FEEDING_AUDIO;
+
 	// wait till its ready for data
 	while (!readyForData()) {}
 
@@ -209,6 +297,10 @@ uint8_t VS1053::startPlaying(uint8_t volume)	//volume: 0 is quiet, 255 is full
 	{
 		feedBuffer();
 	}
+	
+	// read back the endFillByte
+	sciWrite(VS1053_REG_WRAMADDR, 0x1e06);
+	endFillByte = sciRead(VS1053_REG_WRAM);
 
 	// ok going forward, we can use the IRQ
 	interrupts();
@@ -216,14 +308,21 @@ uint8_t VS1053::startPlaying(uint8_t volume)	//volume: 0 is quiet, 255 is full
 	return E_SUCCESS;
 }
 
-
-void VS1053::stopPlaying(void)
+bool VS1053::isPlaying(void)
 {
-	// cancel all playback
-	sciWrite(VS1053_REG_MODE, VS1053_MODE_SM_LINE1 | VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_CANCEL);
-	mute();
+	if (feedState == NOT_PLAYING)
+		return false;
+	else
+		return true;
+}
 
-	// close the file on the card
+
+void VS1053::stopPlaying(void)	// cancel all playback
+{
+	// Feed endFillByte when the IRQ fires
+	feedState = FEEDING_END;
+	
+	// Close the file on the SD card
 	currentTrack.close();
 }
 
@@ -290,7 +389,6 @@ bool VS1053::decodeMsec()
 	positionMs = ((hWord_1 << 16) | lWord_1);
 	return true;
 }
-
 
 uint16_t VS1053::sciRead(uint8_t addr)
 {
