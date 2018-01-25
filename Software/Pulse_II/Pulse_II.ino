@@ -56,7 +56,8 @@ void loop()
 
 	Serial.println("Please enter song number to play");
 
-	while (Serial.available() == 0) {}				//wait for serial input
+	while (Serial.peek() < '0')				//wait for serial input
+    Serial.read();                  //discard anything that's not an ascii number
 	
 	int input = Serial.parseInt();
 
@@ -85,7 +86,7 @@ void loop()
 	uint32_t millisOffset = 0;
 	uint32_t lastSync = 0;
 
-	while (index < noteList.totalNotes)
+	while ((index < noteList.totalNotes) && (audioCodec.isPlaying()))
 	{
   //we need to resync the clock to the playback timer regularly. Typical drift is 70mS per second
 		if ((millis() - lastSync) > 50)						//if we haven't synced for 50ms (3.5ms drift?)
@@ -116,25 +117,11 @@ void loop()
 				index++;
 			}
 		}
+		
+		if (Serial.read() == 'c')
+			audioCodec.stopPlaying();
 	}
 	Serial.println();
-
-	noteList.serialPrint(0, CALENDAR_MAX_SIZE);
-
-
-	while (1) {}
-
-	for (int i = 0; i < pulseAudio.numberSongs; i++)
-	{
-		Serial.print("\nDecoding midi of track ");
-		Serial.print(i);
-		Serial.print(" (");
-		Serial.print(pulseAudio.songbook[i].title);
-		Serial.println(")");
-		pulseAudio.songbook[i].parseMidi();
-	}
-
-	while (1) {}
 }
 
 void clearTerminal(void)
