@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "audioLib.h"
 #include "track.h"
+#include "pole.h"
 #include "note.h"
 #include "VS1053.h"
 #include <SPI.h>
