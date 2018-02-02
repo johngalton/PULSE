@@ -37,6 +37,65 @@ void noteCalendar::reset(void)
 }
 
 /**
+*	\brief Initialises the variables used for aligning events with notes
+*
+*	Initilises the window durations (in ms), and resets the last pressed note
+*
+*	\return None
+**/
+void initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs)
+{
+	  startWindowMs = in_startWindowMs;
+	  endWindowMs = in_endWindowMs;
+	  lastNotePressed = 0;
+}
+
+/**
+*	\brief Checks to see if a valid note is happening at this time
+*
+*	Takes a time in milliseconds. Checks whether a we're in the window
+*	of a valid note, and returns this information
+*
+*	\return The note validity/information
+**/
+noteEvent currentNote checkForValidNote(uint32_t playTime)
+{
+	noteEvent thisNote;
+	
+	// Look through the calender from lastNotePressed (we can ignore
+	// anything before that as it's in the past), and up to totalNotes.
+	
+	for (int i = lastNotePressed; i < totalNotes; i++)
+	{
+		if ((playTime > (noteArray[i].timestamp - startWindow)) && (playTime < (noteArray[i].timestamp + endWindow)))
+		{
+			// We've found a note valid when the event happened. Return the details
+			lastNotePressed = i;
+			thisNote.noteNumber = i;
+			thisNote.noteDetail.timestamp = noteArray[i].timestamp;
+			thisNote.noteDetail.event = noteArray[i].event;
+			thisNote.noteDetail.duration = noteArray[i].duration;
+			thisNote.isValid = true;
+			return thisNote;
+		}
+		
+		// If the position we are checking in the calendar is now ahead of playback, no point in searching any further
+		if (((noteArray[i].timestamp + endWindow)) > playTime)
+		{
+			break;
+		}
+	}
+	
+	//no note found
+	thisNote.noteNumber = 0;
+	thisNote.noteDetail.timestamp = 0;
+	thisNote.noteDetail.event = 0x00;
+	thisNote.noteDetail.duration = 0;
+	thisNote.isValid = false;
+	return thisNote;
+  }
+
+/**
 *	\brief Adds a note to the calendar
 *
 *	Adds a given note onto the end of the calendar, and increments the
