@@ -63,6 +63,8 @@
 
 #define VS1053_INT_ENABLE  0xC01A
 
+#define VS1053_I2S_CONFIG  0xC040
+
 #define VS1053_MODE_SM_DIFF 0x0001
 #define VS1053_MODE_SM_LAYER12 0x0002
 #define VS1053_MODE_SM_RESET 0x0004
@@ -104,6 +106,7 @@ public:
 
 	VS1053();
 	uint8_t initialise();
+  uint8_t initI2S();
 	uint8_t startPlaying(uint8_t volume);
 	bool isPlaying();
 	void stopPlaying(void);

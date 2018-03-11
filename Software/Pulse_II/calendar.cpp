@@ -43,7 +43,7 @@ void noteCalendar::reset(void)
 *
 *	\return None
 **/
-void initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs)
+void noteCalendar::initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs)
 {
 	  startWindowMs = in_startWindowMs;
 	  endWindowMs = in_endWindowMs;
@@ -58,7 +58,7 @@ void initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs)
 *
 *	\return The note validity/information
 **/
-noteEvent currentNote checkForValidNote(uint32_t playTime)
+noteEvent noteCalendar::checkForValidNote(uint32_t playTime)
 {
 	noteEvent thisNote;
 	
@@ -67,7 +67,7 @@ noteEvent currentNote checkForValidNote(uint32_t playTime)
 	
 	for (int i = lastNotePressed; i < totalNotes; i++)
 	{
-		if ((playTime > (noteArray[i].timestamp - startWindow)) && (playTime < (noteArray[i].timestamp + endWindow)))
+		if ((playTime > (noteArray[i].timestamp - startWindowMs)) && (playTime < (noteArray[i].timestamp + endWindowMs)))
 		{
 			// We've found a note valid when the event happened. Return the details
 			lastNotePressed = i;
@@ -80,7 +80,7 @@ noteEvent currentNote checkForValidNote(uint32_t playTime)
 		}
 		
 		// If the position we are checking in the calendar is now ahead of playback, no point in searching any further
-		if (((noteArray[i].timestamp + endWindow)) > playTime)
+		if (((noteArray[i].timestamp + endWindowMs)) > playTime)
 		{
 			break;
 		}

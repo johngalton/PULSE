@@ -37,7 +37,7 @@ public:
 	noteCalendar();
 	void reset(void);
 	void initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs);
-	noteEvent currentNote checkForValidNote(uint32_t playTime);
+	noteEvent checkForValidNote(uint32_t playTime);
 	void addNote(note newNote);
 	bool getNote(uint32_t currentTimestamp);
 	void serialPrint(uint16_t start, uint16_t length);

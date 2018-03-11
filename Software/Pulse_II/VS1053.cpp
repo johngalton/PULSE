@@ -215,9 +215,29 @@ uint8_t VS1053::initialise()
 		return E_VS1053_INIT_ERROR;
 	}
 
+  initI2S();
+
 	feedState = NOT_PLAYING;
 
 	return E_SUCCESS;
+}
+
+uint8_t VS1053::initI2S()
+{
+  //initases the I2S output by writing to the I2S_CONFIG register
+    // bit 3: MCLK_ENA = 0
+    // bit 2: I2S_ENA = 1
+    // bits 10: I2S rate = 10 = 192
+    //                     01 = 96
+    //                     00 = 48
+
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_DDR);
+  sciWrite(VS1053_REG_WRAM, 0xF3);
+
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_I2S_CONFIG); //we want to write to the I2S_CONFIG register
+  //sciWrite(VS1053_REG_WRAM, 0x04);  //48kHz output
+  //sciWrite(VS1053_REG_WRAM, 0x05);  //96kHz output
+  sciWrite(VS1053_REG_WRAM, 0x06);  //192kHz output
 }
 
 void VS1053::reset()
