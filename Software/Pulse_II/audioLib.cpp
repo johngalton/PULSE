@@ -34,11 +34,18 @@ audioLib::audioLib()		//constructor
 **/
 int audioLib::initSDcard(void)
 {
-	if (!SD.begin(SD_CARD_CS))
-	{
-		Serial.println("SD Card initialization failed.");
-		while (1);
-	}
+  while(1)
+  {
+  	if (!SD.begin(SD_CARD_CS))
+  	{
+  		Serial.println("SD Card initialization failed.");
+  		delay(1000);
+  	}
+   else
+   {
+    return 1;
+   }
+  }
 }
 
 /**
