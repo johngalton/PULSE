@@ -59,7 +59,9 @@ void loop()
 
 	while (Serial.peek() < '0')				//wait for serial input
     Serial.read();                  //discard anything that's not an ascii number
-	
+
+  delay(500);
+  Serial.setTimeout(500);
 	int input = Serial.parseInt();
 
 	Serial.print("\nSong ");
@@ -74,13 +76,13 @@ void loop()
 	}  
 
 	track dummyTrack;
-	dummyTrack.playCountdown();
+	dummyTrack.playCountdown(225);
 	while (audioCodec.isPlaying()) {}
 
 	clearTerminal();
 	printButtonState(0x00);
   
-	pulseAudio.songbook[input].playOgg();
+	pulseAudio.songbook[input].playOgg(200);
 
 	uint16_t index = 0;
 
