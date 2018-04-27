@@ -29,7 +29,7 @@ track::track()    //constructor
 *
 *	\return An integer representing status
 **/
-uint8_t track::playCountdown(void)
+uint8_t track::playCountdown(byte volume)
 {
 	if (!audioCodec.isInitialised)
 		audioCodec.initialise();
@@ -42,7 +42,7 @@ uint8_t track::playCountdown(void)
 		return E_COUNTDOWN_MISSING;
 	}
 
-	return audioCodec.startPlaying(200);  //volume is 0 to 255
+	return audioCodec.startPlaying(volume);  //volume is 0 to 255
 }
 
 /**
@@ -52,7 +52,7 @@ uint8_t track::playCountdown(void)
 *
 *	\return An integer representing status
 **/
-uint8_t track::playOgg(void)					//determines the length, and validity
+uint8_t track::playOgg(byte volume)					//determines the length, and validity
 {
 	if (!audioCodec.isInitialised)
 		audioCodec.initialise();
@@ -60,7 +60,7 @@ uint8_t track::playOgg(void)					//determines the length, and validity
 	strcpy(audioCodec.filepath, songPath);
 	strcat(audioCodec.filepath, "GUITAR.OGG");
   
-	return audioCodec.startPlaying(200);	//volume is 0 to 255
+	return audioCodec.startPlaying(volume);	//volume is 0 to 255
 }
 
 /**
