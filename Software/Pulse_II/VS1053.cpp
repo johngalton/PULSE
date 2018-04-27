@@ -46,6 +46,8 @@ static void VS1053_IRQ(void)
 
 void VS1053::feedBuffer(void)
 {
+  if (!isInitialised)
+    return;
 	noInterrupts();
 	// don't run twice in case interrupts collided
 	// This isn't a perfect lock as it may lose one feedBuffer request if
@@ -176,7 +178,7 @@ VS1053::VS1053(void)
 }
 
 uint8_t VS1053::initialise()
-{
+{  
 	if (isInitialised)
 	{
 		Serial.println("VS1053 is already initialised");
