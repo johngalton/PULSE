@@ -37,9 +37,9 @@
 #include <SD.h>
 #include "errorCodes.h"
 
-#define VS1053_RST 8
-#define VS1053_CS  4
-#define VS1053_DCS 7
+#define VS1053_RST 4
+#define VS1053_CS  5
+#define VS1053_DCS 3
 #define VS1053_REQ 2
 
 #define VS1053_SCI_READ 0x03
