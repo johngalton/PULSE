@@ -17,7 +17,7 @@ Sd2Card card;
 SdVolume volume;
 SdFile root;
 
-#define SD_CARD_CS 10
+#define SD_CARD_CS 6
 
 audioLib::audioLib()		//constructor
 {
