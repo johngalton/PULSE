@@ -26,14 +26,33 @@ VS1053 audioCodec;
 
 noteCalendar noteList;
 
+pole poles;
+
 void setup()
 {
 
 	Serial.begin(115200);
+  poles.initialise();
 }
 
 void loop()
 {
+
+/*while(1)
+{
+  poles.addNoteBlock(0x10,2);
+  delay(300);
+  poles.addNoteBlock(0x08,2);
+  delay(300);
+  poles.addNoteBlock(0x04,2);
+  delay(300);
+  poles.addNoteBlock(0x02,2);
+  delay(300);
+  poles.addNoteBlock(0x01,2);
+  delay(300);
+}*/
+
+  
 	/*
 	Note: This file is all just test code for developing the
 		  project classes and functionality. This is the bit
@@ -52,7 +71,7 @@ void loop()
 	pulseAudio.printSongbook();
 
 	Serial.println("\n");
-
+/*
 	while (Serial.read() > 0) {}	//ensure serial buffer is cleared
 
 	Serial.println("Please enter song number to play");
@@ -60,14 +79,16 @@ void loop()
 	while (Serial.peek() < '0')				//wait for serial input
     Serial.read();                  //discard anything that's not an ascii number
 
-  delay(500);
+  delay(200);
   Serial.setTimeout(500);
 	int input = Serial.parseInt();
 
 	Serial.print("\nSong ");
 	Serial.print(input);
 	Serial.println(" selected");
-	delay(1000);
+	delay(1000);*/
+
+  int input = 2;
   
 	if (pulseAudio.songbook[input].parseMidi() != E_SUCCESS)
 	{
@@ -75,19 +96,58 @@ void loop()
 		while(1) { }
 	}  
 
+  poles.setUpdateSpeed(25);
+  poles.setScrollDirection(POLES123_ID, SCROLL_UP);
+
 	track dummyTrack;
 	dummyTrack.playCountdown(225);
+
+  uint8_t randomOrder[] = {0, 1, 2, 3, 4};
+
+  randomSeed(millis());
+
+  for (int i = 0; i < 10; i++)    //random shuffle
+  {
+    uint8_t source = random(0, 5);
+    uint8_t destin = random(0, 5);
+    uint8_t was_at_destin = randomOrder[destin];
+    randomOrder[destin] = randomOrder[source];    //move whatever was at the source to the destination
+    randomOrder[source] = was_at_destin;          //and whatever was at the destination to the source
+  }
+
+  delay(500);  //3, 2, 1, ACTIVATE
+
+  for (int i = 0; i < 5; i++)
+  {
+    poles.addNoteBlock(0x01 << randomOrder[i], 4);
+    delay(400);
+  }
+
+  ledBlock whiteBlock;
+  whiteBlock.blockColour[0] = COLOUR_WHI;
+  whiteBlock.blockColour[1] = COLOUR_WHI;
+  whiteBlock.blockColour[2] = COLOUR_WHI;
+  whiteBlock.blockSize = 4;
+
+  poles.addLedBlock(whiteBlock);
+
+  delay(1000);
+
+  poles.addLedBlock(whiteBlock);
+
+  poles.setScrollDirection(POLES123_ID, SCROLL_DOWN);
+  
 	while (audioCodec.isPlaying()) {}
 
-	clearTerminal();
-	printButtonState(0x00);
-  
 	pulseAudio.songbook[input].playOgg(200);
 
 	uint16_t index = 0;
-
+ 
 	uint32_t millisOffset = 0;
 	uint32_t lastSync = 0;
+
+  poles.setUpdateSpeed(15);
+  uint32_t poleOffset = poles.poleDelayMs;
 
 	while ((index < noteList.totalNotes) && (audioCodec.isPlaying()))
 	{
@@ -104,9 +164,9 @@ void loop()
 
 		if (lastSync != 0)										//only play notes if we've synchronised with the playback
 		{
-			if (noteList.getNote(millis() - millisOffset))		//check if the oldest note should have been played or not
+			if (noteList.getNote(millis() - millisOffset + poleOffset))		//check if the oldest note should have been played or not
 			{
-				cursorHome();
+				/*cursorHome();
 				printButtonState(noteList.currentNote.event);
 
 				if (noteList.currentNote.duration < 10)
@@ -115,7 +175,12 @@ void loop()
 					delay(noteList.currentNote.duration);
 
 				cursorHome();
-				printButtonState(0x00);
+				printButtonState(0x00);*/
+
+       if (noteList.currentNote.duration == 1)
+        poles.addNoteBlock(noteList.currentNote.event, 4);
+       else
+        poles.addNoteBlock(noteList.currentNote.event, noteList.currentNote.duration / poles.updateSpeedMs);
 
 				index++;
 			}
