@@ -88,7 +88,7 @@ void loop()
 	Serial.println(" selected");
 	delay(1000);*/
 
-  int input = 2;
+  int input = 22;
   
 	if (pulseAudio.songbook[input].parseMidi() != E_SUCCESS)
 	{
@@ -97,10 +97,11 @@ void loop()
 	}  
 
   poles.setUpdateSpeed(25);
-  poles.setScrollDirection(POLES123_ID, SCROLL_UP);
-
+  
 	track dummyTrack;
 	dummyTrack.playCountdown(225);
+
+  poles.setScrollDirection(POLES123_ID, SCROLL_UP);
 
   uint8_t randomOrder[] = {0, 1, 2, 3, 4};
 
@@ -115,7 +116,7 @@ void loop()
     randomOrder[source] = was_at_destin;          //and whatever was at the destination to the source
   }
 
-  delay(500);  //3, 2, 1, ACTIVATE
+  delay(400);  //3, 2, 1, ACTIVATE
 
   for (int i = 0; i < 5; i++)
   {
@@ -131,9 +132,7 @@ void loop()
 
   poles.addLedBlock(whiteBlock);
 
-  delay(1000);
-
-  poles.addLedBlock(whiteBlock);
+  delay(1400);  //allow for those blocks to reach the top before switching direction
 
   poles.setScrollDirection(POLES123_ID, SCROLL_DOWN);
   
