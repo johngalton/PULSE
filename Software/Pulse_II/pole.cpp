@@ -30,6 +30,39 @@ bool pole::initialise()
 }
 
 /**
+*  \brief Adds a coloured block to a pole (or poles)
+*
+* Commands one or more poles to add a coloured block to the end
+*
+* \return An boolean representing success
+**/
+bool pole::addNoteBlock(uint8_t poles, uint8_t duration)
+{
+  ledBlock currentNote;
+  if (poles & 0x10)
+    currentNote.blockColour[0] = COLOUR_RED;
+  else if (poles & 0x08)
+    currentNote.blockColour[0] = COLOUR_YEL;
+  else
+    currentNote.blockColour[0] = COLOUR_OFF;
+
+  if (poles & 0x04)
+    currentNote.blockColour[1] = COLOUR_GRE;
+  else
+    currentNote.blockColour[1] = COLOUR_OFF;
+
+  if (poles & 0x02)
+    currentNote.blockColour[2] = COLOUR_BLU;
+  else if (poles & 0x01)
+    currentNote.blockColour[2] = COLOUR_MAG;
+  else
+    currentNote.blockColour[2] = COLOUR_OFF;
+
+  currentNote.blockSize = duration; 
+  return addLedBlock(currentNote);
+}
+
+/**
 *	\brief Adds a coloured block to a pole (or poles)
 *
 *	Commands one or more poles to add a coloured block to the end
@@ -45,7 +78,7 @@ bool pole::addLedBlock(ledBlock blockData)
 
 	for (int poleNum = 0; poleNum < 3; poleNum++)
 	{
-		if (blockData.blockColour[poleNum] = COLOUR_OFF)
+		if (blockData.blockColour[poleNum] == COLOUR_OFF)
 		{
 			outData[2 + (poleNum * 2)] = 0x00;		//if that pole isn't needed, set block size and colour to 0
 			outData[3 + (poleNum * 2)] = 0x00;
@@ -58,7 +91,7 @@ bool pole::addLedBlock(ledBlock blockData)
 	}
 
 	outData[8] = 0x00;	//checksum (pfft, who needs them)
-
+  
 	Serial1.write(outData, 9);
 
 	return true;
@@ -76,20 +109,20 @@ bool pole::addLedBlock(ledBlock blockData)
 bool pole::setUpdateSpeed(uint16_t updateSpeed)
 {
 	updateSpeedMs = updateSpeed;
-	poleDelayMs = updateSpeedMs * 178;		//TODO - the LED controller code says poleDelay=update*150. The python code has update*178. Which is right?
-											//200 LEDs per strip, is target line is up by 22?
+	poleDelayMs = updateSpeedMs * 194;		//TODO - the LED controller code says poleDelay=update*150. The python code has update*178. Which is right?
+											                  //200 LEDs per strip, is target line is up by 22?
+                                       //Update 26/05/2018: 194 seems to give good results? 
 
-	uint8_t outData[7];
+	uint8_t outData[6];
+ 
+  outData[0] = 0xFC;    // Start
+  outData[1] = 0x00;    // Broadcast address
+  outData[2] = 0x01;    // Set update speed
+  outData[3] = 0x01;    // One data byte in command
+  outData[4] = (updateSpeed & 0xFF);    // Low byte
+  outData[5] = 0xFD;    // End
 
-	outData[0] = 0xFC;		// Start
-	outData[1] = 0x00;		// Broadcast address
-	outData[2] = 0x01;		// Set update speed
-	outData[3] = 0x02;		// Two data bytes in command
-	outData[4] = (updateSpeed & 0xFF00) >> 8;	// High byte
-	outData[5] = (updateSpeed & 0x00FF);		// Low byte
-	outData[6] = 0xFD;		// End
-
-	Serial1.write(outData, 7);
+	Serial1.write(outData, 6);
 
 	return true;
 }
@@ -124,11 +157,11 @@ bool pole::setScrollDirection(uint8_t poleAddress, uint8_t direction)
 	
 	if (poleAddress == POLE1_ID)
 		outAddress = 1;
-	else if (poleAddress = POLE2_ID)
+	else if (poleAddress == POLE2_ID)
 		outAddress = 2;
-	else if (poleAddress = POLE3_ID)
+	else if (poleAddress == POLE3_ID)
 		outAddress = 3;
-	else if (poleAddress = POLES123_ID)
+	else if (poleAddress == POLES123_ID)
 		outAddress = 0;
 	else
 	{
@@ -144,6 +177,9 @@ bool pole::setScrollDirection(uint8_t poleAddress, uint8_t direction)
 	outData[3] = 0x01;			// One data byte in command
 	outData[4] = direction;		// Scroll direction
 	outData[5] = 0xFD;			// End
+
+  Serial1.write(outData, 6);
+  
 	return true;
 }
 
