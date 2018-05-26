@@ -57,6 +57,7 @@ public:
 	// Class functions
 	pole();                    //constructor
 	bool initialise();
+  bool addNoteBlock(uint8_t poles, uint8_t duration);
 	bool addLedBlock(ledBlock blockData);
 	bool setUpdateSpeed(uint16_t updateSpeed);
 	bool setBeaconFade(uint8_t poleAddress, uint8_t fadeSpeed);
