@@ -39,9 +39,9 @@ bool pole::initialise()
 bool pole::addNoteBlock(uint8_t poles, uint8_t duration)
 {
   ledBlock currentNote;
-  if (poles & 0x10)
+  if (poles & 0x01)
     currentNote.blockColour[0] = COLOUR_RED;
-  else if (poles & 0x08)
+  else if (poles & 0x02)
     currentNote.blockColour[0] = COLOUR_YEL;
   else
     currentNote.blockColour[0] = COLOUR_OFF;
@@ -51,9 +51,9 @@ bool pole::addNoteBlock(uint8_t poles, uint8_t duration)
   else
     currentNote.blockColour[1] = COLOUR_OFF;
 
-  if (poles & 0x02)
+  if (poles & 0x08)
     currentNote.blockColour[2] = COLOUR_BLU;
-  else if (poles & 0x01)
+  else if (poles & 0x10)
     currentNote.blockColour[2] = COLOUR_MAG;
   else
     currentNote.blockColour[2] = COLOUR_OFF;
@@ -118,11 +118,12 @@ bool pole::setUpdateSpeed(uint16_t updateSpeed)
   outData[0] = 0xFC;    // Start
   outData[1] = 0x00;    // Broadcast address
   outData[2] = 0x01;    // Set update speed
-  outData[3] = 0x01;    // One data byte in command
-  outData[4] = (updateSpeed & 0xFF);    // Low byte
-  outData[5] = 0xFD;    // End
+  outData[3] = 0x02;    // Two data bytes in command
+  outData[4] = (updateSpeed & 0xFF00);    // High byte
+  outData[5] = (updateSpeed & 0x00FF);    // Low byte
+  outData[6] = 0xFD;    // End
 
-	Serial1.write(outData, 6);
+	Serial1.write(outData, 7);
 
 	return true;
 }
