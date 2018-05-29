@@ -557,3 +557,29 @@ uint32_t mod(int32_t numerator, int32_t denominator)
 
 	return value;
 }
+
+void led_display_id(uint8_t id)
+{
+	uint8_t stripSectionSize = STRIP_SIZE / 3;
+
+	for (uint8_t count = 0; count < stripSectionSize; count++)
+	{
+		ledStrip[count] = colour_lookup[1].val;
+	}	
+
+	if (id > 2)
+	{
+		for (uint8_t count = stripSectionSize; count < stripSectionSize*2; count++)
+		{
+			ledStrip[count] = colour_lookup[2].val;
+		}	
+	}
+
+	if (id > 3)
+	{
+		for (uint8_t count = stripSectionSize*2; count < STRIP_SIZE; count++)
+		{
+			ledStrip[count] = colour_lookup[3].val;
+		}	
+	}
+}
