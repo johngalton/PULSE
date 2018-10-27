@@ -217,6 +217,21 @@ void longHandler(uart_long_function data)
 			led_clear_buffer();
 		}
 		break;
+		case 5:
+		{
+
+		}
+		break;
+		case 6:
+		{
+
+		}
+		break;
+		case 7:
+		{
+
+		}
+		break;
 		case 8:
 		{
 			if (data.length != 1)

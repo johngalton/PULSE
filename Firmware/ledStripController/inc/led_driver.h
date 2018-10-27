@@ -27,5 +27,6 @@ void led_propagate(void);
 void led_set_all(uint8_t code);
 void led_show_logo(uint8_t code, uint8_t offset);
 void led_invert_direction(uint8_t invert);
+void led_display_id(uint8_t id);
 
 #endif /* INC_LED_DRIVER_H_ */
