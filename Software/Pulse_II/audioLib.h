@@ -17,6 +17,7 @@
 #include "track.h"
 #include "note.h"
 #include "errorCodes.h"
+#include "nextion.h"
 #include <SPI.h>
 #include <SD.h>
 

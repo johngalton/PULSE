@@ -19,6 +19,8 @@ SdFile root;
 
 #define SD_CARD_CS 6
 
+extern nextion touchScreen;
+
 audioLib::audioLib()		//constructor
 {
 
@@ -39,10 +41,13 @@ int audioLib::initSDcard(void)
   	if (!SD.begin(SD_CARD_CS))
   	{
   		Serial.println("SD Card initialization failed.");
+      touchScreen.setText(SETUP_STATUS0, "SD Card read error");
   		delay(1000);
   	}
    else
    {
+    touchScreen.setText(SETUP_STATUS0, "SD Card read success");
+    touchScreen.setProgress(SETUP_PROGRESS, 20);
     return 1;
    }
   }
@@ -64,6 +69,7 @@ int audioLib::scanSDcard(void)
 	if (!musicFolder)
 	{
 		Serial.println("Couldn't open /Music directory");
+    touchScreen.setText(SETUP_STATUS1, "No /Music directory");
 		return E_NO_MUSIC_DIR;
 	}
 
@@ -88,9 +94,17 @@ int audioLib::scanSDcard(void)
 
 	musicFolder.close();
 
+
+  
 	Serial.print("Scan complete; ");
 	Serial.print(subFolderCount);
 	Serial.println(" subfolders found in /music");
+
+  char buff[18];
+  itoa(subFolderCount, buff, 10);
+  strcat(buff, " folders found");
+  touchScreen.setText(SETUP_STATUS1, buff);
+  touchScreen.setProgress(SETUP_PROGRESS, 40);
 
 	songbook = new track[subFolderCount];
 
@@ -107,6 +121,9 @@ int audioLib::scanSDcard(void)
 **/
 int audioLib::parseSDcard(void)
 {
+  touchScreen.setText(SETUP_STATUS2, "Loading songs...");
+  touchScreen.setProgress(SETUP_PROGRESS, 50);
+  
 	File musicFolder = SD.open("/Music");
 
 	if (!musicFolder)
@@ -168,6 +185,13 @@ int audioLib::parseSDcard(void)
 	musicFolder.close();
 
 	numberSongs = songNumber;
+
+  char buff[18];
+  itoa(numberSongs, buff, 10);
+  strcat(buff, " songs loaded");
+  touchScreen.setText(SETUP_STATUS2, buff);
+  touchScreen.setProgress(SETUP_PROGRESS, 80);
+ 
 	return E_SUCCESS;
 }
 

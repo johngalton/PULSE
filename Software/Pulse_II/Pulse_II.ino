@@ -17,6 +17,7 @@
 #include "pole.h"
 #include "note.h"
 #include "VS1053.h"
+#include "nextion.h"
 #include <SPI.h>
 #include <SD.h>
 
@@ -28,11 +29,14 @@ noteCalendar noteList;
 
 pole poles;
 
+nextion touchScreen;
+
 void setup()
 {
 
 	Serial.begin(115200);
   poles.initialise();
+  delay(200);
 }
 
 void loop()
@@ -61,17 +65,36 @@ void loop()
 	
 	clearTerminal();
 	cursorHome();
+ 
+  touchScreen.initalise();
+  touchScreen.loadPage(PAGE_SETUP); //first command is always lost
+  touchScreen.loadPage(PAGE_SETUP);
+  touchScreen.setText(SETUP_TITLE, "PULSE");
 
-	pulseAudio.initSDcard();
-	pulseAudio.scanSDcard();
-	pulseAudio.parseSDcard();
+	pulseAudio.initSDcard();  //populates SETUP_STATUS0 on touchscreen
+	pulseAudio.scanSDcard();  //populates SETUP_STATUS1 on touchscreen
+	pulseAudio.parseSDcard();  //populates SETUP_STATUS2 on touchscreen
 
 	Serial.println();
 
 	pulseAudio.printSongbook();
 
 	Serial.println("\n");
-/*
+
+  touchScreen.setupLibrary(pulseAudio.songbook, pulseAudio.numberSongs);
+
+  touchScreen.setText(SETUP_STATUS4, "Loaded successfully");
+  touchScreen.setProgress(SETUP_PROGRESS, 100);
+
+  delay(1000);
+
+  touchScreen.loadPage(PAGE_LIBRARY);
+  touchScreen.populateLibrary(0);
+
+  while(1)
+    touchScreen.checkForInput();
+ 
+
 	while (Serial.read() > 0) {}	//ensure serial buffer is cleared
 
 	Serial.println("Please enter song number to play");
@@ -86,9 +109,9 @@ void loop()
 	Serial.print("\nSong ");
 	Serial.print(input);
 	Serial.println(" selected");
-	delay(1000);*/
+	delay(1000);
 
-  int input = 22;
+//  int input = 22;
   
 	if (pulseAudio.songbook[input].parseMidi() != E_SUCCESS)
 	{
