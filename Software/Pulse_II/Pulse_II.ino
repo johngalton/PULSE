@@ -18,6 +18,7 @@
 #include "note.h"
 #include "VS1053.h"
 #include "nextion.h"
+#include "pulseGame.h"
 #include <SPI.h>
 #include <SD.h>
 
@@ -31,6 +32,8 @@ pole poles;
 
 nextion touchScreen;
 
+pulseGame game;
+
 void setup()
 {
 
@@ -42,21 +45,6 @@ void setup()
 void loop()
 {
 
-/*while(1)
-{
-  poles.addNoteBlock(0x10,2);
-  delay(300);
-  poles.addNoteBlock(0x08,2);
-  delay(300);
-  poles.addNoteBlock(0x04,2);
-  delay(300);
-  poles.addNoteBlock(0x02,2);
-  delay(300);
-  poles.addNoteBlock(0x01,2);
-  delay(300);
-}*/
-
-  
 	/*
 	Note: This file is all just test code for developing the
 		  project classes and functionality. This is the bit
@@ -76,9 +64,7 @@ void loop()
 	pulseAudio.parseSDcard();  //populates SETUP_STATUS2 on touchscreen
 
 	Serial.println();
-
 	pulseAudio.printSongbook();
-
 	Serial.println("\n");
 
   touchScreen.setupLibrary(pulseAudio.songbook, pulseAudio.numberSongs);
@@ -88,131 +74,172 @@ void loop()
 
   delay(1000);
 
-  touchScreen.loadPage(PAGE_LIBRARY);
-  touchScreen.populateLibrary(0);
-
-  while(1)
-    touchScreen.checkForInput();
- 
-
-	while (Serial.read() > 0) {}	//ensure serial buffer is cleared
-
-	Serial.println("Please enter song number to play");
-
-	while (Serial.peek() < '0')				//wait for serial input
-    Serial.read();                  //discard anything that's not an ascii number
-
-  delay(200);
-  Serial.setTimeout(500);
-	int input = Serial.parseInt();
-
-	Serial.print("\nSong ");
-	Serial.print(input);
-	Serial.println(" selected");
-	delay(1000);
-
-//  int input = 22;
-  
-	if (pulseAudio.songbook[input].parseMidi() != E_SUCCESS)
-	{
-		Serial.println("Unable to parse");
-		while(1) { }
-	}  
-
-  poles.setUpdateSpeed(25);
-  
-	track dummyTrack;
-	dummyTrack.playCountdown(225);
-
-  poles.setScrollDirection(POLES123_ID, SCROLL_UP);
-
-  uint8_t randomOrder[] = {0, 1, 2, 3, 4};
-
-  randomSeed(millis());
-
-  for (int i = 0; i < 10; i++)    //random shuffle
-  {
-    uint8_t source = random(0, 5);
-    uint8_t destin = random(0, 5);
-    uint8_t was_at_destin = randomOrder[destin];
-    randomOrder[destin] = randomOrder[source];    //move whatever was at the source to the destination
-    randomOrder[source] = was_at_destin;          //and whatever was at the destination to the source
-  }
-
-  delay(400);  //3, 2, 1, ACTIVATE
-
-  for (int i = 0; i < 5; i++)
-  {
-    poles.addNoteBlock(0x01 << randomOrder[i], 4);
-    delay(400);
-  }
-
+  track dummyTrack;                         //just used for the countdown
+  uint8_t blockOrder[] = {0, 1, 2, 3, 4};   //the blocks of colour used at the start
   ledBlock whiteBlock;
   whiteBlock.blockColour[0] = COLOUR_WHI;
   whiteBlock.blockColour[1] = COLOUR_WHI;
   whiteBlock.blockColour[2] = COLOUR_WHI;
   whiteBlock.blockSize = 4;
 
-  poles.addLedBlock(whiteBlock);
+  uint16_t playTimeSecs;
+  uint32_t millisOffset;  //difference between system time and playback time
+  uint32_t lastSync;      //this needs to be recalculated fairly often
 
-  delay(1400);  //allow for those blocks to reach the top before switching direction
+  uint16_t noteIndex;     //note to be played next
 
-  poles.setScrollDirection(POLES123_ID, SCROLL_DOWN);
+
+  //state engine driven, zero delays game play
   
-	while (audioCodec.isPlaying()) {}
-
-	pulseAudio.songbook[input].playOgg(200);
-
-	uint16_t index = 0;
- 
-	uint32_t millisOffset = 0;
-	uint32_t lastSync = 0;
-
-  poles.setUpdateSpeed(15);
-  uint32_t poleOffset = poles.poleDelayMs;
-
-	while ((index < noteList.totalNotes) && (audioCodec.isPlaying()))
-	{
-  //we need to resync the clock to the playback timer regularly. Typical drift is 70mS per second
-		if ((millis() - lastSync) > 50)						//if we haven't synced for 50ms (3.5ms drift?)
-		{
-			bool decodeStat = audioCodec.decodeMsec();			//try and read the playback time to update
-			if (decodeStat)
-			{
-				millisOffset = millis() - audioCodec.positionMs;
-				lastSync = millis();
-			}
-		}
-
-		if (lastSync != 0)										//only play notes if we've synchronised with the playback
-		{
-			if (noteList.getNote(millis() - millisOffset + poleOffset))		//check if the oldest note should have been played or not
-			{
-				/*cursorHome();
-				printButtonState(noteList.currentNote.event);
-
-				if (noteList.currentNote.duration < 10)
-					delay(110);
-				else
-					delay(noteList.currentNote.duration);
-
-				cursorHome();
-				printButtonState(0x00);*/
-
-       if (noteList.currentNote.duration == 1)
-        poles.addNoteBlock(noteList.currentNote.event, 4);
-       else
-        poles.addNoteBlock(noteList.currentNote.event, noteList.currentNote.duration / poles.updateSpeedMs);
-
-				index++;
-			}
-		}
-		
-		if (Serial.read() == 'c')
-			audioCodec.stopPlaying();
-	}
-	Serial.println();
+  game.enterState(GAME_IDLE);
+  
+  while(1)
+  {
+    switch(game.state)
+    {
+      case GAME_IDLE:
+      {
+        if (!game.check(IDLE_INIT))
+        {
+          if (audioCodec.isPlaying())
+            audioCodec.stopPlaying();
+          touchScreen.loadPage(PAGE_LIBRARY);
+          touchScreen.populateLibrary(0);
+          game.eventDone(IDLE_INIT);
+        }
+        break;
+      }
+      case GAME_TESTING:
+      {
+        break;
+      }
+      case GAME_COUNTDOWN:
+      {
+        if (!game.check(COUNTDOWN_INIT))
+        {
+          Serial.println("Initialising Countdown");
+          touchScreen.loadPage(PAGE_PLAY);
+          touchScreen.populatePlayer(game.trackID);
+          poles.setUpdateSpeed(25);
+          dummyTrack.playCountdown(225);
+          poles.setScrollDirection(POLES123_ID, SCROLL_UP);
+          randomShuffle(blockOrder);
+          game.blocksFired = 0;
+          game.eventDone(COUNTDOWN_INIT);
+        }
+        else if (!game.check(COUNTDOWN_ALL_BLOCKS_FIRED))
+        {
+          if (game.timeSinceLastEvent() > 400)
+          {
+            if (game.blocksFired < 4)
+            {
+              poles.addNoteBlock(0x01 << blockOrder[game.blocksFired], 4);
+              game.blocksFired++;
+              game.resetEventTimer();
+            }
+            else //it's the fifth block
+            {
+              poles.addLedBlock(whiteBlock);
+              game.eventDone(COUNTDOWN_ALL_BLOCKS_FIRED);
+            }
+          }
+        }
+        else if (!game.check(COUNTDOWN_RESETDIR))
+        {
+          if (game.timeSinceLastEvent() > 1400)   //allow for those blocks to reach the top before switching direction
+          {
+            poles.setScrollDirection(POLES123_ID, SCROLL_DOWN);
+            game.eventDone(COUNTDOWN_RESETDIR);
+          }
+        }
+        else  //we've done all the events
+        {
+          if (audioCodec.isPlaying() == false) //allow the countdown to finish
+          {
+            Serial.println("Ended Countdown");
+            game.enterState(GAME_PLAYING);
+          }
+        }
+        break;
+      }//end COUNTDOWN case
+      case GAME_PLAYING:
+      {
+        if (!game.check(PLAYING_INIT))
+        {
+          Serial.println("Initialising Game");
+          pulseAudio.songbook[game.trackID].parseMidi();  //populate the notes calendar
+          Serial.println("Starting audio");
+          pulseAudio.songbook[game.trackID].playOgg(200);
+          poles.setUpdateSpeed(15);
+          millisOffset = 0;
+          lastSync = 0;
+          noteIndex = 0;
+          game.eventDone(PLAYING_INIT);
+        }
+        else  //we've done all the events
+        {
+          //Track playing
+  
+          ////////////// CLOCK SYNC AND TRACKING //////////////
+          
+          if ((millis() - lastSync) > 50)            //if we haven't synced for 50ms (3.5ms drift?)
+          {
+            bool decodeStat = audioCodec.decodeMsec();      //try and read the playback time to update
+            if (decodeStat)
+            {
+              millisOffset = millis() - audioCodec.positionMs;
+              lastSync = millis();
+              touchScreen.updatePlayBackTime(audioCodec.positionMs);
+            }
+          }
+  
+          ////////////// NOTE LOAD AND DROP //////////////
+  
+          if (lastSync != 0)                    //only play notes once we've synchronised with the playback
+          {
+            if (noteList.getNote(millis() - millisOffset + poles.poleDelayMs))    //check if the oldest note should have been played or not
+            {    
+             if (noteList.currentNote.duration == 1)
+               poles.addNoteBlock(noteList.currentNote.event, 4);
+             else
+               poles.addNoteBlock(noteList.currentNote.event, noteList.currentNote.duration / poles.updateSpeedMs);
+             noteIndex++;
+            }
+          }
+  
+          if ((audioCodec.isPlaying() == false))// && (noteIndex == noteList.totalNotes))
+          {
+            Serial.println("Ended Game");
+            game.enterState(GAME_FINISHED);
+          }
+        }
+        break;
+      }
+      case GAME_FINISHED:
+      {
+        if (!game.check(FINISHED_INIT))
+        {
+          Serial.println("All done playing");
+          game.eventDone(FINISHED_INIT);
+        }
+        else  //we've done all the events
+        {
+          game.enterState(GAME_IDLE);
+        }
+        break;
+      }
+    }//end switch statement
+  
+  
+    touchScreen.checkForInput();
+    
+  }//end while loop 
 }
+
+
+
+
+
 
 void clearTerminal(void)
 {
@@ -239,3 +266,18 @@ void printButtonState(uint8_t state)
 		Serial.print(" ");
 	}
 }
+
+void randomShuffle(uint8_t data[])
+{
+  randomSeed(millis());
+
+  for (int i = 0; i < 10; i++)    //random shuffle
+  {
+    uint8_t source = random(0, 5);
+    uint8_t destin = random(0, 5);
+    uint8_t was_at_destin = data[destin];
+    data[destin] = data[source];    //move whatever was at the source to the destination
+    data[source] = was_at_destin;          //and whatever was at the destination to the source
+  }
+}
+

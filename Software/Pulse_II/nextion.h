@@ -14,6 +14,8 @@
 
 #include "Arduino.h"
 #include "audioLib.h"
+#include "calendar.h"
+#include "pulseGame.h"
 
 #define SETUP_TITLE     "t0"
 #define SETUP_STATUS0   "t1"
@@ -40,9 +42,13 @@
 #define DETAIL_REFNUM "t3"
 #define DETAIL_TNOTES "t5"
 #define DETAIL_DURTON "t7"
+#define DETAIL_PRSSTA "t8"
 
 #define PLAY_ARTIST "t0"
 #define PLAY_TITLE  "t1"
+#define PLAY_ELAPSE "t3"
+#define PLAY_DURTON "t7"
+#define PLAY_PROGRS "j0"
 
 #define PAGE_SETUP    0
 #define PAGE_LIBRARY  1
@@ -60,6 +66,9 @@
 #define DETAIL_BACK_ID  5
 #define PLAY_STOP_ID  5
 
+extern pulseGame game;
+extern noteCalendar noteList;
+
 class nextion
 {
   public:
@@ -71,6 +80,9 @@ class nextion
     void loadPage(uint8_t pageNo);
     void setupLibrary(track* in_trackList, uint8_t numSongs);
     void populateLibrary(uint8_t pageNo);
+    void populatePlayer(uint8_t trackNo);
+
+    void updatePlayBackTime(uint32_t playbackMillis);
 
     void checkForInput();
 
@@ -83,6 +95,7 @@ class nextion
     uint8_t maxLibraryPage;
     track* trackList;
     uint8_t selectedSong;
+    uint16_t playbackSecs;
 
     // Class functions
     bool dataAvailable(char* readData);

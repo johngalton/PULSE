@@ -87,6 +87,17 @@ void nextion::populateLibrary(uint8_t pageNo)
   setText(LIBRARY_TITLE4, trackList[pageNo * 5 + 4].title);
 }
 
+void nextion::populatePlayer(uint8_t trackNo)
+{  
+  selectedSong = trackNo;
+  setText(PLAY_ARTIST, trackList[selectedSong].getArtist());
+  setText(PLAY_TITLE, trackList[selectedSong].getTitle());
+  setText(PLAY_DURTON, trackList[selectedSong].getLength());
+  setText(PLAY_ELAPSE, "");
+  setProgress(PLAY_PROGRS, 0);
+  playbackSecs = 0;
+}
+
 void nextion::checkForInput()
 {
   char readData[10];
@@ -119,6 +130,9 @@ void nextion::checkForInput()
     if ((readData[1] == PAGE_LIBRARY) && (readData[2] >= LIB_ITEM_0_ID) && (readData[2] <= LIB_ITEM_4_ID))
     {
       selectedSong = (displayedLibraryPage * 5) + (readData[2] - LIB_ITEM_0_ID);
+
+      uint8_t parseStatus = trackList[selectedSong].parseMidi();  //populates the notes calendar
+      
       loadPage(PAGE_DETAIL);
 
       char songRef[3];
@@ -126,10 +140,15 @@ void nextion::checkForInput()
       char totalNotes[5];
       itoa(trackList[selectedSong].numberNotes, totalNotes, 10);
 
-      setText(DETAIL_ARTIST, trackList[selectedSong].artist);
-      setText(DETAIL_TITLE, trackList[selectedSong].title);
+      setText(DETAIL_ARTIST, trackList[selectedSong].getArtist());
+      setText(DETAIL_TITLE, trackList[selectedSong].getTitle());
       setText(DETAIL_REFNUM, songRef);
       setText(DETAIL_TNOTES, totalNotes);
+      setText(DETAIL_DURTON, trackList[selectedSong].getLength());
+      if (parseStatus == E_SUCCESS)
+        setText(DETAIL_PRSSTA, "PARSE SUCCESS");
+      else
+        setText(DETAIL_PRSSTA, "PARSE ERROR");
     }
     if ((readData[1] == PAGE_DETAIL) && (readData[2] == DETAIL_BACK_ID))
     {
@@ -138,14 +157,12 @@ void nextion::checkForInput()
     }
     if ((readData[1] == PAGE_DETAIL) && (readData[2] == DETAIL_PLAY_ID))
     {
-      loadPage(PAGE_PLAY);
-      setText(PLAY_ARTIST, trackList[selectedSong].artist);
-      setText(PLAY_TITLE, trackList[selectedSong].title);
+      game.setTrack(selectedSong);
+      game.enterState(GAME_COUNTDOWN);
     }
     if ((readData[1] == PAGE_PLAY) && (readData[2] == PLAY_STOP_ID))
     {
-      loadPage(PAGE_LIBRARY);
-      populateLibrary(displayedLibraryPage);
+      game.enterState(GAME_IDLE);
     }
   }
   else
@@ -194,6 +211,34 @@ bool nextion::dataAvailable(char* readData)
     readData[i] = buff[i];
   }
   return true;
+}
+
+void nextion::updatePlayBackTime(uint32_t playbackMillis)
+{
+  if ((playbackMillis / 1000) != playbackSecs)
+  {
+    playbackSecs = playbackMillis / 1000;
+    uint8_t playbackMins = playbackSecs / 60;
+    uint8_t playbackSecsRem = playbackSecs - (playbackMins * 60);
+
+    char playbackMinSec[7];
+    char playbackSecs_str[3];
+    char playbackMins_str[3];
+    itoa(playbackSecsRem,playbackSecs_str,10);
+    itoa(playbackMins,playbackMins_str,10);
+
+    strcpy(playbackMinSec, playbackMins_str);
+    strcat(playbackMinSec, ":");
+    if (playbackSecsRem < 10)
+      strcat(playbackMinSec, "0");  //leading zero
+    strcat(playbackMinSec, playbackSecs_str);   
+    setText(PLAY_ELAPSE, playbackMinSec);
+
+    uint32_t playProgress = (playbackSecs * 100) / trackList[selectedSong].lengthSecs;
+    if (playProgress > 100)
+      playProgress = 100;
+    setProgress(PLAY_PROGRS, playProgress);
+  }
 }
 
 
