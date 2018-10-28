@@ -49,6 +49,7 @@ class midi
 public:
 	// Class variables
 	char* filename;
+  uint16_t trackNoteCount;
 
 	uint8_t numberOfTracks;
 	track midiTrack[4];

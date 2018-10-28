@@ -28,6 +28,7 @@ midi::midi(char* inFilename)
 		midiTrack[i].presetLowestNote = 0;
 	}
 	filename = inFilename;
+  trackNoteCount = 0;
 }
 
 /**
@@ -195,12 +196,14 @@ uint8_t midi::decodeMidiTrack(uint8_t trackID, bool populateNotes, bool computeT
 		}
 		else
 		{
+    /*
 			Serial.print("Found notes from ");
 			Serial.print(midiTrack[trackID].lowestNote);
 			Serial.print(" to ");
 			Serial.print(midiTrack[trackID].highestNote);
 			Serial.print(". Preset is ");
 			Serial.println(midiTrack[trackID].presetLowestNote);
+      */
 		}
 
 		notesRange = midiTrack[trackID].highestNote - midiTrack[trackID].lowestNote;
@@ -512,6 +515,11 @@ uint8_t midi::decodeMidiTrack(uint8_t trackID, bool populateNotes, bool computeT
 								Serial.println("Too many notes in track");
 								return E_MIDI_TOO_MANY_NOTES;
 							}
+              else
+              {
+                if (trackNoteCount < noteList.totalNotes)
+                  trackNoteCount = noteList.totalNotes;
+              }
 							newNote.duration = elapsedTicks - timeNoteDown[buttonID];
 							noteList.addNote(newNote);
 							newNote.reset();
