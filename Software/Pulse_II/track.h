@@ -26,14 +26,15 @@ extern VS1053 audioCodec;
 #define INI_MAX_LINE 64
 
 //used for 'parseStatus' variable		//  OGG_found MID_found x delay_found   title_found artist_found INI_found folder_found
-#define PARSE_OGG_FOUND	0x80
-#define PARSE_MID_FOUND	0x40
-#define PARSE_TOP_FOUND 0x20
-#define PARSE_DEL_FOUND	0x10
-#define PARSE_TTL_FOUND	0x08
-#define PARSE_ART_FOUND	0x04
-#define PARSE_INI_FOUND	0x02
-#define PARSE_FDR_FOUND	0x01
+#define PARSE_OGG_FOUND	0x100
+#define PARSE_MID_FOUND	0x080
+#define PARSE_LTH_FOUND 0x040
+#define PARSE_TOP_FOUND 0x020
+#define PARSE_DEL_FOUND	0x010
+#define PARSE_TTL_FOUND	0x008
+#define PARSE_ART_FOUND	0x004
+#define PARSE_INI_FOUND	0x002
+#define PARSE_FDR_FOUND	0x001
 #define PARSE_CLEARED	0x00
 
 extern note calendar[];
@@ -44,12 +45,14 @@ public:
 	// Class variables
 	uint8_t track_ID;				//also position in songbook array
 	char songPath[24];
-	uint8_t parseStatus;    //  OGG_found MID_found x delay_found   title_found artist_found INI_found folder_found
-	uint16_t numberNotes;
-	uint32_t ogg_duration;
+	uint16_t parseStatus;    //  OGG_found MID_found length_found top_found delay_found   title_found artist_found INI_found folder_found
+	uint16_t numberNotes;   //populated when parseMidi is run
+	uint32_t lengthMs;
+  uint16_t lengthSecs;
 	uint16_t midi_offset;
 	char* artist;
 	char* title;
+  char* lengthMinSec;
 	uint8_t presetLowestNote;
 
 	// Class functions
@@ -61,6 +64,7 @@ public:
 
 	char* getArtist();
 	char* getTitle();
+  char* getLength();
 	bool iniLoaded();
 
 private:

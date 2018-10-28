@@ -140,7 +140,7 @@ uint8_t track::parseIni(void)					//reads associated parameters
 				strPtr = strstr(lineBuffer, "delay");
 				if (strPtr != NULL)
 				{
-					//found artist in this line
+					//found delay in this line
 					uint8_t totalLength = strlen(strPtr);
 					uint8_t startLength = strlen("delay") + 3;
 
@@ -150,11 +150,42 @@ uint8_t track::parseIni(void)					//reads associated parameters
 
 					parseStatus |= PARSE_DEL_FOUND;
 				}
+       
+        strPtr = strstr(lineBuffer, "song_length");
+        if (strPtr != NULL)
+        {
+          //found song length in this line
+          uint8_t totalLength = strlen(strPtr);
+          uint8_t startLength = strlen("song_length") + 3;
+
+          char strLength[8];
+          strcpy(strLength, (strPtr + startLength));
+          lengthMs = atoi(strLength);
+
+          parseStatus |= PARSE_LTH_FOUND;
+
+          lengthMinSec = (char *)malloc(6); //allocate some memory for the formatted length
+
+          lengthSecs = lengthMs / 1000;
+          uint16_t lengthMins = lengthSecs / 60;
+          uint16_t lengthSecsRem = lengthSecs - (lengthMins * 60);
+
+          char lengthSecs_str[3];
+          char lengthMins_str[3];
+          itoa(lengthSecsRem,lengthSecs_str,10);
+          itoa(lengthMins,lengthMins_str,10);
+
+          strcpy(lengthMinSec, lengthMins_str);
+          strcat(lengthMinSec, ":");
+          if (lengthSecsRem < 10)
+            strcat(lengthMinSec, "0");  //leading zero
+          strcat(lengthMinSec, lengthSecs_str);     
+        }
 
 				strPtr = strstr(lineBuffer, "top_note");
 				if (strPtr != NULL)
 				{
-					//found artist in this line
+					//found top note in this line
 					uint8_t totalLength = strlen(strPtr);
 					uint8_t startLength = strlen("top_note") + 3;
 
@@ -217,6 +248,7 @@ uint8_t track::parseMidi(void)
 	result = midiFile.scanTracks();        //examines what is in all of the tracks, and checks the file's integrity
 	if (result != E_SUCCESS) return result;
 	result = midiFile.populateCalendar(presetLowestNote);  //finds the first track containing notes, and puts these notes into the calendar (timestamped by ticks)
+	numberNotes = midiFile.trackNoteCount;
 	if (result != E_SUCCESS) return result;
 	result = midiFile.computeTimings(midi_offset);    //finds the first track containing tempo information, and converts the calendar into milliseconds. Applies a fixed start offset to all notes
 	return result;
@@ -246,6 +278,19 @@ char* track::getTitle(void)
 		return title;
 	else
 		return NULL;
+}
+
+/**
+*  \brief Returns the song length as a formated string
+*
+* \return A pointer to the length string
+**/
+char* track::getLength(void)
+{
+  if (parseStatus & PARSE_LTH_FOUND)
+    return lengthMinSec;
+  else
+    return NULL;
 }
 
 /**
