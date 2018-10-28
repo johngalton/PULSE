@@ -215,6 +215,9 @@ int audioLib::printSongbook(void)
 			Serial.print(songbook[i].getTitle());
 			Serial.print(" by ");
 			Serial.print(songbook[i].getArtist());
+      Serial.print(" (");
+      Serial.print(songbook[i].getLength());
+      Serial.print(")");
 
 			if ((songbook[i].parseStatus & 0xDF) != 0xDF) //don't bother reporting a missing top_note as a parse error
 			{
