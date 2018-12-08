@@ -34,6 +34,11 @@ nextion touchScreen;
 
 pulseGame game;
 
+#define VOLUME_COUNTDOWN 200
+#define VOLUME_TRACK     180
+
+#define SHORT_LED_FLASH_DUR 100
+
 void setup()
 {
 
@@ -102,7 +107,10 @@ void loop()
         if (!game.check(IDLE_INIT))
         {
           if (audioCodec.isPlaying())
+          {
+            Serial.println("Cancelling playback");
             audioCodec.stopPlaying();
+          }
           touchScreen.loadPage(PAGE_LIBRARY);
           touchScreen.populateLibrary(0);
           game.eventDone(IDLE_INIT);
@@ -121,7 +129,7 @@ void loop()
           touchScreen.loadPage(PAGE_PLAY);
           touchScreen.populatePlayer(game.trackID);
           poles.setUpdateSpeed(25);
-          dummyTrack.playCountdown(225);
+          dummyTrack.playCountdown(VOLUME_COUNTDOWN);
           poles.setScrollDirection(POLES123_ID, SCROLL_UP);
           randomShuffle(blockOrder);
           game.blocksFired = 0;
@@ -134,12 +142,14 @@ void loop()
             if (game.blocksFired < 4)
             {
               poles.addNoteBlock(0x01 << blockOrder[game.blocksFired], 4);
+              touchScreen.flashLEDs(0x01 << blockOrder[game.blocksFired], 150);
               game.blocksFired++;
               game.resetEventTimer();
             }
             else //it's the fifth block
             {
               poles.addLedBlock(whiteBlock);
+              touchScreen.flashLEDs(0x15, 500);
               game.eventDone(COUNTDOWN_ALL_BLOCKS_FIRED);
             }
           }
@@ -150,6 +160,7 @@ void loop()
           {
             poles.setScrollDirection(POLES123_ID, SCROLL_DOWN);
             game.eventDone(COUNTDOWN_RESETDIR);
+            touchScreen.flashLEDs(0x1F, 1000);
           }
         }
         else  //we've done all the events
@@ -169,7 +180,7 @@ void loop()
           Serial.println("Initialising Game");
           pulseAudio.songbook[game.trackID].parseMidi();  //populate the notes calendar
           Serial.println("Starting audio");
-          pulseAudio.songbook[game.trackID].playOgg(200);
+          pulseAudio.songbook[game.trackID].playOgg(VOLUME_TRACK);
           poles.setUpdateSpeed(15);
           millisOffset = 0;
           lastSync = 0;
@@ -197,13 +208,21 @@ void loop()
   
           if (lastSync != 0)                    //only play notes once we've synchronised with the playback
           {
-            if (noteList.getNote(millis() - millisOffset + poles.poleDelayMs))    //check if the oldest note should have been played or not
+            if (noteList.getNoteForPoles(millis() - millisOffset + poles.poleDelayMs))    //check if the oldest note should have been added to the poles
             {    
              if (noteList.currentNote.duration == 1)
                poles.addNoteBlock(noteList.currentNote.event, 4);
              else
                poles.addNoteBlock(noteList.currentNote.event, noteList.currentNote.duration / poles.updateSpeedMs);
              noteIndex++;
+            }
+
+            if (noteList.getNoteForLight(millis() - millisOffset))    //check if the oldest note should have been flashed on the unit
+            {    
+             if (noteList.currentNote.duration == 1)
+               touchScreen.flashLEDs(noteList.currentNote.event, SHORT_LED_FLASH_DUR);
+             else
+               touchScreen.flashLEDs(noteList.currentNote.event, noteList.currentNote.duration);
             }
           }
   
@@ -230,7 +249,7 @@ void loop()
       }
     }//end switch statement
   
-  
+    touchScreen.processLEDs();    //check if they need to turn off (for flashing)
     touchScreen.checkForInput();
     
   }//end while loop 
