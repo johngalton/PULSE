@@ -21,6 +21,13 @@ void nextion::initalise()
   Serial3.begin(115200);
   while(Serial3.available())
     Serial3.read(); //clear buffer
+
+  //set LEDs to outputs
+  pinMode(26,OUTPUT);
+  pinMode(27,OUTPUT);
+  pinMode(28,OUTPUT);
+  pinMode(29,OUTPUT);
+  pinMode(30,OUTPUT);
 }
 
 void nextion::loadPage(uint8_t pageNo)
@@ -284,4 +291,40 @@ void nextion::setProgress(char* element, uint8_t percent)
   Serial3.write(command);
 }
 
+void nextion::flashLEDs(uint8_t ledMask, uint16_t flashTimeMs)
+{
+  ledOnTime = millis();
+  flashTime = flashTimeMs;
+  setLEDs(ledMask);
+}
 
+//if we've just flashed the LEDs, check if they need to turn off
+
+void nextion::processLEDs()
+{
+  if (ledOnTime > 0)
+  {
+    if ((millis() - ledOnTime) > flashTime)
+    {
+      setLEDs(0x00);
+      ledOnTime = 0; 
+    }
+  }
+}
+
+void nextion::setLEDs(uint8_t ledMask)
+{
+  // LED 1 is PORTD PIN09, AKA OUTPUT 30
+  // LED 2 is PORTD PIN06, AKA OUTPUT 29
+  // LED 3 is PORTD PIN03, AKA OUTPUT 28
+  // LED 4 is PORTD PIN02, AKA OUTPUT 27
+  // LED 5 is PORTD PIN01, AKA OUTPUT 26
+  
+  digitalWrite(26, (ledMask & 0x10));
+  digitalWrite(27, (ledMask & 0x08));
+  digitalWrite(28, (ledMask & 0x04));
+  digitalWrite(29, (ledMask & 0x02));
+  digitalWrite(30, (ledMask & 0x01));  
+}
+
+ 

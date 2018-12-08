@@ -88,6 +88,10 @@ class nextion
 
     void setText(char* element, char* text);
     void setProgress(char* element, uint8_t percent);
+
+    void flashLEDs(uint8_t ledMask, uint16_t flashTime);
+    void processLEDs();
+    void setLEDs(uint8_t ledMask);
     
   private:
     // Class variables
@@ -96,6 +100,9 @@ class nextion
     track* trackList;
     uint8_t selectedSong;
     uint16_t playbackSecs;
+
+    uint16_t flashTime;
+    uint32_t ledOnTime;
 
     // Class functions
     bool dataAvailable(char* readData);
