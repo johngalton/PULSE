@@ -30,7 +30,8 @@ public:
 	note noteArray[CALENDAR_MAX_SIZE];   //array of midi notes, populated by whatever song is needed
 	uint16_t totalNotes;
 	int16_t tempoSetPtr;		//used to indicate which times are in ticks, and which are in msec
-	int16_t playbackPtr;		//used to indicate the next note to play
+	int16_t playbackPtrPoles;		//used to indicate the next note to play (will be delayed by audio delay)
+  int16_t playbackPtrLight;
 	note currentNote;
 	uint16_t lastNotePressed;	//once a button has been pressed, it isn't checked any more
 
@@ -39,7 +40,8 @@ public:
 	void initNoteChecking(uint16_t in_startWindowMs, uint16_t in_endWindowMs);
 	noteEvent checkForValidNote(uint32_t playTime);
 	void addNote(note newNote);
-	bool getNote(uint32_t currentTimestamp);
+	bool getNoteForPoles(uint32_t currentTimestamp);
+  bool getNoteForLight(uint32_t currentTimestamp);
 	void serialPrint(uint16_t start, uint16_t length);
 
 private:

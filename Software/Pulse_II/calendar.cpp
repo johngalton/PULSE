@@ -33,7 +33,8 @@ void noteCalendar::reset(void)
 	}
 	totalNotes = 0;
 	tempoSetPtr = -1;
-	playbackPtr = -1;
+	playbackPtrPoles = -1;
+  playbackPtrLight = -1;
 }
 
 /**
@@ -117,25 +118,55 @@ void noteCalendar::addNote(note newNote)
 *
 *	If there are unplayed notes, it checks to see if the oldest one should
 *	have been played by now. If it has, it updates 'currentNote' and increases
-*	the pointer to the next oldest note.
+*	the pointer to the next oldest note. There are two pointers tracked by the
+* class; one for adding notes to poles (which includes the delay), and one
+* for flashing the lights on the box
 *
 *	\return Boolean; if a new note was fetched or not
 **/
-bool noteCalendar::getNote(uint32_t currentTimestamp)
+bool noteCalendar::getNoteForPoles(uint32_t currentTimestamp)
 {
-	if ((playbackPtr + 2) > totalNotes)	//have we played all the notes in the calendar already?
+	if ((playbackPtrPoles + 2) > totalNotes)	//have we played all the notes in the calendar already?
 		return false;
 		
-	if (currentTimestamp >= noteArray[playbackPtr + 1].timestamp)
+	if (currentTimestamp >= noteArray[playbackPtrPoles + 1].timestamp)
 	{
-		currentNote = noteArray[playbackPtr + 1];
-		playbackPtr++;
+		currentNote = noteArray[playbackPtrPoles + 1];
+		playbackPtrPoles++;
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+}
+
+/**
+*  \brief Gets the oldest unplayed note that should have been played by now
+*
+* If there are unplayed notes, it checks to see if the oldest one should
+* have been played by now. If it has, it updates 'currentNote' and increases
+* the pointer to the next oldest note. There are two pointers tracked by the
+* class; one for adding notes to poles (which includes the delay), and one
+* for flashing the lights on the box
+*
+* \return Boolean; if a new note was fetched or not
+**/
+bool noteCalendar::getNoteForLight(uint32_t currentTimestamp)
+{
+  if ((playbackPtrLight + 2) > totalNotes)  //have we played all the notes in the calendar already?
+    return false;
+    
+  if (currentTimestamp >= noteArray[playbackPtrLight + 1].timestamp)
+  {
+    currentNote = noteArray[playbackPtrLight + 1];
+    playbackPtrLight++;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 /**
